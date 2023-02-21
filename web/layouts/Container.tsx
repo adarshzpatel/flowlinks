@@ -11,7 +11,9 @@ const Container = ({ children }: any) => {
       </Head>
       <div className=''>
         <Navbar />
-        <div className='max-w-screen-lg mx-auto p-8 xl:px-0'>{children}</div>
+        <div className='max-w-screen-lg mx-auto p-8 xl:px-0'>
+          {children}
+        </div>
       </div>
     </div>
   );
