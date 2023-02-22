@@ -6,7 +6,7 @@ import Preview from "../components/Builder/Preview";
 const Builder = () => {
   const [displayName, setDisplayName] = useState<string>("");
   const [username, setUserName] = useState<string>("");
-  const [cover, setCover] = useState<any>();
+  const [title, setTitle] = useState<any>();
   const [avatar, setAvatar] = useState<any>();
   const [bio, setBio] = useState<string>("");
 
@@ -18,8 +18,8 @@ const Builder = () => {
             setDisplayName={setDisplayName} 
             username={username}
             setUserName={setUserName}
-            cover={cover}
-            setCover={setCover}
+            title={title}
+            setTitle={setTitle}
             avatar={avatar}
             setAvatar={setAvatar}
             bio={bio}
