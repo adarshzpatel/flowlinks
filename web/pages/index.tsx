@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Hero from "../components/hero/Hero";
 import Container from "../layouts/Container";
-import Test from "../components/Test";
+// import Test from "../components/Test";
 import { useState } from "react";
 
 const Home: NextPage = () => {

@@ -2,12 +2,14 @@ import React from "react";
 import Card from "./Card";
 
 type Props = {
-  name:string 
+  displayName:string,
+  username:string
 }
-function Preview({name}:Props) {
+function Preview({displayName,username}:Props) {
   return (
     <div className="flex items-center justify-center h-full">
-      <Card bio="Test bio" name={name} username="Test" />
+      <div>{username}</div>
+      <Card bio="Test bio" name={displayName} username="Test" />
     </div>
   );
 }
