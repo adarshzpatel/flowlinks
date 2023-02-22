@@ -12,8 +12,7 @@ const Builder = () => {
 
   return (
     <Container>
-      <div className='text-white grid grid-cols-2 h-screen'>
-        <div>
+      <div className='text-white grid grid-cols-2 section__height'>
           <Controls 
             displayName={displayName} 
             setDisplayName={setDisplayName} 
@@ -26,13 +25,10 @@ const Builder = () => {
             bio={bio}
             setBio = {setBio}
           />
-        </div>
-        <div className='bg-gray-800'>
           <Preview 
             displayName={displayName}  
             username={username}
           />
-        </div>
       </div>
     </Container>
   );
