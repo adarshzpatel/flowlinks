@@ -9,6 +9,7 @@ const Builder = () => {
   const [title, setTitle] = useState<any>();
   const [avatar, setAvatar] = useState<any>();
   const [bio, setBio] = useState<string>("");
+  const [model, setModel] = useState<boolean>(false);
 
   return (
     <Container>
@@ -24,6 +25,8 @@ const Builder = () => {
             setAvatar={setAvatar}
             bio={bio}
             setBio = {setBio}
+            model={model}
+            setModel={setModel}
           />
           <Preview 
             displayName={displayName}  

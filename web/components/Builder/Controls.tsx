@@ -13,6 +13,7 @@ import {
   SiTwitter,
   SiYoutube,
 } from "react-icons/si";
+import AddLinkModel from "./AddLinkModel";
 
 type Props = {
   displayName: string;
@@ -25,6 +26,8 @@ type Props = {
   setAvatar: any;
   bio: string;
   setBio: any;
+  model: boolean;
+  setModel: any;
 };
 
 const Controls: React.FC<Props> = ({
@@ -38,6 +41,8 @@ const Controls: React.FC<Props> = ({
   setAvatar,
   bio,
   setBio,
+  model,
+  setModel,
 }) => {
   const styles = {
     input:
@@ -139,7 +144,8 @@ const Controls: React.FC<Props> = ({
               >
                 <div className=''>Add Social Links</div>
                 <FiChevronDown
-                  size={25} className={` ${open && "rotate-180"} duration-200 ease-out`}
+                  size={25}
+                  className={` ${open && "rotate-180"} duration-200 ease-out`}
                 />
               </Disclosure.Button>
 
@@ -240,13 +246,46 @@ const Controls: React.FC<Props> = ({
       <div
         className='flex justify-between items-center hover:bg-gray-800/75 hover:rounded-md uppercase py-4 border rounded-md  border-gray-800 text-gray-400  px-4 cursor-pointer '
         data-te-input-wrapper-init
+        onClick={() => setModel(!model)}
       >
         <div>ADD MORE LINKS</div>
         <div>
-          <MdAdd
-          size={25}
-          />
+          <MdAdd size={25} />
         </div>
+        <AddLinkModel
+          isOpen={model}
+          closeModal={function (): void {
+            setModel(!model);
+          }}
+          size='sm'
+        >
+          <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
+            <label htmlFor='' className='text-gray-500 text-sm'>
+              Title
+            </label>
+            <input
+              type='text'
+              placeholder='Eg. YouTube'
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+          {/*User Name */}
+          <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
+            <label htmlFor='' className='text-gray-500 text-sm'>
+              Link
+            </label>
+            <input
+              type='text'
+              placeholder='Eg. https://www.youtube.com/c/xys'
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
+              className={styles.input}
+            />
+          </div>
+          <button>add link</button>
+        </AddLinkModel>
       </div>
     </div>
   );
