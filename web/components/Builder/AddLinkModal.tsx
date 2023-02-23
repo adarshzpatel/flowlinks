@@ -17,7 +17,7 @@ export const ModalHeader: React.FC<{ children: React.ReactNode; className?: stri
     return <Dialog.Title className={className}>{children}</Dialog.Title>;
 };
 
-const AddLinkModel: React.FC<Props> = ({ isOpen, closeModal,children,size='md' }) => {
+const AddLinkModal: React.FC<Props> = ({ isOpen, closeModal,children,size='md' }) => {
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="fixed inset-0 z-50 overflow-y-auto" onClose={closeModal}>
@@ -64,4 +64,4 @@ const AddLinkModel: React.FC<Props> = ({ isOpen, closeModal,children,size='md' }
     );
 };
 
-export default AddLinkModel;
+export default AddLinkModal;

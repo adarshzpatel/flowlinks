@@ -1,6 +1,6 @@
 import * as fcl from "@onflow/fcl";
 import { ChildContextProvider, Provider, createContext, useContext, useEffect, useState } from "react";
-import { checkIsInitialized } from "../flow/scripts";
+import { checkIsInitialized, initializeAccount } from "../flow/scripts";
 
 
 
@@ -13,13 +13,13 @@ export const useAuth = () => useContext(AuthContext);
 export default function AuthProvider({ children }:{children:any}) {
 
   // Create a state variable to keep track of the currentUser
-  const [currentUser, setUser] = useState({
+  const [currentUser, setUser] = useState<{loggedIn:boolean,addr:string | undefined}>({
     loggedIn: false,
     addr: undefined,
   });
   // Create a state variable to represent if a user's account
   // has been initialized or not
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   // Use FCL to subscribe to changes in the user (login, logout, etc)
   // Tell FCL to call `setUser` and update our state variables
@@ -30,7 +30,9 @@ export default function AuthProvider({ children }:{children:any}) {
   // check whether their account is initialized or not
   useEffect(() => {
     if (currentUser.addr) {
-      checkInit();
+      console.log("checking...")
+      checkInit()
+      console.log("finishee")
     }
   }, [currentUser]);
 
@@ -50,8 +52,8 @@ export default function AuthProvider({ children }:{children:any}) {
   // and update the state variable as necessary
   const checkInit = async () => {
     if(!currentUser?.addr) return
-    const isInit = await checkIsInitialized(currentUser?.addr);
-    setIsInitialized(isInit);
+    let isInit = await checkIsInitialized(currentUser?.addr);
+    console.log(isInit)
   };
 
   // Build the object of everything we want to expose through 
@@ -62,8 +64,7 @@ export default function AuthProvider({ children }:{children:any}) {
     checkInit,
     logOut,
     logIn,
-  };
-  console.log(value)
+  } as const; 
 
   // Return the Context Provider with the value set
   // Render all children of the component inside of it

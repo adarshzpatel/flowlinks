@@ -1,4 +1,5 @@
 import * as fcl from "@onflow/fcl"
+import { toast } from "react-hot-toast";
 
 export const IS_INITIALIZED = `
 import FlowLink from 0xFlowLink
@@ -11,7 +12,7 @@ pub fun main(account:Address):Bool {
 `
 
 export async function checkIsInitialized(addr:string) {
-  return fcl.query({
+  return await fcl.query({
     cadence:IS_INITIALIZED,
     args:(arg:any,t:any) => [arg(addr,t.Address)]
   });
@@ -31,7 +32,7 @@ transaction() {
 }
 `
 export async function initializeAccount() {
-  return fcl.mutate({
+  return await fcl.mutate({
     cadence: INITIALIZE_ACCOUNT,
     payer:fcl.authz, 
     proposer:fcl.authz,
@@ -49,7 +50,7 @@ pub fun main(): [FlowLink.LinkInfo]{
   let infos: [FlowLink.LinkInfo] = []
 
   for domainName in allOwners.keys {
-      let collectionRef = getAccount(allOwners[domainName]!).getCapability(FlowLink.CollectionPublicPath).borrow<&FlowLink.Collection{FlowLink.CollectionPublic}>() ?? panic("Could not borrow capability from the public collection")
+      let collectionRef = getAccount(allOwners[domainName]!).getCapability(FlowLink.CollectionPublicPath).borrow<&FlowLink.Collection{FlowLink.CollectionPublic}>()!
       let id = FlowLink.domainNameToIDs[domainName] ?? panic("Id not found")
       if id != nil {
         let domain = collectionRef.borrowFlowLinkNFT(id: id)
@@ -61,9 +62,19 @@ pub fun main(): [FlowLink.LinkInfo]{
   return infos
 }
 `
-export async function getAllFlowLinks() {
-  return fcl.query({
-    cadence: GET_ALL_FLOWLINKS,
+
+
+const GET_ALL_OWNERS= `
+import FlowLink from 0xFlowLink
+import NonFungibleToken from 0xNonFungibleToken 
+
+pub fun main(): {String:Address} {
+  return FlowLink.getAllOwner()
+}
+`
+export async function getAllOwners() {
+  return await fcl.query({
+    cadence:GET_ALL_OWNERS,
   });
 }
 
@@ -76,7 +87,7 @@ pub fun main(name: String): Bool {
 `;
 
 export async function checkIsAvailable(name:string) {
-  return fcl.query({
+  return await fcl.query({
     cadence: CHECK_IS_AVAILABLE,
     args: (arg:any, t:any) => [arg(name, t.String)],
   });
@@ -92,37 +103,43 @@ transaction (
   title:String,
   bio:String,
   avatar:String, 
-  recipient:Address, 
+  recipient:Address
 ) {
-  prepare(signer:AuthAccount){
+    let nftReceiver: &{NonFungibleToken.CollectionPublic}
 
-    if signer.borrow<&FlowLink.Collection>(from: FlowLink.CollectionStoragePath) != nil {
-      // if they do we move on to execute state 
-      return 
+    prepare(account: AuthAccount) {
+      // if the account does not have a flowlink collection , make it
+      if account.borrow<&FlowLink.Collection>(from: FlowLink.CollectionStoragePath) == nil {
+        let collection <- FlowLink.createEmptyCollection()
+        account.save(<- collection, to:FlowLink.CollectionStoragePath)
+        account.link<&{NonFungibleToken.CollectionPublic}>(FlowLink.CollectionPublicPath,target:FlowLink.CollectionStoragePath)
+      }
+      self.nftReceiver = account.getCapability(FlowLink.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic}>() ?? panic("Could not get receiver reference to the NFT Collection")
     }
-
-    // else create an empty collection 
-    let collection <- FlowLink.createEmptyCollection()
-    signer.save(<-collection,to:FlowLink.CollectionStoragePath)
-
-    // Create a public capability for the collection 
-    signer.link<&FlowLink.Collection{FlowLink.CollectionPublic,NonFungibleToken.Provider,NonFungibleToken.Receiver,NonFungibleToken.CollectionPublic}>(FlowLink.CollectionPublicPath,target:FlowLink.CollectionStoragePath)
-  }
-
+  
   execute {
-    let receiver = getAccount(FlowLink.owners[domainName]!).getCapability(FlowLink.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic}>() ?? panic("Could not get receiver reference to the NFT Collection")
-    FlowLink.mintNFT(domainName:domainName,displayName:displayName,title:title,bio:bio,avatar:avatar,recipient:receiver)
+    FlowLink.mintNFT(
+      domainName:domainName,
+      displayName:displayName,
+      title:title,
+      bio:bio,
+      avatar:avatar, 
+      recipient:self.nftReceiver
+    )
   }
 }
  
 `
-export async function registerDomain(domainName:string,displayName:string,title:string,bio:string,avatar:string,recipient:string) {
-  return fcl.mutate({
+export async function mintFlowlink(domainName:string,displayName:string,title:string,bio:string,avatar:string,recipient:string) {
+  const txId = await fcl.mutate({
     cadence: MINT_FLOWLINK,
     args: (arg:any, t:any) => [arg(domainName, t.String), arg(displayName, t.String),arg(title, t.String),arg(bio, t.String),arg(avatar, t.String),arg(recipient, t.Address)],
-    payer: fcl.authz,
-    proposer: fcl.authz,
+    payer:fcl.authz, 
+    proposer:fcl.authz,
     authorizations: [fcl.authz],
     limit: 1000,
-  });
+  })
+  console.log({txId})
+  const tx = await fcl.tx(txId).onceSealed()
+  console.log(tx)
 }

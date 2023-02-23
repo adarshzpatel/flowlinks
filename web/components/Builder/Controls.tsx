@@ -13,7 +13,7 @@ import {
   SiTwitter,
   SiYoutube,
 } from "react-icons/si";
-import AddLinkModel from "./AddLinkModel";
+import AddLinkModel from "./AddLinkModal";
 
 type Props = {
   displayName: string;
