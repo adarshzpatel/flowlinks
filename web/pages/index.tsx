@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getAllOwners, mintFlowlink } from "../flow/scripts";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
+import {toast} from "react-hot-toast"
 
 const Home: NextPage = () => {
   const {currentUser,isInitialized} = useAuth()
@@ -24,7 +25,7 @@ const Home: NextPage = () => {
   return (
     <Container> 
       <div className="mt-8">
-
+      <button className="bg-gray-600 hover:bg-flow-500 hover:text- p-4">Button</button>
       {flowLinks?.map(item=>
       <Link href={`/${item.name}`}>
       <div className="p-4 border border-gray-700 bg-gray-800 hover:shadow-xl rounded hover:-translate-y-2 duration-200 ease-out ">

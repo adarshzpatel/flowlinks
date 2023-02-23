@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 //React Icons
 import { MdOutlineAdd, MdCheck, MdAdd } from "react-icons/md";
-
+import {TextInput} from '@mantine/core'
 import { Disclosure, Transition } from "@headlessui/react";
 import { FiChevronDown } from "react-icons/fi";
+import {TbBrandTwitter} from 'react-icons/tb'
 import {
   SiGithub,
   SiGmail,
@@ -14,6 +15,9 @@ import {
   SiYoutube,
 } from "react-icons/si";
 import AddLinkModel from "./AddLinkModal";
+import { LinkType } from "../../pages/builder";
+import { link } from "fs";
+import Button from "../ui/Button";
 
 type Props = {
   displayName: string;
@@ -28,7 +32,22 @@ type Props = {
   setBio: any;
   model: boolean;
   setModel: any;
+  otherLinks:LinkType[]
+  setOtherLinks: Dispatch<SetStateAction<LinkType[]>>
 };
+
+//TODO
+
+// -- add accordion 
+    // -- social media links 
+
+// Other links 
+// -- list of already added links 
+// add new link button -> Modal -> input title and href , add link btn -> append to links list 
+
+
+// spread operator , destructuring , promise ,async await
+
 
 const Controls: React.FC<Props> = ({
   displayName,
@@ -43,7 +62,18 @@ const Controls: React.FC<Props> = ({
   setBio,
   model,
   setModel,
+  otherLinks,
+  setOtherLinks
 }) => {
+
+
+  const addNewLink = (title:string,href:string) => {
+    const newLink = {
+      title:title,
+      href:href
+    }
+    setOtherLinks([...otherLinks,newLink])
+  }
   const styles = {
     input:
       "bg-gray-800 text-gray-100 p-2 border border-gray-700 rounded-md focus:border-flow-700 outline-none ease-linear duration-150",
@@ -51,36 +81,11 @@ const Controls: React.FC<Props> = ({
   return (
     <div className='pt-8 overflow-y-scroll pr-8 flex flex-col space-y-4 select-none ease-linear duration-150'>
       <div className='relative flex flex-row space-x-8'>
-        {/*Avatar Image */}
-        <div
-          className=' bg-gray-900 p-2 rounded-full flex flex-col cursor-pointer'
-          data-te-input-wrapper-init
-        >
-          <div className='relative group'>
-            <input
-              type='file'
-              className='absolute z-10 opacity-0 h-full w-full cursor-pointer'
-              onChange={(e: any) => setAvatar(e.target.files[0])}
-            />
-            <div className='relative h-36 w-36 flex justify-center items-center bg-gray-900   text-gray-100 -ml-2 border-2 border-dashed border-gray-700 rounded-full group-hover:border-flow-700 outline-none ease-linear duration-150'>
-              {avatar ? (
-                <div className='flex flex-row items-center justify-center space-x-1 text-xs'>
-                  <MdCheck size={20} className='text-flow-500' />
-                  <div className=' text-flow-500'>Added</div>
-                </div>
-              ) : (
-                <div className='flex flex-row items-center justify-center space-x-1 text-xs text-gray-500'>
-                  <MdOutlineAdd size={20} />
-                  <div className=' '>Add Avatar</div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+
         {/*Names */}
         <div className='w-full flex space-y-2 flex-col'>
           {/*Display Name */}
-          <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
+          {/* <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
             <label htmlFor='' className='text-gray-500 text-sm'>
               Display Name
             </label>
@@ -91,7 +96,8 @@ const Controls: React.FC<Props> = ({
               onChange={(e) => setDisplayName(e.target.value)}
               className={styles.input}
             />
-          </div>
+          </div> */}
+          <TextInput icon={<TbBrandTwitter/>} label="Display Name" placeholder="Enter display name" value={displayName} onChange={(e)=>setDisplayName(e.target.value)} />
           {/*User Name */}
           <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
             <label htmlFor='' className='text-gray-500 text-sm'>
@@ -237,6 +243,8 @@ const Controls: React.FC<Props> = ({
                     />
                   </div>
                 </Disclosure.Panel>
+
+                
               </Transition>
             </>
           )}
@@ -252,40 +260,12 @@ const Controls: React.FC<Props> = ({
         <div>
           <MdAdd size={25} />
         </div>
-        <AddLinkModel
-          isOpen={model}
-          closeModal={function (): void {
-            setModel(!model);
-          }}
-          size='sm'
-        >
-          <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
-            <label htmlFor='' className='text-gray-500 text-sm'>
-              Title
-            </label>
-            <input
-              type='text'
-              placeholder='Eg. YouTube'
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              className={styles.input}
-            />
-          </div>
-          {/*User Name */}
-          <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
-            <label htmlFor='' className='text-gray-500 text-sm'>
-              Link
-            </label>
-            <input
-              type='text'
-              placeholder='Eg. https://www.youtube.com/c/xys'
-              value={username}
-              onChange={(e) => setUserName(e.target.value)}
-              className={styles.input}
-            />
-          </div>
+      
+      </div>
+      <div className="p-4 ">
           <button>add link</button>
-        </AddLinkModel>
+          {otherLinks.map((item,idx)=> (<div>{item.title}</div>))}
+          <Button onClick={()=>addNewLink("Test2","https://test")}>Add new link</Button>
       </div>
     </div>
   );

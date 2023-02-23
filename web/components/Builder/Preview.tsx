@@ -5,6 +5,7 @@ type Props = {
   displayName:string,
   username:string
 }
+
 function Preview({displayName,username}:Props) {
   return (
     <div className="flex items-center justify-center bg-gray-800/50 ">
