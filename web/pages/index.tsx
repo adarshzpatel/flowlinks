@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { getAllOwners, mintFlowlink } from "../flow/scripts";
 import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
-import { Button, Input } from "@mantine/core";
 
 const Home: NextPage = () => {
   const {currentUser,isInitialized} = useAuth()

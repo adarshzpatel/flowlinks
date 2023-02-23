@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        gray: colors.gray,
+        gray: colors.neutral,
         'flow': {
           100:'#CBFED4',
           200:'#98FDB4',
