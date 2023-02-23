@@ -1,43 +1,40 @@
-import React,{useState} from 'react'
-import Container from '../layouts/Container'
-import Controls from '../components/Builder/Controls'
-import Preview from '../components/Builder/Preview'
+import React, { useState } from "react";
+import Container from "../layouts/Container";
+import Controls from "../components/Builder/Controls";
+import Preview from "../components/Builder/Preview";
 
-const Builder=()=> {
-    const [displayName, setDisplayName] = useState<string>("");
-    const [username, setUserName] = useState<string>("");
-    const [cover, setCover] = useState<any>();
-    const [avatar, setAvatar] = useState<any>();
-    const [bio, setBio] = useState<string>("");
-  
+const Builder = () => {
+  const [displayName, setDisplayName] = useState<string>("");
+  const [username, setUserName] = useState<string>("");
+  const [title, setTitle] = useState<any>();
+  const [avatar, setAvatar] = useState<any>();
+  const [bio, setBio] = useState<string>("");
+  const [model, setModel] = useState<boolean>(false);
+
   return (
     <Container>
-         <div className='text-white grid grid-cols-2 h-screen'>
-        <div>
+      <div className='text-white grid grid-cols-2 section__height'>
           <Controls 
             displayName={displayName} 
             setDisplayName={setDisplayName} 
             username={username}
             setUserName={setUserName}
-            cover={cover}
-            setCover={setCover}
+            title={title}
+            setTitle={setTitle}
             avatar={avatar}
             setAvatar={setAvatar}
             bio={bio}
             setBio = {setBio}
+            model={model}
+            setModel={setModel}
           />
-        </div>
-        <div className='bg-gray-800'>
           <Preview 
             displayName={displayName}  
             username={username}
-            bio={bio}
           />
-        </div>
       </div>
-       </Container>
-    
+    </Container>
   );
-}
+};
 
-export default Builder
+export default Builder;

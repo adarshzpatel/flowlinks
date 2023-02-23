@@ -1,6 +1,24 @@
 {
 	"contracts": {
-		"FlowLink": "cadence/contracts/FlowLink.cdc"
+		"FlowLink": "./cadence/contracts/FlowLink.cdc",
+		"FlowToken": {
+			"source": "./cadence/contracts/FlowToken.cdc",
+			"aliases": {
+				"testnet": "0x7e60df042a9c0868"
+			}
+		},
+		"FungibleToken": {
+			"source": "./cadence/contracts/FungibleToken.cdc",
+			"aliases": {
+				"testnet": "0x9a0766d93b6608b7"
+			}
+		},
+		"NonFungibleToken": {
+			"source": "./cadence/contracts/NonFungibleToken.cdc",
+			"aliases": {
+				"testnet": "0x631e88ae7f1d7c20"
+			}
+		}
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -15,11 +33,20 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "6d12eebfef9866c9b6fa92b97c6e705c26a1785b1e7944da701fc545a51d4673"
+		},
+		"testnet": {
+			"address": "ca6d62f24bbf55a3",
+			"key": "a9a5cc6264c3d20dda0ac751fc77dcafc0fa63dc88a7cc90a537efc630bc5c4b"
 		}
 	},
 	"deployments": {
 		"emulator": {
 			"default": [
+				"FlowLink"
+			]
+		},
+		"testnet": {
+			"testnet": [
 				"FlowLink"
 			]
 		}

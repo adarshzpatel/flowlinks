@@ -8,15 +8,12 @@ type Props = {
 
 const Card = ({name,username,bio}: Props) => {
   return (
-    <div className='border border-flex-800 p-9 square-lg'>
+    <div className='border border-flow-500 p-8 rounded-lg'>
       <div>{name}</div>
       <div>@{username}</div>
       <div>{bio}</div>
-     </div>
-      
+    </div>
   )
 }
-
-
 
 export default Card
