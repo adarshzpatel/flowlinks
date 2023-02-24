@@ -1,5 +1,6 @@
-import NonFungibleToken from "./NonFungibleToken.cdc"
-// import MetadataViews from "./MetadataViews.cdc"
+import NonFungibleToken from 0xf8d6e0586b0a20c7
+import FungibleToken from 0xf8d6e0586b0a20c7
+import MetadataViews from 0xf8d6e0586b0a20c7
 // id
 // domainName 
 // displayName 
@@ -8,10 +9,13 @@ import NonFungibleToken from "./NonFungibleToken.cdc"
 // avatar
 // TODO : Social links  , other links 
 
+
+// [] Add Metadata 
+
 pub contract FlowLink:NonFungibleToken {
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath:PublicPath
-
+    pub let AdminStoragePath:StoragePath
 
     pub var totalSupply:UInt64
     pub let forbiddenChars: String 
@@ -23,7 +27,6 @@ pub contract FlowLink:NonFungibleToken {
     pub event Deposit(id: UInt64, to: Address?)
     pub event FlowLinkMinted(id: UInt64, domainName: String, displayName: String, title: String,bio:String,avatar:String,receiver: Address)
 
-
     pub struct LinkInfo {
         pub let id:UInt64
         pub let domainName:String 
@@ -32,8 +35,12 @@ pub contract FlowLink:NonFungibleToken {
         pub let bio:String 
         pub let avatar:String 
         pub let owner:Address
+        pub let cover:String 
+        pub let socialLinks: {String:String}
+        pub let otherLinks: [{String:String}]
+        pub let styles : {String:String}
         // TODO : Social Links , and other links 
-        init(id:UInt64,domainName:String,displayName:String,title:String,bio:String,avatar:String,owner:Address){
+        init(id:UInt64,domainName:String,displayName:String,title:String,bio:String,avatar:String,owner:Address,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String}){
             self.id = id
             self.domainName = domainName
             self.displayName = displayName
@@ -41,6 +48,10 @@ pub contract FlowLink:NonFungibleToken {
             self.bio = bio
             self.avatar = avatar
             self.owner = owner
+            self.cover = cover 
+            self.socialLinks = socialLinks
+            self.otherLinks = otherLinks
+            self.styles = styles
         }
     }
 
@@ -55,21 +66,29 @@ pub contract FlowLink:NonFungibleToken {
         pub fun getLinkInfo():LinkInfo
     }
 
-    pub resource NFT: NonFungibleToken.INFT,FlowLinkPublic {
+    pub resource NFT: NonFungibleToken.INFT,FlowLinkPublic,MetadataViews.Resolver {
         pub let id:UInt64
         pub let domainName:String 
         pub let displayName:String 
         pub let title:String 
         pub let bio:String 
-        pub let avatar:String 
+        pub let avatar:String
+        pub let cover:String 
+        pub let socialLinks: {String:String}
+        pub let otherLinks: [{String:String}]
+        pub let styles : {String:String}
 
-        init(id:UInt64,domainName:String,displayName:String,title:String,bio:String,avatar:String){
+        init(id:UInt64,domainName:String,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String}){
             self.id = id
             self.domainName = domainName 
             self.displayName = displayName 
             self.title = title 
             self.bio = bio
             self.avatar = avatar 
+            self.cover = cover 
+            self.socialLinks = socialLinks
+            self.otherLinks = otherLinks
+            self.styles = styles
         }
 
         pub fun getLinkInfo():LinkInfo {
@@ -81,11 +100,38 @@ pub contract FlowLink:NonFungibleToken {
                 title:self.title,
                 bio:self.bio,
                 avatar:self.avatar,
-                owner:owner
+                owner:owner,
+                cover:self.cover,
+                socialLinks:self.socialLinks,
+                otherLinks:self.otherLinks,
+                styles:self.styles
             )
         }
-    }
 
+        pub fun getViews(): [Type] {
+            return [
+                Type<MetadataViews.Display>(),
+                Type<MetadataViews.ExternalURL>()
+            ]
+        }
+
+        pub fun resolveView(_ view: Type): AnyStruct? {
+            switch view {
+                case Type<MetadataViews.Display>():
+                    return MetadataViews.Display(
+                        name:"FlowLink /".concat(self.domainName),
+                        description:self.bio,
+                        thumbnail:MetadataViews.HTTPFile(url:self.avatar)
+                )
+
+                case Type<MetadataViews.ExternalURL>():
+                    return MetadataViews.ExternalURL("https://flowlinks.vercel.app/".concat(self.domainName))
+                
+            }
+            return nil
+        }
+
+    }
     pub resource interface CollectionPublic {
         pub fun borrowFlowLinkNFT(id: UInt64): &{FlowLink.FlowLinkPublic}
     }
@@ -142,6 +188,94 @@ pub contract FlowLink:NonFungibleToken {
         }
     }
 
+    pub resource interface AdminPublic {
+        pub var price:UFix64
+        pub fun mintNFT(domainName:String,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String},recipient:&{NonFungibleToken.CollectionPublic},feeTokens:@FungibleToken.Vault) 
+        pub fun getPrice():UFix64
+        pub fun getVaultBalance():UFix64
+    }
+
+    pub resource interface AdminPrivate {
+       pub fun withdrawVault(receiver:Capability<&{FungibleToken.Receiver}>,amount:UFix64)
+       pub fun setPrice(val:UFix64)
+    }
+
+    pub resource Admin: AdminPublic,AdminPrivate {
+        pub var price: UFix64
+
+        // reference to the vault used for depositing Flow tokens we receive
+        access(self) var rentVault: @FungibleToken.Vault 
+
+        // A capability for the FlowLinks.Collection resource owned by the account 
+        // only the account has access to it 
+        init(vault: @FungibleToken.Vault,collection:Capability<&FlowLink.Collection>) {
+            // This represents 1 year in seconds 
+            self.price = 1.0
+            self.rentVault <- vault 
+        }
+
+        destroy() {
+            destroy  self.rentVault
+        }   
+        
+        // mints a new NFt with a new Id and deposit it in the recipients collection using their collection reference 
+        pub fun mintNFT(domainName:String,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String},recipient:&{NonFungibleToken.CollectionPublic},feeTokens:@FungibleToken.Vault) {
+            // Ensure the domain name is not longer than the max length allowed
+            if FlowLink.isAvailable(domainName:domainName) == false {
+                panic("FlowLink is already claimed !")
+            }
+
+            let forbiddenCharsUTF8 = FlowLink.forbiddenChars.utf8
+            let domainNameUTF8 = domainName.utf8
+
+            for char in forbiddenCharsUTF8 {
+                if domainNameUTF8.contains(char) {
+                    panic("Illegal domain name")
+                }
+            }
+            if feeTokens.balance < self.price {
+                panic("Insufficient FLOW tokens sent")
+            }
+
+            self.rentVault.deposit(from: <- feeTokens)
+
+            var newNFT <- create NFT(
+                id:FlowLink.totalSupply,
+                domainName:domainName,
+                displayName:displayName,
+                title:title,
+                bio:bio,
+                avatar:avatar,
+                cover:cover,
+                socialLinks:socialLinks,
+                otherLinks:otherLinks,
+                styles:styles
+            )
+
+            // deposit it in the recipient's account using their colelction reference 
+            recipient.deposit(token: <- newNFT)
+            FlowLink.totalSupply = FlowLink.totalSupply + 1
+        }   
+
+        // Return the price 
+        pub fun getPrice(): UFix64 {
+            return self.price
+        }
+
+        pub fun getVaultBalance():UFix64 {
+            return self.rentVault.balance
+        }
+
+        pub fun withdrawVault(receiver:Capability<&{FungibleToken.Receiver}>,amount:UFix64){
+            let vault = receiver.borrow()!
+            vault.deposit(from: <- self.rentVault.withdraw(amount: amount))
+        }
+
+        pub fun setPrice(val:UFix64){
+            self.price = val
+        }
+    }
+
     pub fun getDomainNameOwner(domainName:String):Address?{
         return self.owners[domainName]
     }
@@ -178,31 +312,6 @@ pub contract FlowLink:NonFungibleToken {
     }
 
 
-        // mints a new NFt with a new Id and deposit it in the recipients collection using their collection reference 
-    pub fun mintNFT(domainName:String,displayName:String,title:String,bio:String,avatar:String,recipient:&{NonFungibleToken.CollectionPublic}) {
-        // create a new nft 
-        let forbiddenCharsUTF8 = self.forbiddenChars.utf8
-        let domainNameUTF8 = domainName.utf8
-
-        for char in forbiddenCharsUTF8 {
-            if domainNameUTF8.contains(char) {
-                panic("Illegal domain name")
-            }
-        }
-
-        var newNFT <- create NFT(
-            id:FlowLink.totalSupply,
-            domainName:domainName,
-            displayName:displayName,
-            title:title,
-            bio:bio,
-            avatar:avatar
-        )
-
-        // deposit it in the recipient's account using their colelction reference 
-        recipient.deposit(token: <- newNFT)
-        FlowLink.totalSupply = FlowLink.totalSupply + 1
-    }   
 
     init(){
         self.owners = {}
@@ -213,10 +322,15 @@ pub contract FlowLink:NonFungibleToken {
         
         self.CollectionPublicPath = /public/FlowLinkCollection
         self.CollectionStoragePath = /storage/FlowLinkCollection
+        self.AdminStoragePath = /storage/FlowLinkAdmin
 
+
+        self.account.link<&{FlowLink.CollectionPublic}>(FlowLink.CollectionPublicPath,target:FlowLink.CollectionStoragePath)
+
+        self.account.save<@NonFungibleToken.Collection>(<- FlowLink.createEmptyCollection(),to:FlowLink.CollectionStoragePath)
 
         emit ContractInitialized()
     }
- 
+    
 }
  
