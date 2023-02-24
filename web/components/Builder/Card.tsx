@@ -6,13 +6,14 @@ import SocialLink from "./SocialLink";
 const Card = () => {
   const avatarStyle = useControls((e)=>e.avatarStyle)
   const userBgColor = useControls((e)=>e.userBgColor)
+  const userTheme = useControls((e)=>e.userTheme)
   console.log(userBgColor)
 
   return (
-    <div style={{backgroundImage:userBgColor}} className={`max-w-sm w-full border border-gray-800 shadow-2xl p-4 rounded-lg`}>
+    <div style={(userTheme && userBgColor==='')?{backgroundColor:userTheme.c4}:{backgroundImage:userBgColor}} className={`max-w-sm w-full border border-gray-800 shadow-2xl p-4 rounded-lg`}>
       {/*Cover and Avatar */}
       <div className='relative mb-10 flex items-center justify-center select-none'>
-        <div className=' h-40 rounded-md w-full  bg-fixed'>
+        <div className=' h-40 rounded-md w-full  bg-fixed shadow-2xl'>
           <img
             src={
               "https://blog.pixlr.com/wp-content/uploads/2021/09/Pixlr-NFT-Art-Glitched-Vaporwave-3-1536x888.png"
@@ -31,13 +32,13 @@ const Card = () => {
         </div>
       </div>
       {/*Name / user id / Des */}
-      <div className='flex flex-col rounded-md w-full bg-gray-800 p-4 '>
+      <div style={userTheme && {backgroundColor:userTheme.c3}} className={`flex flex-col rounded-md w-full ${(userTheme && userBgColor==='')?'bg-gray-800/50':'bg-gray-900/40'}  p-4 `}>
         {/*Display Name */}
-        <div className='text-gray-100 text-2xl font-semibold text-center leading-5'>
+        <div className='text-gray-50 text-2xl font-semibold text-center leading-5'>
           Pavitra Behara
         </div>
         {/*User Name */}
-        <div className='text-gray-500 text-base text-center'>@pavitra554</div>
+        <div className='text-gray-400 text-base text-center'>@pavitra554</div>
         {/*Description */}
         <div className='text-gray-300 text-base text-center pt-2'>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam
@@ -45,7 +46,7 @@ const Card = () => {
         </div>
       </div>
       {/*Social Links*/}
-      <div className='flex flex-row justify-between space-x-2 mt-2'>
+      <div className='flex flex-row flex-wrap justify-between mt-2'>
         <SocialLink title='Twitter' link='#' />
         <SocialLink title='Github' link='#' />
         <SocialLink title='Linkedin' link='#' />

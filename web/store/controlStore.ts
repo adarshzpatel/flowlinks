@@ -1,5 +1,12 @@
 import { create } from "zustand";
 
+
+type themeType = {
+	c1: string;
+	c2: string;
+	c3: string;
+	c4: string;
+  };
 type Store = {
 	//For Details 
 	displayName: string;
@@ -19,6 +26,8 @@ type Store = {
 	//For Themes
 	avatarStyle:string
 	userBgColor:string
+	userTheme:themeType
+	colorTheme_DATA:themeType[]
 	backgroundColors_DATA:Array<string>
 };
 type Actions = {
@@ -40,6 +49,7 @@ type Actions = {
 	//For Themes
 	setAvatarStyle: (displayName: Store["avatarStyle"]) => void;
 	setUserBgColor: (userBgColor: Store["userBgColor"]) => void;
+	setUserTheme: (userBgColor: Store["userTheme"]) => void;
 
 
 };
@@ -56,11 +66,32 @@ export const useControls = create<Store & Actions>((set): any => ({
 	youtube: "",
 	gmail: "",
 	model: false,
-	data: [],
-
+	otherlinks: [],
+	userTheme:null,
 	//For Themes
 	avatarStyle:"",
 	userBgColor:"",
+	
+	colorTheme_DATA:[
+		{
+			c1:'#98FDB4)',
+			c2:'#00ef8b',
+			c3:'#008A7A',
+			c4:'#007270',
+		},
+		{
+			c1:'#c7d2fe',
+			c2:'#6366f1',
+			c3:'#3730a3',
+			c4:'#312e81',
+		},
+		{
+			c1:'',
+			c2:'',
+			c3:'',
+			c4:'',
+		},
+	],
 	backgroundColors_DATA:[
 		'linear-gradient(20deg, rgb(79 70 229) 10%, rgb(168 85 247) 30%, rgb(162 28 175) 60%)',
 		'linear-gradient(270deg, rgb(79 70 229) 0%, rgb(168 85 247) 30%, rgb(162 28 175) 70%)',
@@ -93,6 +124,7 @@ export const useControls = create<Store & Actions>((set): any => ({
 	//For Themes
 	setAvatarStyle: (avatarStyle: string) => set(() => ({ avatarStyle: avatarStyle })),
 	setUserBgColor: (userBgColor: string) => set(() => ({ userBgColor: userBgColor })),
+	setUserTheme: (userTheme: themeType) => set(() => ({ userTheme: userTheme })),
 
 
 
