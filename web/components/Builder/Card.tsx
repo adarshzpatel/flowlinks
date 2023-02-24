@@ -1,18 +1,17 @@
 import React from "react";
+import { useControls } from "../../store/controlStore";
 import OtherLink from "./OtherLink";
 import SocialLink from "./SocialLink";
 
-type Props = {
-  name: string;
-  username: string;
-  bio: string;
-};
+const Card = () => {
+  const avatarStyle = useControls((e)=>e.avatarStyle)
+  const userBgColor = useControls((e)=>e.userBgColor)
+  console.log(userBgColor)
 
-const Card: React.FC<Props> = ({ name, username, bio }) => {
   return (
-    <div className='max-w-sm bg-gray-800/40 w-full border border-gray-700 p-4 rounded-lg'>
+    <div style={{backgroundImage:userBgColor}} className={`max-w-sm w-full border border-gray-800 shadow-2xl p-4 rounded-lg`}>
       {/*Cover and Avatar */}
-      <div className='relative mb-10 flex items-center justify-center'>
+      <div className='relative mb-10 flex items-center justify-center select-none'>
         <div className=' h-40 rounded-md w-full  bg-fixed'>
           <img
             src={
@@ -23,10 +22,10 @@ const Card: React.FC<Props> = ({ name, username, bio }) => {
           />
           <div className=' absolute top-0 w-full h-full rounded-md bg-gradient-to-t from-gray-900/80 via-gray-900/0 to-gray-900/0'></div>
         </div>
-        <div className='h-24 w-24 absolute rounded-lg -bottom-6 bg-gray-700 shadow-xl'>
+        <div className={`h-24 w-24 absolute ${avatarStyle} -bottom-6 bg-gray-700 shadow-xl`}>
           <img
             src={"https://avatarfiles.alphacoders.com/169/thumb-169513.png"}
-            className='h-full w-full rounded-md'
+            className={`h-full w-full  ${avatarStyle}`}
             alt='Cover'
           />
         </div>

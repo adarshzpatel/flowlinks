@@ -1,15 +1,10 @@
 import React from "react";
 import Card from "./Card";
 
-type Props = {
-  displayName:string,
-  username:string
-}
-function Preview({displayName,username}:Props) {
+function Preview() {
   return (
     <div className="flex items-center justify-center  ">
-      <div>{username}</div>
-      <Card bio="Test bio" name={displayName} username="Test" />
+      <Card />
     </div>
   );
 }
