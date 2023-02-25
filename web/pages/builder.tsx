@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Transition } from "@headlessui/react";
-
 import Controls from "../components/Builder/Controls";
 import Preview from "../components/Builder/Preview";
 import Card_Controls from "../components/Builder/Card_Controls";
@@ -68,6 +66,16 @@ const Builder = () => {
             />
           )}
           {tab === "Themes" && <Card_Controls />}
+          <div className="w-full flex justify-center items-center pt-10">
+            <Button
+              onClick={() => {
+                setShowModal(true);
+              }}
+              variant="primary"
+            >
+              Mint this NFT
+            </Button>
+          </div>
         </div>
         <Preview />
       </div>
@@ -81,7 +89,7 @@ const Builder = () => {
         <div className="flex flex-col w-full h-full justify-center items-center gap-3 p-10">
           <Button
             onClick={() => {
-              if (currentUser) mintNFT();
+              if (currentUser.addr) mintNFT();
               else {
                 logIn();
                 mintNFT();
@@ -89,7 +97,7 @@ const Builder = () => {
             }}
             variant="success"
           >
-            {currentUser ? "Mint Now" : "Connect wallet and Mint now"}
+            {currentUser.addr ? "Mint Now" : "Connect wallet and Mint now"}
           </Button>
           <Button
             onClick={() => {
