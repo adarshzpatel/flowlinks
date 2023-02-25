@@ -45,99 +45,143 @@ import { useAuth } from "../../context/AuthContext";
 // spread operator , destructuring , promise ,async await
 
 const InfoControls = () => {
-  const { displayName, setDisplayName,username,setUserName,title,setTitle,otherLinks} = useControls();
+  const {
+    displayName,
+    username,
+    title,
+    bio,
+    twitter,
+    github,
+    linkedin,
+    instagram,
+    youtube,
+    gmail,
+    otherLinks,
+    setTwitter,
+    setGithub,
+    setLinkedin,
+    setInstagram,
+    setYoutube,
+    setGmail,
+    setDisplayName,
+    setUserName,
+    setTitle,
+    setBio,
+  } = useControls();
   const [openNewLinkModal, setOpenNewLinkModal] = useState<boolean>(false);
-  const {currentUser} = useAuth()
+  const { currentUser } = useAuth();
   return (
     <>
-      <div className="pt-8 overflow-y-scroll  pr-8 flex flex-col select-none ease-linear duration-150">
+      <div className='pt-8 overflow-y-scroll  pr-8 flex flex-col select-none ease-linear duration-150'>
         {/*Names */}
-        <Accordion variant="separated" defaultValue="general">
-          <Accordion.Item value="general">
+        <Accordion variant='separated' defaultValue='general'>
+          <Accordion.Item value='general'>
             <Accordion.Control>General Info</Accordion.Control>
             <Accordion.Panel>
               <TextInput
-                label="Display Name"
-                placeholder="Enter display name"
+                label='Display Name'
+                placeholder='Enter display name'
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
               />
 
               <TextInput
-                label="User Name"
-                placeholder="Enter User name"
+                label='User Name'
+                placeholder='Enter User name'
                 value={username}
                 onChange={(e) => setUserName(e.target.value)}
               />
               <TextInput
-                label="Title"
-                placeholder="Eg. Full Stack Developer"
+                label='Title'
+                placeholder='Eg. Full Stack Developer'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              <Textarea placeholder="Enter bio" label="Bio" withAsterisk />
+              <Textarea
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder='Enter bio'
+                label='Bio'
+                withAsterisk
+              />
             </Accordion.Panel>
           </Accordion.Item>
           {/*Social Links*/}
-          <Accordion.Item value="socialLinks">
+          <Accordion.Item value='socialLinks'>
             <Accordion.Control>Social Links</Accordion.Control>
             <Accordion.Panel>
-              <div className="space-y-4">
+              <div className='space-y-4'>
                 <TextInput
                   icon={<TbBrandTwitter />}
-                  label="Twitter"
-                  placeholder="Paste "
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <TextInput
-                  icon={<TbBrandLinkedin />}
-                  label="LinkedIn"
-                  placeholder="Paste your linkedIn link"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <TextInput
-                  icon={<TbBrandYoutube />}
-                  label="Youtube"
-                  placeholder="Paste your youtube link "
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  label='Twitter'
+                  placeholder='Paste your twitter profile url'
+                  value={twitter}
+                  onChange={(e) => setTwitter(e.target.value)}
                 />
                 <TextInput
                   icon={<TbBrandGithub />}
-                  label="LinkedIn"
-                  placeholder="Paste your github link"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  label='GitHub'
+                  placeholder='Paste your github profile url'
+                  value={github}
+                  onChange={(e) => setGithub(e.target.value)}
+                />
+                <TextInput
+                  icon={<TbBrandLinkedin />}
+                  label='LinkedIn'
+                  placeholder='Paste your linkedin profile url'
+                  value={linkedin}
+                  onChange={(e) => setLinkedin(e.target.value)}
+                />
+                <TextInput
+                  icon={<SiInstagram />}
+                  label='Instagram'
+                  placeholder='Paste your instagram profile url '
+                  value={instagram}
+                  onChange={(e) => setInstagram(e.target.value)}
+                />
+                <TextInput
+                  icon={<TbBrandYoutube />}
+                  label='YouTube'
+                  placeholder='Paste your YouTube channel url'
+                  value={youtube}
+                  onChange={(e) => setYoutube(e.target.value)}
                 />
                 <TextInput
                   icon={<TbMail />}
-                  label="Email"
-                  placeholder="Paste your email"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  label='Email'
+                  placeholder='Paste your email'
+                  value={gmail}
+                  onChange={(e) => setGmail(e.target.value)}
                 />
               </div>
             </Accordion.Panel>
           </Accordion.Item>
-          <Accordion.Item value="otherLinks">
+          <Accordion.Item value='otherLinks'>
             <Accordion.Control>Other Links</Accordion.Control>
             <Accordion.Panel>
-              <div className="flex flex-col gap-4">
-
-              {otherLinks?.map((item=>(
-                <OtherLink title={item?.title ?? ""} link={item?.href ?? ""}  />
-                )))}
-            <Button onClick={()=>setOpenNewLinkModal(true)}>Add New Link</Button>
-                </div>
-
+              <div className='flex flex-col gap-4'>
+                {otherLinks?.map((item) => (
+                  <OtherLink
+                    title={item?.title ?? ""}
+                    link={item?.href ?? ""}
+                  />
+                ))}
+                <Button onClick={() => setOpenNewLinkModal(true)}>
+                  Add New Link
+                </Button>
+              </div>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
         <div>
-
-        <Button onClick={()=>mintNFT(currentUser?.addr)} className="mt-8" size="lg" variant="primary">Mint</Button>
+          <Button
+            onClick={() => mintNFT(currentUser?.addr)}
+            className='mt-8'
+            size='lg'
+            variant='primary'
+          >
+            Mint
+          </Button>
         </div>
       </div>
       <AddLinkModal

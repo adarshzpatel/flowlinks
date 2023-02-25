@@ -12,7 +12,7 @@ const SocialLink:React.FC<Props> = ({title,link}) => {
   const userTheme = useControls((e)=>e.userTheme)
 
   return (
-    <Link href={link}>
+    <Link href={title==='Gmail'?'mailto:'+link:link} target="_blank">
         <div style={userTheme && {backgroundColor:userTheme.c3,color:userTheme.c1}} className={`w-full bg-gray-800/50 text-gray-50/70 p-3 rounded-md hover:brightness-125 ease-linear duration-150 active:scale-90`}>
             {title==='Twitter'&&<SiTwitter size={27}/>}
             {title==='Linkedin'&&<SiLinkedin size={27}/>}
