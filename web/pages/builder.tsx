@@ -10,6 +10,12 @@ import { checkIsInitialized } from "../flow/scripts";
 import Button from "../components/ui/Button";
 import { mintNFT } from "../flow/transactions";
 
+
+export type LinkType = {
+  title: string 
+  href: string 
+}
+
 const Builder = () => {
   const [tab, setTab] = useState("Details");
 
@@ -20,6 +26,10 @@ const Builder = () => {
   const [avatar, setAvatar] = useState<any>();
   const [bio, setBio] = useState<string>("");
   const [model, setModel] = useState<boolean>(false);
+  const [otherLinks,setOtherLinks] = useState<LinkType[]>([
+    {href:"test",
+  title:"Title"}
+  ])
 
   //Card_Controls
   const [avatarStyle, setAvatarStyle] = useState("rounded-lg");
@@ -64,13 +74,15 @@ const Builder = () => {
               setBio={setBio}
               model={model}
               setModel={setModel}
+              otherLinks={otherLinks}
+              setOtherLinks={setOtherLinks}
             />}
           { tab === 'Themes' && 
             <Card_Controls/>}
-        <Button className="mt-4" onClick={()=>{mintNFT()}}>Mint Bytton</Button>
+        <Button className="mt-4" onClick={()=>{}}>Mint Bytton</Button>
+        </div>
         </div>
         <Preview/>
-      </div>
     </Container>
   );
 };
