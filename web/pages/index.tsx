@@ -1,17 +1,15 @@
 import type { NextPage } from "next";
 import Container from "../layouts/Container";
 // import Test from "../components/Test";
-import { useEffect, useState } from "react";
-import { AuthContext, useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import {
   useSession,
   useSupabaseClient,
   useUser,
 } from "@supabase/auth-helpers-react";
-import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
-import { FiArrowRight } from "react-icons/fi";
 import Card from "../components/Builder/Card";
-import { HiArrowRight } from "react-icons/hi";
+import Tilt from "react-parallax-tilt";
 
 const Home: NextPage = () => {
   const { currentUser } = useAuth();
@@ -90,8 +88,9 @@ const Home: NextPage = () => {
           </div>
       </div>
         <div className="flex flex-1 items-center justify-center">
-
+      <Tilt>
         <Card/>
+      </Tilt>
         </div>
         </div>
     </Container>

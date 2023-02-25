@@ -26,29 +26,21 @@ const Builder = () => {
         <div>
           <div className='flex flex-row max-w-min space-x-2 p-2 mt-4 mr-8 rounded-md bg-gray-800/50 border-gray-800 select-none'>
             <button
-              className={`hover:bg-gray-700/80 rounded-md ease-linear duration-150 p-1 px-4
-              ${tab === "Details" ? "bg-gray-700/80" : ""}`}
+              className={`hover:bg-gray-700/80 bg-gray-800 rounded-md ease-linear  p-1 px-4
+              ${tab === "Details" ? "bg-emerald-500 text-black" : ""}`}
               onClick={() => setTab("Details")}
             >
               Details
             </button>
             <button
-              className={`hover:bg-gray-700/80 rounded-md ease-linear duration-150 p-1 px-4
-             ${tab === "Themes" ? "bg-gray-700/80" : ""}`}
+              className={`hover:bg-gray-700/80 bg-gray-800 rounded-md ease-linear  p-1 px-4
+              ${tab === "Themes" ? "bg-emerald-500 text-black" : ""}`}
               onClick={() => setTab("Themes")}
             >
               Themes
             </button>
           </div>
-          <Transition
-            show={tab === "Details"}
-            enter='transition-opacity ease-linear duration-150'
-            enterFrom='opacity-0'
-            enterTo='opacity-100'
-            leave='transition-opacity ease-linear duration-150'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
-          >
+        { tab === 'Details'  &&
             <Controls
               displayName={displayName}
               setDisplayName={setDisplayName}
@@ -62,19 +54,9 @@ const Builder = () => {
               setBio={setBio}
               model={model}
               setModel={setModel}
-            />
-          </Transition>
-          <Transition
-            show={tab === "Themes"}
-            enter='transition-opacity ease-linear duration-150'
-            enterFrom='opacity-0'
-            enterTo='opacity-100'
-            leave='transition-opacity ease-linear duration-150'
-            leaveFrom='opacity-100'
-            leaveTo='opacity-0'
-          >
-            <Card_Controls/>
-          </Transition>
+            />}
+          { tab === 'Themes' && 
+            <Card_Controls/>}
         </div>
         <Preview/>
       </div>
