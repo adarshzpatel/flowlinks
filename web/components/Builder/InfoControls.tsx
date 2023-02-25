@@ -67,7 +67,9 @@ const InfoControls = () => {
     setUserName,
     setTitle,
     setBio,
+    deleteOtherLink
   } = useControls();
+
   const [openNewLinkModal, setOpenNewLinkModal] = useState<boolean>(false);
   const { currentUser } = useAuth();
   return (
@@ -161,10 +163,15 @@ const InfoControls = () => {
             <Accordion.Panel>
               <div className='flex flex-col gap-4'>
                 {otherLinks?.map((item) => (
-                  <OtherLink
-                    title={item?.title ?? ""}
-                    link={item?.href ?? ""}
-                  />
+                  <div className="w-full flex flex-row space-x-2">
+                    <div>
+                      <OtherLink
+                        title={item?.title ?? ""}
+                        link={item?.href ?? ""}
+                      />
+                    </div>
+                    <button onClick={()=>deleteOtherLink(item)}>Delete</button>
+                  </div>
                 ))}
                 <Button onClick={() => setOpenNewLinkModal(true)}>
                   Add New Link

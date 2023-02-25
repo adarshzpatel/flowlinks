@@ -69,9 +69,11 @@ const Card = () => {
       </div>
       {/*Other Links */}
       <div className='flex flex-col'>
-        <OtherLink title="Link 1" link="#"/>
-        <OtherLink title="Link 2" link="#"/>
-        <OtherLink title="Link 3" link="#"/>
+        {otherLinks.map((e,i)=>{
+          return(
+            <OtherLink key={i} title={e.title} link={e.link}/>
+          )
+        })}
       </div>
     </div>
   );
