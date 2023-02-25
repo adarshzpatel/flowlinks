@@ -3,11 +3,17 @@ import AddLinkModal from "./AddLinkModal";
 import { Accordion } from "@mantine/core";
 
 //React Icons
-import { MdOutlineAdd, MdCheck, MdAdd } from "react-icons/md";
+import {
+  MdOutlineAdd,
+  MdCheck,
+  MdAdd,
+  MdOutlineClose,
+  MdDelete,
+} from "react-icons/md";
 import { TextInput } from "@mantine/core";
 import { Textarea } from "@mantine/core";
 import { Disclosure, Transition } from "@headlessui/react";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronDown, FiLink } from "react-icons/fi";
 import {
   TbBrandGithub,
   TbBrandLinkedin,
@@ -67,7 +73,7 @@ const InfoControls = () => {
     setUserName,
     setTitle,
     setBio,
-    deleteOtherLink
+    deleteOtherLink,
   } = useControls();
 
   const [openNewLinkModal, setOpenNewLinkModal] = useState<boolean>(false);
@@ -163,14 +169,19 @@ const InfoControls = () => {
             <Accordion.Panel>
               <div className='flex flex-col gap-4'>
                 {otherLinks?.map((item) => (
-                  <div className="w-full flex flex-row space-x-2">
-                    <div>
-                      <OtherLink
-                        title={item?.title ?? ""}
-                        link={item?.href ?? ""}
-                      />
+                  <div className='flex flex-row space-x-2'>
+                    <div className='w-full flex justify-between items-center text-gray-50/70 hover:brightness-125 ease-linear duration-150 active:scale-95 flex-row bg-gray-800/90 p-2 px-3 rounded-md'>
+                      <div>{item?.title ?? title}</div>
+                      <div>
+                        <FiLink />
+                      </div>
                     </div>
-                    <button onClick={()=>deleteOtherLink(item)}>Delete</button>
+                    <Button
+                      variant='danger'
+                      onClick={() => deleteOtherLink(item)}
+                    >
+                      Del
+                    </Button>
                   </div>
                 ))}
                 <Button onClick={() => setOpenNewLinkModal(true)}>
