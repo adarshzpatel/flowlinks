@@ -43,11 +43,12 @@ type Actions = {
 	setYoutube: (youtube: Store["youtube"]) => void;
 	setGmail: (gmail: Store["gmail"]) => void;
 	setModel: (model: Store["model"]) => void;
-	addOtherLink: (data:LinkType) => void;
 	//For Themes
 	setAvatarStyle: (displayName: Store["avatarStyle"]) => void;
 	setUserBgColor: (userBgColor: Store["userBgColor"]) => void;
 	setUserTheme: (userBgColor: Store["userTheme"]) => void;
+	addOtherLink: (data:LinkType) => void;
+	deleteOtherLink: (data:LinkType) => void;
 
 };
 
@@ -140,6 +141,11 @@ export const useControls = create<Store & Actions>((set): any => ({
 	addOtherLink: (data:LinkType) => {
 		set((state) => ({
 			otherLinks: [...state.otherLinks,data],
+		}));
+	},
+	deleteOtherLink: (data:LinkType) => {
+		set((state) => ({
+			otherLinks: [...state.otherLinks.filter((e)=>e.title != data.title )],
 		}));
 	},
 
