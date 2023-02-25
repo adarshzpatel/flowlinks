@@ -91,6 +91,7 @@ const InfoControls = () => {
                 placeholder='Enter display name'
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
+                withAsterisk
               />
 
               <TextInput
@@ -98,12 +99,14 @@ const InfoControls = () => {
                 placeholder='Enter User name'
                 value={username}
                 onChange={(e) => setUserName(e.target.value)}
+                withAsterisk
               />
               <TextInput
                 label='Title'
                 placeholder='Eg. Full Stack Developer'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                withAsterisk
               />
               <Textarea
                 value={bio}
