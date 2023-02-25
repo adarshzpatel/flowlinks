@@ -56,10 +56,10 @@ transaction(domainName:String,displayName:String,title:String,bio:String,avatar:
 
 
  type MintNFTProps ={
-  
  }
 
 export const mintNFT = async  (receiver:string) => {
+  if(!receiver) throw new Error("address not found")
   const isInit = await checkIsInitialized(receiver)
   if(!isInit) {
     const initTx = await initializeAccount()

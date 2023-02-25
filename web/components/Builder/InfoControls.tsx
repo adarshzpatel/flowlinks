@@ -135,10 +135,6 @@ const InfoControls = () => {
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
-        <div>
-
-        <Button onClick={()=>mintNFT(currentUser?.addr)} className="mt-8" size="lg" variant="primary">Mint</Button>
-        </div>
       </div>
       <AddLinkModal
         opened={openNewLinkModal}

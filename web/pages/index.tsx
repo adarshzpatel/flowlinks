@@ -1,65 +1,11 @@
 import type { NextPage } from "next";
-import Container from "../layouts/Container";
-// import Test from "../components/Test";
-import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import {
-  useSession,
-  useSupabaseClient,
-  useUser,
-} from "@supabase/auth-helpers-react";
 import Card from "../components/Builder/Card";
 import Tilt from "react-parallax-tilt";
+import { Container } from "@mantine/core";
 
 const Home: NextPage = () => {
-  const { currentUser } = useAuth();
-  const loggedIn = currentUser?.addr ? true : false;
-  const [flowLinks, setFlowLinks] =
-    useState<{ name: string; owner: string }[]>();
-
-  const session = useSession();
-  const supabase = useSupabaseClient();
-
-  const user = useUser();
-
-  // async function downloadImage(path: string) {
-  //   try {
-  //     const { data, error } = await supabase.storage
-  //       .from("avatars")
-  //       .download(path);
-  //     if (error) {
-  //       throw error;
-  //     }
-  //     const url = URL.createObjectURL(data);
-  //   } catch (error) {
-  //     console.log("Error downloading image: ", error);
-  //   }
-  // }
-
-  // const fetchAndSetAvatarUrl = async () => {
-  //   let { data, error, status } = await supabase
-  //     .from("profiles")
-  //     .select(`avatar_url`)
-  //     .eq("id", user?.id)
-  //     .single();
-
-  //   if (error && status !== 406) {
-  //     throw error;
-  //   }
-
-  //   if (data && typeof data.avatar_url === "string") {
-  //     downloadImage(data.avatar_url);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (user) {
-  //     fetchAndSetAvatarUrl();
-  //   }
-  // }, [user]);
-
   return (
-    <Container>
+    <>
       <div className="flex section__height ">
         <div className="flex flex-col justify-center flex-1 px-8 py-8 md:px-12 lg:flex-none lg:px-24">
           <div className="w-full mx-auto lg:max-w-6xl">
@@ -79,21 +25,21 @@ const Home: NextPage = () => {
                 <a
                   className="inline-flex gap-4 items-center justify-center w-full px-6 py-3 text-center text-black duration-200 bg-flow-500 active:scale-95 duration-100 hover:scale-105 font-medium rounded-xl focus:outline-none lg:w-auto "
                   href="builder"
-                >
+                  >
                   Claim your FlowLink
                 </a>
 
               </div>
             </div>
           </div>
+        </div>
       </div>
-        <div className="flex flex-1 items-center justify-center">
-      <Tilt>
-        <Card/>
-      </Tilt>
-        </div>
-        </div>
-    </Container>
+      <div className="flex flex-1 items-center justify-center">
+        <Tilt>
+          <Card />
+        </Tilt>
+      </div>
+      </>
   );
 };
 

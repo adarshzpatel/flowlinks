@@ -7,10 +7,11 @@ import {
   createBrowserSupabaseClient,
   Session,
 } from "@supabase/auth-helpers-nextjs";
-import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { SessionContextProvider, useUser } from "@supabase/auth-helpers-react";
 import "../styles/globals.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Container from "../layouts/Container";
 
 function MyApp({
   Component,
@@ -50,7 +51,9 @@ function MyApp({
           }}
         >
           <Toaster position="bottom-left" />
-          <Component {...pageProps} />
+          <Container>
+            <Component {...pageProps} />
+          </Container>
         </MantineProvider>
       </AuthProvider>
     </SessionContextProvider>
