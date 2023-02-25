@@ -1,8 +1,12 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
+import AddLinkModal from "./AddLinkModal";
+import { Accordion } from "@mantine/core";
+import { IconPlus } from '@tabler/icons';
 
 //React Icons
 import { MdOutlineAdd, MdCheck, MdAdd } from "react-icons/md";
 import {TextInput} from '@mantine/core'
+import { Textarea } from '@mantine/core';
 import { Disclosure, Transition } from "@headlessui/react";
 import { FiChevronDown } from "react-icons/fi";
 import {TbBrandTwitter} from 'react-icons/tb'
@@ -14,7 +18,7 @@ import {
   SiTwitter,
   SiYoutube,
 } from "react-icons/si";
-import AddLinkModel from "./AddLinkModal";
+
 import { LinkType } from "../../pages/builder";
 import { link } from "fs";
 import Button from "../ui/Button";
@@ -71,6 +75,7 @@ const Controls: React.FC<Props> = ({
     const newLink = {
       title:title,
       href:href
+      
     }
     setOtherLinks([...otherLinks,newLink])
   }
@@ -97,9 +102,10 @@ const Controls: React.FC<Props> = ({
               className={styles.input}
             />
           </div> */}
-          <TextInput icon={<TbBrandTwitter/>} label="Display Name" placeholder="Enter display name" value={displayName} onChange={(e)=>setDisplayName(e.target.value)} />
+          
+          <TextInput label="Display Name" placeholder="Enter display name" value={displayName} onChange={(e)=>setDisplayName(e.target.value)} />
           {/*User Name */}
-          <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
+         {/* <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
             <label htmlFor='' className='text-gray-500 text-sm'>
               User Name
             </label>
@@ -110,11 +116,13 @@ const Controls: React.FC<Props> = ({
               onChange={(e) => setUserName(e.target.value)}
               className={styles.input}
             />
-          </div>
+        </div>*/}
+        
+        <TextInput label="User Name" placeholder="Enter User name" value={username} onChange={(e)=>setUserName(e.target.value)} />
         </div>
       </div>
       {/*Title  */}
-      <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
+     {/* <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
         <label htmlFor='' className='text-gray-500 text-sm'>
           Title
         </label>
@@ -123,12 +131,13 @@ const Controls: React.FC<Props> = ({
           placeholder='Eg. Full Stack Developer'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className={styles.input}
+          className={styles.TextInput}
         />
-      </div>
-
+      </div>*/}
+<TextInput label="Title" placeholder="Eg. Full Stack Developer" value={title} onChange={(e)=>setTitle(e.target.value)} />
+   
       {/*Bio Name */}
-      <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
+     {/* <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
         <label htmlFor='' className='text-gray-500 text-sm'>
           Bio
         </label>
@@ -136,12 +145,97 @@ const Controls: React.FC<Props> = ({
           placeholder='Enter Bio'
           value={bio}
           onChange={(e) => setBio(e.target.value)}
-          className={styles.input}
+          className={styles.TextInput}
         />
-      </div>
+    </div>*/}
+     <Textarea
+      placeholder="Enter bio"
+      label="Bio"
+      withAsterisk
+    />
       {/*Social Links*/}
       <div className='flex flex-col gap-2 ' data-te-input-wrapper-init>
-        <Disclosure>
+
+      <Accordion defaultValue="customization" >
+      <Accordion.Item value="customization">
+        <Accordion.Control >Add New Links</Accordion.Control>
+        <Accordion.Panel>
+        <div
+                    className='flex flex-row items-center gap-2 bg-gray-800 text-gray-100 p-2 border border-gray-700 rounded-md  outline-none ease-linear duration-150 '
+                    data-te-input-wrapper-init
+                  >
+        <SiTwitter size={20} className='text-gray-500' />
+        <input type='text' placeholder='https://twitter.com/' className='w-full h-full bg-transparent outline-none text-gray-100 '
+            /></div>
+             <div
+                    className='flex flex-row items-center gap-2 bg-gray-800 text-gray-100 p-2 border border-gray-700 rounded-md  outline-none ease-linear duration-150 '
+                    data-te-input-wrapper-init
+                  >
+          <SiGithub size={20} className='text-gray-500' />
+                    <input
+                      type='text'
+                      placeholder='https://github.com/user_id'
+                      //   value={username}
+                      //   onChange={(e) => setUserName(e.target.value)}
+                      className='w-full h-full bg-transparent outline-none text-gray-100 '
+                    />        
+                     </div>
+                     <div
+                    className='flex flex-row items-center gap-2 bg-gray-800 text-gray-100 p-2 border border-gray-700 rounded-md  outline-none ease-linear duration-150 '
+                    data-te-input-wrapper-init
+                  >
+
+                     <SiLinkedin size={20} className='text-gray-500' />
+                    <input
+                      type='text'
+                      placeholder='https://www.linkedin.com/in/user_id/'
+                      //   value={username}
+                      //   onChange={(e) => setUserName(e.target.value)}
+                      className='w-full h-full bg-transparent outline-none text-gray-100 '
+                    />
+                    </div>
+                    <div
+                    className='flex flex-row items-center gap-2 bg-gray-800 text-gray-100 p-2 border border-gray-700 rounded-md  outline-none ease-linear duration-150 '
+                    data-te-input-wrapper-init
+                  >
+                     <SiInstagram size={20} className='text-gray-500' />
+                    <input
+                      type='text'
+                      placeholder='https://www.instagram.com/user_id/'
+                      //   value={username}
+                      //   onChange={(e) => setUserName(e.target.value)}
+                      className='w-full h-full bg-transparent outline-none text-gray-100 '
+                    />
+                    </div>
+                     <div
+                    className='flex flex-row items-center gap-2 bg-gray-800 text-gray-100 p-2 border border-gray-700 rounded-md  outline-none ease-linear duration-150 '
+                    data-te-input-wrapper-init
+                  >
+                        <SiYoutube size={20} className='text-gray-500' />
+                    <input
+                      type='text'
+                      placeholder='https://www.youtube.com/c/xyz'
+                      //   value={username}
+                      //   onChange={(e) => setUserName(e.target.value)}
+                      className='w-full h-full bg-transparent outline-none text-gray-100 '
+                    /></div>
+                     <div
+                    className='flex flex-row items-center gap-2 bg-gray-800 text-gray-100 p-2 border border-gray-700 rounded-md  outline-none ease-linear duration-150 '
+                    data-te-input-wrapper-init
+                  >
+                    <SiGmail size={20} className='text-gray-500' />
+                    <input
+                      type='text'
+                      placeholder='abc@example.com'
+                      //   value={username}
+                      //   onChange={(e) => setUserName(e.target.value)}
+                      className='w-full h-full bg-transparent outline-none text-gray-100 '
+                    />
+                  </div>
+        </Accordion.Panel>
+      </Accordion.Item>
+      </Accordion>
+       {/* <Disclosure>
           {({ open }: { open: boolean }) => (
             <>
               <Disclosure.Button
@@ -163,7 +257,12 @@ const Controls: React.FC<Props> = ({
                 leaveFrom='transform scale-100 opacity-100'
                 leaveTo='transform scale-95 opacity-0'
               >
-                <Disclosure.Panel className='flex flex-col space-y-4 mt-4'>
+
+
+
+
+                
+              {/*  <Disclosure.Panel className='flex flex-col space-y-4 mt-4'>
                   <div
                     className='flex flex-row items-center gap-2 bg-gray-800 text-gray-100 p-2 border border-gray-700 rounded-md  outline-none ease-linear duration-150 '
                     data-te-input-wrapper-init
@@ -242,15 +341,15 @@ const Controls: React.FC<Props> = ({
                       className='w-full h-full bg-transparent outline-none text-gray-100 '
                     />
                   </div>
-                </Disclosure.Panel>
+          </Disclosure.Panel>
 
                 
               </Transition>
             </>
           )}
-        </Disclosure>
-      </div>
-      {/*Bio Name */}
+          </Disclosure>*/}
+          </div>
+      {/*Bio Name*/ }
       <div
         className='flex justify-between items-center hover:bg-gray-800/75 hover:rounded-md uppercase py-4 border rounded-md  border-gray-800 text-gray-400  px-4 cursor-pointer '
         data-te-input-wrapper-init
@@ -263,11 +362,17 @@ const Controls: React.FC<Props> = ({
       
       </div>
       <div className="p-4 ">
-          <button>add link</button>
-          {otherLinks.map((item,idx)=> (<div>{item.title}</div>))}
-          <Button onClick={()=>addNewLink("Test2","https://test")}>Add new link</Button>
+      
+        <button>add link</button>
+
+
+      
+        {otherLinks.map((item,idx)=> (<div>{item.title},{item.href}</div>))}
+        <Button onClick={()=>addNewLink("Test2","https://test")}>Add new link</Button>
+        <AddLinkModal setOtherLinks={setOtherLinks} otherLinks={otherLinks}/>
       </div>
     </div>
+  
   );
 };
 

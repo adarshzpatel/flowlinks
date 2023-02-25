@@ -1,4 +1,5 @@
 import React from 'react'
+
 type Props = {
   name:string 
   username:string 
@@ -12,7 +13,10 @@ const Card = ({name,username,bio}: Props) => {
       <div>{name}</div>
       <div>@{username}</div>
       <div>{bio}</div>
+    
+  
     </div>
+   
   )
 }
 
