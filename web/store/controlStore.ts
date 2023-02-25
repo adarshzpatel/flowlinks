@@ -74,10 +74,16 @@ export const useControls = create<Store & Actions>((set): any => ({
 	
 	colorTheme_DATA:[
 		{
-			c1:'#98FDB4)',
-			c2:'#00ef8b',
-			c3:'#008A7A',
-			c4:'#007270',
+			c1:'#E2D6FF',
+			c2:'#CCBBFF',
+			c3:'#24273F',
+			c4:'#1B1C30',
+		},
+		{
+			c1:'#e5e7eb',
+			c2:'#9ca3af',
+			c3:'#374151',
+			c4:'#1f2937',
 		},
 		{
 			c1:'#c7d2fe',
@@ -86,11 +92,24 @@ export const useControls = create<Store & Actions>((set): any => ({
 			c4:'#312e81',
 		},
 		{
-			c1:'',
-			c2:'',
-			c3:'',
-			c4:'',
+			c1:'#635985',
+			c2:'#443C68',
+			c3:'#393053',
+			c4:'#18122B',
 		},
+		{
+			c1:'#F56EB3',
+			c2:'#CB1C8D',
+			c3:'#7F167F',
+			c4:'#460C68',
+		},
+		{
+			c1:'#FAF7F0',
+			c2:'#CDFCF6',
+			c3:'#BCCEF8',
+			c4:'#98A8F8',
+		},
+		
 	],
 	backgroundColors_DATA:[
 		'linear-gradient(20deg, rgb(79 70 229) 10%, rgb(168 85 247) 30%, rgb(162 28 175) 60%)',

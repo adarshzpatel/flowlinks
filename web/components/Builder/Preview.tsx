@@ -1,9 +1,11 @@
 import React from "react";
+import { useControls } from "../../store/controlStore";
 import Card from "./Card";
 
 function Preview() {
+  const bg = useControls((e)=>e.userBgColor)
   return (
-    <div className="flex items-center justify-center  ">
+    <div style={{backgroundImage:bg}} className="flex items-center justify-center  ease-linear duration-150">
       <Card />
     </div>
   );

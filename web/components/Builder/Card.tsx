@@ -5,12 +5,10 @@ import SocialLink from "./SocialLink";
 
 const Card = () => {
   const avatarStyle = useControls((e)=>e.avatarStyle)
-  const userBgColor = useControls((e)=>e.userBgColor)
   const userTheme = useControls((e)=>e.userTheme)
-  console.log(userBgColor)
 
   return (
-    <div style={(userTheme && userBgColor==='')?{backgroundColor:userTheme.c4}:{backgroundImage:userBgColor}} className={`max-w-sm w-full border border-gray-800 shadow-2xl p-4 rounded-lg`}>
+    <div style={userTheme&&{backgroundColor:userTheme.c4}} className={`max-w-sm w-full shadow-2xl shadow-black/60 p-4 rounded-lg ease-linear duration-150 bg-gray-800/50 `}>
       {/*Cover and Avatar */}
       <div className='relative mb-10 flex items-center justify-center select-none'>
         <div className=' h-40 rounded-md w-full  bg-fixed shadow-2xl'>
@@ -32,15 +30,15 @@ const Card = () => {
         </div>
       </div>
       {/*Name / user id / Des */}
-      <div style={userTheme && {backgroundColor:userTheme.c3}} className={`flex flex-col rounded-md w-full ${(userTheme && userBgColor==='')?'bg-gray-800/50':'bg-gray-900/40'}  p-4 `}>
+      <div style={userTheme && {backgroundColor:userTheme.c3}} className={`flex flex-col rounded-md w-full bg-gray-800/50 p-4 ease-linear duration-150`}>
         {/*Display Name */}
         <div className='text-gray-50 text-2xl font-semibold text-center leading-5'>
           Pavitra Behara
         </div>
         {/*User Name */}
-        <div className='text-gray-400 text-base text-center'>@pavitra554</div>
+        <div style={userTheme && {color:userTheme.c2}} className='text-gray-400 text-base text-center'>@pavitra554</div>
         {/*Description */}
-        <div className='text-gray-300 text-base text-center pt-2'>
+        <div style={userTheme && {color:userTheme.c1}} className='text-gray-300 text-base text-center pt-2'>
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam
           aliquam enim itaque.
         </div>
@@ -65,20 +63,3 @@ const Card = () => {
 };
 
 export default Card;
-
-/*
-TODO:
-  -[Done] Cover
-  -[Done] Avatar
-  -[Done] Display Name
-  -[Done] User ID
-  -[Done] Description
-  -[Done] Social Links []
-  -[Done] More Links []
-*/
-
-{
-  /* <div>{name}</div>
-      <div>@{username}</div>
-      <div>{bio}</div> */
-}

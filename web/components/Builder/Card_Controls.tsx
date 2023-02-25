@@ -131,7 +131,7 @@ const Card_Controls = () => {
             >
               <div
                 style={{ backgroundImage: e }}
-                className={`h-full w-full rounded-md flex justify-center items-center text-gray-500 `}
+                className={`h-full w-full rounded-md flex justify-center items-center text-gray-500`}
               >
                 {e === "" ? "None" : ""}
               </div>
@@ -141,6 +141,6 @@ const Card_Controls = () => {
       </div>
     </div>
   );
-};
+};    
 
 export default Card_Controls;

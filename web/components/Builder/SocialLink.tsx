@@ -9,11 +9,11 @@ type Props = {
 }
 
 const SocialLink:React.FC<Props> = ({title,link}) => {
-  const userBgColor = useControls((e)=>e.userBgColor)
+  const userTheme = useControls((e)=>e.userTheme)
 
   return (
     <Link href={link}>
-        <div className={`w-full ${userBgColor ===''?'bg-gray-800/50':'bg-gray-900/40'} text-gray-50/70 p-3 rounded-md hover:text-gray-50 ease-linear duration-150 active:scale-90`}>
+        <div style={userTheme && {backgroundColor:userTheme.c3,color:userTheme.c1}} className={`w-full bg-gray-800/50 text-gray-50/70 p-3 rounded-md hover:brightness-125 ease-linear duration-150 active:scale-90`}>
             {title==='Twitter'&&<SiTwitter size={27}/>}
             {title==='Linkedin'&&<SiLinkedin size={27}/>}
             {title==='Instagram'&&<SiInstagram size={27}/>}
