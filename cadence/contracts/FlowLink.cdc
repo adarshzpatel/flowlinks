@@ -1,6 +1,10 @@
-import NonFungibleToken from 0xf8d6e0586b0a20c7
-import FungibleToken from 0xf8d6e0586b0a20c7
-import MetadataViews from 0xf8d6e0586b0a20c7
+import NonFungibleToken from "./NonFungibleToken.cdc"
+import FungibleToken from "./FungibleToken.cdc"
+import FlowToken from "./FlowToken.cdc"
+
+// import NonFungibleToken from 0xf8d6e0586b0a20c7
+// import FungibleToken from 0xee82856bf20e2aa6
+// import FlowToken from 0x0ae53cb6e3f42a79
 // id
 // domainName 
 // displayName 
@@ -9,12 +13,13 @@ import MetadataViews from 0xf8d6e0586b0a20c7
 // avatar
 // TODO : Social links  , other links 
 
-
-// [] Add Metadata 
-
 pub contract FlowLink:NonFungibleToken {
     pub let CollectionStoragePath: StoragePath
     pub let CollectionPublicPath:PublicPath
+    pub let CollectionPrivatePath:PrivatePath
+
+    pub let AdminPublicPath:PublicPath 
+    pub let AdminPrivatePath:PrivatePath 
     pub let AdminStoragePath:StoragePath
 
     pub var totalSupply:UInt64
@@ -58,25 +63,33 @@ pub contract FlowLink:NonFungibleToken {
     pub resource interface FlowLinkPublic {
         pub let id:UInt64
         pub let domainName:String 
-        pub let displayName:String 
-        pub let title:String 
-        pub let bio:String 
-        pub let avatar:String 
 
         pub fun getLinkInfo():LinkInfo
     }
 
-    pub resource NFT: NonFungibleToken.INFT,FlowLinkPublic,MetadataViews.Resolver {
+    pub resource interface FlowLinkPrivate {    
+        
+        pub fun setDisplayName(displayName:String)
+        pub fun setTitle(title:String) 
+        pub fun setBio(bio:String) 
+        pub fun setAvatar(avatar:String) 
+        pub fun setCover(cover:String) 
+        pub fun setSocialLinks(socialLinks:{String:String})
+        pub fun setOtherLinks(otherLinks:[{String:String}])
+        pub fun setStyles(styles: {String:String})
+    }
+
+    pub resource NFT: NonFungibleToken.INFT,FlowLinkPublic {
         pub let id:UInt64
         pub let domainName:String 
-        pub let displayName:String 
-        pub let title:String 
-        pub let bio:String 
-        pub let avatar:String
-        pub let cover:String 
-        pub let socialLinks: {String:String}
-        pub let otherLinks: [{String:String}]
-        pub let styles : {String:String}
+        access(self) var displayName:String 
+        access(self) var title:String 
+        access(self) var bio:String 
+        access(self) var avatar:String
+        access(self) var cover:String 
+        access(self) var socialLinks: {String:String}
+        access(self) var otherLinks: [{String:String}]
+        access(self) var styles : {String:String}
 
         init(id:UInt64,domainName:String,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String}){
             self.id = id
@@ -108,35 +121,42 @@ pub contract FlowLink:NonFungibleToken {
             )
         }
 
-        pub fun getViews(): [Type] {
-            return [
-                Type<MetadataViews.Display>(),
-                Type<MetadataViews.ExternalURL>()
-            ]
+        pub fun setDisplayName(displayName:String){
+            self.displayName = displayName
         }
-
-        pub fun resolveView(_ view: Type): AnyStruct? {
-            switch view {
-                case Type<MetadataViews.Display>():
-                    return MetadataViews.Display(
-                        name:"FlowLink /".concat(self.domainName),
-                        description:self.bio,
-                        thumbnail:MetadataViews.HTTPFile(url:self.avatar)
-                )
-
-                case Type<MetadataViews.ExternalURL>():
-                    return MetadataViews.ExternalURL("https://flowlinks.vercel.app/".concat(self.domainName))
-                
-            }
-            return nil
+        pub fun setTitle(title:String) {
+            self.title = title
+        }
+        pub fun setBio(bio:String) {
+            self.bio = bio
+        }
+        pub fun setAvatar(avatar:String) {
+            self.avatar = avatar
+        }
+        pub fun setCover(cover:String) {
+            self.cover = cover
+        }
+        pub fun setSocialLinks(socialLinks:{String:String}){
+            self.socialLinks = socialLinks
+        }
+        pub fun setOtherLinks(otherLinks:[{String:String}]){
+            self.otherLinks = otherLinks
+        }
+        pub fun setStyles(styles: {String:String}){
+            self.styles = styles
         }
 
     }
+
     pub resource interface CollectionPublic {
         pub fun borrowFlowLinkNFT(id: UInt64): &{FlowLink.FlowLinkPublic}
     }
 
-    pub resource Collection: CollectionPublic,NonFungibleToken.Provider,NonFungibleToken.Receiver,NonFungibleToken.CollectionPublic {
+    pub resource interface CollectionPrivate {
+        pub fun borrowFlowLinkPrivate(id: UInt64): &FlowLink.NFT
+    }
+
+    pub resource Collection: CollectionPublic,CollectionPrivate,NonFungibleToken.Provider,NonFungibleToken.Receiver,NonFungibleToken.CollectionPublic {
         pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
         // access(self) var address: Address?
 
@@ -172,7 +192,6 @@ pub contract FlowLink:NonFungibleToken {
         pub fun borrowNFT(id:UInt64): &NonFungibleToken.NFT {
             return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
         }
-        
 
         pub fun borrowFlowLinkNFT(id:UInt64): &{FlowLink.FlowLinkPublic} {
             pre {
@@ -182,6 +201,14 @@ pub contract FlowLink:NonFungibleToken {
             let token = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
             return token as! &FlowLink.NFT
         }
+
+        pub fun borrowFlowLinkPrivate(id:UInt64): &FlowLink.NFT {
+             pre {
+                self.ownedNFTs[id] != nil: "domain doesn't exist"
+            }
+            let ref = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+            return ref as! &FlowLink.NFT
+        }   
 
         destroy() {
             destroy  self.ownedNFTs
@@ -303,6 +330,11 @@ pub contract FlowLink:NonFungibleToken {
         return self.domainNameToIDs
     }
 
+    pub fun mintFlowLink(domainName:String,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String},recipient:&{NonFungibleToken.CollectionPublic},feeTokens:@FungibleToken.Vault) {
+        let cap = self.account.getCapability<&FlowLink.Admin{FlowLink.AdminPublic}>(FlowLink.AdminPublicPath)
+        let admin = cap.borrow() ?? panic("Could not borrow admin")
+        admin.mintNFT(domainName:domainName,displayName:displayName,title:title,bio:bio,avatar:avatar,cover:cover,socialLinks:socialLinks,otherLinks:otherLinks,styles:styles,recipient:recipient,feeTokens:<- feeTokens) 
+    }
     access(account) fun updateOwner(domainName:String,address:Address){
         self.owners[domainName] = address
     }
@@ -312,25 +344,32 @@ pub contract FlowLink:NonFungibleToken {
     }
 
 
-
     init(){
         self.owners = {}
         self.domainNameToIDs = {}
     
         self.forbiddenChars = "!@#$%^&*()<>? ./"
         self.totalSupply = 0
-        
-        self.CollectionPublicPath = /public/FlowLinkCollection
-        self.CollectionStoragePath = /storage/FlowLinkCollection
-        self.AdminStoragePath = /storage/FlowLinkAdmin
 
-
-        self.account.link<&{FlowLink.CollectionPublic}>(FlowLink.CollectionPublicPath,target:FlowLink.CollectionStoragePath)
+        self.CollectionPrivatePath = /private/FlowLinksCollection    
+        self.CollectionPublicPath = /public/FlowLinksCollection
+        self.CollectionStoragePath = /storage/FlowLinksCollection
+        self.AdminStoragePath = /storage/FlowLinksAdmin
+        self.AdminPrivatePath = /private/FlowLinksAdmin
+        self.AdminPublicPath = /public/FlowLinkAdmin
 
         self.account.save<@NonFungibleToken.Collection>(<- FlowLink.createEmptyCollection(),to:FlowLink.CollectionStoragePath)
+        self.account.link<&FlowLink.Collection>(FlowLink.CollectionPublicPath,target:FlowLink.CollectionStoragePath)
+        
+        let collectionCap = self.account.getCapability<&FlowLink.Collection>(FlowLink.CollectionPrivatePath)
+        let vault <- FlowToken.createEmptyVault()
+        let admin <- create Admin(vault:<-vault,collection:collectionCap)
 
+        self.account.save(<-admin,to:self.AdminStoragePath)
+        self.account.link<&FlowLink.Admin{FlowLink.AdminPublic}>(FlowLink.AdminPublicPath,target:self.AdminStoragePath)
+        self.account.link<&FlowLink.Admin>(FlowLink.AdminPrivatePath,target:self.AdminStoragePath)
+        // put the admin resource in storage 
         emit ContractInitialized()
     }
-    
 }
  

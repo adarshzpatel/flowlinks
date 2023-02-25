@@ -42,6 +42,7 @@ the deposit function on another user's Vault to complete the transfer.
 
 /// The interface that Fungible Token contracts implement.
 ///
+
 pub contract interface FungibleToken {
 
     /// The total number of tokens in existence.

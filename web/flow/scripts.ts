@@ -19,27 +19,7 @@ export async function checkIsInitialized(addr:string) {
 }
 
 
-export const INITIALIZE_ACCOUNT = `
-import FlowLink from 0xFlowLink
-import NonFungibleToken from 0xNonFungibleToken 
 
-transaction() {
-  prepare(account:AuthAccount){
-    let collection <- FlowLink.createEmptyCollection()
-    account.save(<-collection,to:FlowLink.CollectionStoragePath)
-    account.link<&FlowLink.Collection{FlowLink.CollectionPublic,NonFungibleToken.Provider,NonFungibleToken.Receiver,NonFungibleToken.CollectionPublic}>(FlowLink.CollectionPublicPath,target:FlowLink.CollectionStoragePath)
-  }
-}
-`
-export async function initializeAccount() {
-  return await fcl.mutate({
-    cadence: INITIALIZE_ACCOUNT,
-    payer:fcl.authz, 
-    proposer:fcl.authz,
-    authorizations: [fcl.authz],
-    limit:50 
-  });
-}
 
 const GET_ALL_FLOWLINKS = `
 import FlowLink from 0xFlowLink
@@ -62,7 +42,6 @@ pub fun main(): [FlowLink.LinkInfo]{
   return infos
 }
 `
-
 
 const GET_ALL_OWNERS= `
 import FlowLink from 0xFlowLink
