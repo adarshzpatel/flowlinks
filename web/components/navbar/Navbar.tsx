@@ -17,27 +17,14 @@ const Navbar = () => {
       <nav className="flex max-w-screen-2xl items-center mx-auto justify-between">
         <Logo />
         <div className="flex flex-row space-x-4 items-center">
-          <Link href={"/builder"}>
-            {/* <ClaimBtn
-            text="Connect Wallet"
-            textSize="text-base"
-            /> */}
-            <button
-              className={
-                "py-2 px-4 font-bold text-gray-200 hover:text-gray-200 hover:bg-gray-800 rounded-md "
-              }
-            >
-              Claim FlowLink
-            </button>
-          </Link>
           <div className="flex gap-2 items-center justify-center">
-            <span className="font-semibold underline border-r-2 pr-2">
-              {currentUser.addr && currentUser.addr}
-            </span>
             <Button
               variant={currentUser?.addr ? "danger" : "primary"}
               onClick={currentUser.addr ? logOut : logIn}
             >
+          {currentUser.addr && <span className="font-semibold underline text- border-r-2 mr-2 pr-2">
+              {currentUser.addr}
+            </span>}
               {currentUser.addr ? "Disconnect" : "Connect Wallet"}
             </Button>
           </div>

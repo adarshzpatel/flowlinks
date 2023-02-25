@@ -1,5 +1,4 @@
 import * as fcl from "@onflow/fcl"
-import { toast } from "react-hot-toast";
 
 export const IS_INITIALIZED = `
 import FlowLink from 0xFlowLink
@@ -12,12 +11,14 @@ pub fun main(account:Address):Bool {
 `
 
 export async function checkIsInitialized(addr:string) {
-  return await fcl.query({
+  const res = await fcl.query({
     cadence:IS_INITIALIZED,
     args:(arg:any,t:any) => [arg(addr,t.Address)]
-  });
-}
+  })
 
+  console.log("isInitiazed",res)
+  return res
+}
 
 
 
@@ -72,53 +73,4 @@ export async function checkIsAvailable(name:string) {
   });
 }
 
-const MINT_FLOWLINK = `
-import FlowLink from 0xFlowLink
-import NonFungibleToken from 0xNonFungibleToken 
 
-transaction (
-  domainName:String,
-  displayName:String,
-  title:String,
-  bio:String,
-  avatar:String, 
-  recipient:Address
-) {
-    let nftReceiver: &{NonFungibleToken.CollectionPublic}
-
-    prepare(account: AuthAccount) {
-      // if the account does not have a flowlink collection , make it
-      if account.borrow<&FlowLink.Collection>(from: FlowLink.CollectionStoragePath) == nil {
-        let collection <- FlowLink.createEmptyCollection()
-        account.save(<- collection, to:FlowLink.CollectionStoragePath)
-        account.link<&{NonFungibleToken.CollectionPublic}>(FlowLink.CollectionPublicPath,target:FlowLink.CollectionStoragePath)
-      }
-      self.nftReceiver = account.getCapability(FlowLink.CollectionPublicPath).borrow<&{NonFungibleToken.CollectionPublic}>() ?? panic("Could not get receiver reference to the NFT Collection")
-    }
-  
-  execute {
-    FlowLink.mintNFT(
-      domainName:domainName,
-      displayName:displayName,
-      title:title,
-      bio:bio,
-      avatar:avatar, 
-      recipient:self.nftReceiver
-    )
-  }
-}
- 
-`
-export async function mintFlowlink(domainName:string,displayName:string,title:string,bio:string,avatar:string,recipient:string) {
-  const txId = await fcl.mutate({
-    cadence: MINT_FLOWLINK,
-    args: (arg:any, t:any) => [arg(domainName, t.String), arg(displayName, t.String),arg(title, t.String),arg(bio, t.String),arg(avatar, t.String),arg(recipient, t.Address)],
-    payer:fcl.authz, 
-    proposer:fcl.authz,
-    authorizations: [fcl.authz],
-    limit: 1000,
-  })
-  console.log({txId})
-  const tx = await fcl.tx(txId).onceSealed()
-  console.log(tx)
-}

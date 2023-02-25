@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Transition } from "@headlessui/react";
 
 import Container from "../layouts/Container";
 import Controls from "../components/Builder/Controls";
 import Preview from "../components/Builder/Preview";
 import Card_Controls from "../components/Builder/Card_Controls";
+import { useAuth } from "../context/AuthContext";
+import { checkIsInitialized } from "../flow/scripts";
+import Button from "../components/ui/Button";
+import { mintNFT } from "../flow/transactions";
 
 const Builder = () => {
   const [tab, setTab] = useState("Details");
@@ -19,7 +23,13 @@ const Builder = () => {
 
   //Card_Controls
   const [avatarStyle, setAvatarStyle] = useState("rounded-lg");
-
+  
+  const {currentUser} = useAuth()
+  
+  useEffect(()=>{
+    if(currentUser?.addr) checkIsInitialized(currentUser?.addr)
+  },[currentUser])
+  
   return (
     <Container>
       <div className=' text-white grid grid-cols-2 section__height'>
@@ -57,6 +67,7 @@ const Builder = () => {
             />}
           { tab === 'Themes' && 
             <Card_Controls/>}
+        <Button className="mt-4" onClick={()=>{mintNFT()}}>Mint Bytton</Button>
         </div>
         <Preview/>
       </div>
