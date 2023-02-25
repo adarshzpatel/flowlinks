@@ -11,7 +11,7 @@ import {
   useSupabaseClient,
   useUser,
 } from "@supabase/auth-helpers-react";
-import useBaseUser from "../stores/useBaseUser";
+import useBaseUser from "../store/useBaseUser";
 
 const Home: NextPage = () => {
   const { currentUser } = useAuth();

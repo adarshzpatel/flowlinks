@@ -3,8 +3,7 @@ import Link from "next/link";
 import Button from "../ui/Button";
 import { useAuth } from "../../context/AuthContext";
 import "../../flow/config";
-import useBaseUser from "../../stores/useBaseUser";
-import { useEffect } from "react";
+import useBaseUser from "../../store/useBaseUser";
 
 //Components
 
@@ -42,19 +41,21 @@ const Navbar = () => {
               {currentUser.addr ? "Disconnect" : "Connect Wallet"}
             </Button>
           </div>
-          <Link href={"/account"}>
-            <div className="w-10 h-10 border hover:scale-105 transform duration-150 cursor-pointer">
-              <img
-                src={
-                  user.id && user.avatar_url
-                    ? `${user.avatar_url}`
-                    : "https://avatar.tobi.sh/tobiaslins.svg?text=" +
-                      user?.email?.slice(0, 2)
-                }
-                alt="prof.img"
-              />
-            </div>
-          </Link>
+          {user.id && (
+            <Link href={"/account"}>
+              <div className="w-10 h-10 border hover:scale-105 transform duration-150 cursor-pointer">
+                <img
+                  src={
+                    user.id && user.avatar_url
+                      ? `${user.avatar_url}`
+                      : "https://avatar.tobi.sh/tobiaslins.svg?text=" +
+                        user?.email?.slice(0, 2)
+                  }
+                  alt="prof.img"
+                />
+              </div>
+            </Link>
+          )}
         </div>
       </nav>
     </header>
