@@ -1,6 +1,4 @@
 import React from "react";
-import ExampleBtn from "../buttons/ExampleBtn";
-import ClaimBtn from "../buttons/ClaimBtn";
 
 const Hero = () => {
   return (
@@ -12,11 +10,6 @@ const Hero = () => {
           <div className=" text-transparent bg-clip-text bg-gradient-to-br from-flow-700 via-flow-500 to-flow-800">All of your links</div>
         </div>
         <div className='flex flex-row space-x-4'>
-          <ExampleBtn/>
-          <ClaimBtn
-            text="Claim Your Link !!"
-            textSize="text-lg"
-          />
         </div>
       </div>
       {/*Right */}
