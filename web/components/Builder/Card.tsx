@@ -1,5 +1,5 @@
 import React from "react";
-import { useControls } from "../../store/controlStore";
+import { useControls } from "../../store/useControls";
 import OtherLink from "./OtherLink";
 import SocialLink from "./SocialLink";
 

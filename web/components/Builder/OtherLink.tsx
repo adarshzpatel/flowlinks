@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { useControls } from "../../store/controlStore";
+import { useControls } from "../../store/useControls";
 import { FiLink } from "react-icons/fi";
 
 type Props = {

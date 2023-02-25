@@ -1,5 +1,5 @@
 import React from "react";
-import { useControls } from "../../store/controlStore";
+import { useControls } from "../../store/useControls";
 
 const Card_Controls = () => {
   const avatarStyle = useControls((e) => e.avatarStyle);
