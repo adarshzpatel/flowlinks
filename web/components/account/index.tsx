@@ -5,6 +5,7 @@ import {
   Session,
 } from "@supabase/auth-helpers-react";
 import { Database } from "../../utils/databse.types";
+import Avatar from "../avatarUploadWidget";
 type Profiles = Database["public"]["Tables"]["profiles"]["Row"];
 
 export default function Account({ session }: { session: Session | null }) {
@@ -81,6 +82,15 @@ export default function Account({ session }: { session: Session | null }) {
 
   return (
     <div className="form-widget">
+      <Avatar
+        uid={user?.id || ""}
+        url={avatar_url}
+        size={150}
+        onUpload={(url) => {
+          setAvatarUrl(url);
+          updateProfile({ username, website, avatar_url: url });
+        }}
+      />
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" type="text" value={session?.user.email} disabled />
