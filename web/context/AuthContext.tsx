@@ -30,9 +30,6 @@ export default function AuthProvider({ children }:{children:any}) {
   // check whether their account is initialized or not
   useEffect(() => {
     if (currentUser.addr) {
-      console.log("checking...")
-      checkInit()
-      console.log("finishee")
     }
   }, [currentUser]);
 

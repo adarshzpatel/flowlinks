@@ -1,7 +1,7 @@
 import React from "react";
 import { useControls } from "../../store/useControls";
 
-const Card_Controls = () => {
+const StyleControls = () => {
   const avatarStyle = useControls((e) => e.avatarStyle);
   const backgroundColors_DATA = useControls((e) => e.backgroundColors_DATA);
   const colorTheme_DATA = useControls((e) => e.colorTheme_DATA);
@@ -143,4 +143,4 @@ const Card_Controls = () => {
   );
 };    
 
-export default Card_Controls;
+export default StyleControls;

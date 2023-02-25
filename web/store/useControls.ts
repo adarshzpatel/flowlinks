@@ -1,5 +1,5 @@
 import { create } from "zustand";
-
+import { LinkType } from "../flow/types";
 
 type themeType = {
 	c1: string;
@@ -21,8 +21,7 @@ type Store = {
 	youtube: string;
 	gmail: string;
 	model: boolean;
-	otherlinks: Array<{ key: string, value: any }>;
-
+	otherLinks:LinkType[]
 	//For Themes
 	avatarStyle:string
 	userBgColor:string
@@ -44,15 +43,14 @@ type Actions = {
 	setYoutube: (youtube: Store["youtube"]) => void;
 	setGmail: (gmail: Store["gmail"]) => void;
 	setModel: (model: Store["model"]) => void;
-	ADD_otherlinks: (key: string, value: any) => void;
-
+	addOtherLink: (data:LinkType) => void;
 	//For Themes
 	setAvatarStyle: (displayName: Store["avatarStyle"]) => void;
 	setUserBgColor: (userBgColor: Store["userBgColor"]) => void;
 	setUserTheme: (userBgColor: Store["userTheme"]) => void;
 
-
 };
+
 export const useControls = create<Store & Actions>((set): any => ({
 	//For Details 
 	displayName: "",
@@ -66,7 +64,7 @@ export const useControls = create<Store & Actions>((set): any => ({
 	youtube: "",
 	gmail: "",
 	model: false,
-	otherlinks: [],
+	otherLinks: [],
 	//For Themes
 	avatarStyle:"",
 	userBgColor:"",
@@ -139,9 +137,9 @@ export const useControls = create<Store & Actions>((set): any => ({
 	setYoutube: (youtube: string) => set(() => ({ youtube: youtube })),
 	setGmail: (gmail: string) => set(() => ({ gmail: gmail })),
 	setModel: (model: boolean) => set(() => ({ model: !model })),
-	otherLinks: (key: string, value: any) => {
+	addOtherLink: (data:LinkType) => {
 		set((state) => ({
-			otherlinks: [...state.otherlinks, { key: key, value: value }],
+			otherLinks: [...state.otherLinks,data],
 		}));
 	},
 
@@ -149,7 +147,5 @@ export const useControls = create<Store & Actions>((set): any => ({
 	setAvatarStyle: (avatarStyle: string) => set(() => ({ avatarStyle: avatarStyle })),
 	setUserBgColor: (userBgColor: string) => set(() => ({ userBgColor: userBgColor })),
 	setUserTheme: (userTheme: themeType) => set(() => ({ userTheme: userTheme })),
-
-
 
 }));

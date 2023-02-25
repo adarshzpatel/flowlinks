@@ -19,8 +19,6 @@ transaction() {
 
     execute {}
 }
- 
-}
 `
 export async function initializeAccount() {
   const txId = await fcl.mutate({
@@ -32,6 +30,7 @@ export async function initializeAccount() {
   });
   const tx = await fcl.tx(txId).onceSealed()
   console.log(tx)
+  return tx
 }
 
 const MINT_NFT = `
@@ -39,7 +38,7 @@ import FlowLink from 0xFlowLink
 import NonFungibleToken from 0xNonFungibleToken
 import FungibleToken from 0xFungibleToken
 
-transaction(domainName:String,){
+transaction(domainName:String,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String}){
   let nftReceiver: &{NonFungibleToken.CollectionPublic}
   let vault: @FungibleToken.Vault
   
@@ -53,16 +52,20 @@ transaction(domainName:String,){
     FlowLink.mintFlowLink(domainName:"rash",displayName:"x",title:"x",bio:"x",avatar:"x",cover:"x",socialLinks:{},otherLinks:[],styles:{},recipient:self.nftReceiver,feeTokens:<- self.vault) 
   }
 }
- 
-}`
+ `
 
 
+ type MintNFTProps ={
+  
+ }
 
 export const mintNFT = async  (receiver:string) => {
   const isInit = await checkIsInitialized(receiver)
-  if(isInit) {
+  if(!isInit) {
     const initTx = await initializeAccount()
+    console.log(initTx)
   }
+  // replace data 
   const data:FlowLinkType = {
     domainName:"flowlink",
     displayName:"Flowlinks",
@@ -89,7 +92,6 @@ export const mintNFT = async  (receiver:string) => {
     const txId = await fcl.mutate({
       cadence: MINT_NFT,
       args: (arg:any,t:any) => {
-        
         const args = [
         arg(data.domainName,t.String),
         arg(data.displayName,t.String),
@@ -107,10 +109,11 @@ export const mintNFT = async  (receiver:string) => {
       payer:fcl.authz, 
       proposer:fcl.authz,
       authorizations: [fcl.authz],
-      limit:50 
+      limit:1000
     });
     console.log(txId)
     const tx = await fcl.tx(txId).onceSealed()
+    console.log(tx)
     return tx
   } catch (err){
     console.error(err)

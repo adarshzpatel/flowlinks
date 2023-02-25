@@ -3,7 +3,7 @@ import NonFungibleToken from 0xf8d6e0586b0a20c7
 import FungibleToken from 0xee82856bf20e2aa6
 
 
-transaction(domainName:String,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String}){
+transaction(domainName:String,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String}){
   let nftReceiver: &{NonFungibleToken.CollectionPublic}
   let vault: @FungibleToken.Vault
   
