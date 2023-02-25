@@ -1,6 +1,6 @@
 import * as fcl from "@onflow/fcl";
-import { ChildContextProvider, Provider, createContext, useContext, useEffect, useState } from "react";
-import { checkIsInitialized, initializeAccount } from "../flow/scripts";
+import { createContext, useContext, useEffect, useState } from "react";
+import { checkIsInitialized } from "../flow/scripts";
 
 
 
