@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
 
-import Container from "../layouts/Container";
 import Controls from "../components/Builder/Controls";
 import Preview from "../components/Builder/Preview";
 import Card_Controls from "../components/Builder/Card_Controls";
+import Button from "../components/ui/Button";
+import AddLinkModal from "../components/Builder/AddLinkModal";
+import { useAuth } from "../context/AuthContext";
+import { useUser } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 const Builder = () => {
   const [tab, setTab] = useState("Details");
@@ -17,14 +21,21 @@ const Builder = () => {
   const [bio, setBio] = useState<string>("");
   const [model, setModel] = useState<boolean>(false);
 
-  //Card_Controls
-  const [avatarStyle, setAvatarStyle] = useState("rounded-lg");
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const { currentUser, logIn } = useAuth();
+  const user = useUser();
+
+  const mintNFT = async () => {};
+  const saveForLater = async () => {};
 
   return (
-    <Container>
-      <div className=' text-white grid grid-cols-2 section__height'>
+    <>
+      <div className=" text-white grid grid-cols-2 section__height">
         <div>
-          <div className='flex flex-row max-w-min space-x-2 p-2 mt-4 mr-8 rounded-md bg-gray-800/50 border-gray-800 select-none'>
+          <div className="flex flex-row max-w-min space-x-2 p-2 mt-4 mr-8 rounded-md bg-gray-800/50 border-gray-800 select-none">
             <button
               className={`hover:bg-gray-700/80 bg-gray-800 rounded-md ease-linear  p-1 px-4
               ${tab === "Details" ? "bg-emerald-500 text-black" : ""}`}
@@ -40,7 +51,7 @@ const Builder = () => {
               Themes
             </button>
           </div>
-        { tab === 'Details'  &&
+          {tab === "Details" && (
             <Controls
               displayName={displayName}
               setDisplayName={setDisplayName}
@@ -54,13 +65,46 @@ const Builder = () => {
               setBio={setBio}
               model={model}
               setModel={setModel}
-            />}
-          { tab === 'Themes' && 
-            <Card_Controls/>}
+            />
+          )}
+          {tab === "Themes" && <Card_Controls />}
         </div>
-        <Preview/>
+        <Preview />
       </div>
-    </Container>
+      <AddLinkModal
+        isOpen={showModal}
+        closeModal={function (): void {
+          setShowModal(!showModal);
+        }}
+        size="sm"
+      >
+        <div className="flex flex-col w-full h-full justify-center items-center gap-3 p-10">
+          <Button
+            onClick={() => {
+              if (currentUser) mintNFT();
+              else {
+                logIn();
+                mintNFT();
+              }
+            }}
+            variant="success"
+          >
+            {currentUser ? "Mint Now" : "Connect wallet and Mint now"}
+          </Button>
+          <Button
+            onClick={() => {
+              if (user) saveForLater();
+              else {
+                router.push("/auth");
+              }
+            }}
+            variant="secondary"
+          >
+            {user ? "Save for later" : "Sign-in and Save for later"}
+          </Button>
+        </div>
+      </AddLinkModal>
+    </>
   );
 };
 

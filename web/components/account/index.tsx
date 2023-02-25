@@ -17,7 +17,7 @@ export default function Account({ session }: { session: Session | null }) {
   const [website, setWebsite] = useState<Profiles["website"]>(null);
   const [avatar_url, setAvatarUrl] = useState<Profiles["avatar_url"]>(null);
 
-  const { setUser } = useBaseUser();
+  const { removeUser } = useBaseUser();
 
   useEffect(() => {
     getProfile();
@@ -130,7 +130,10 @@ export default function Account({ session }: { session: Session | null }) {
       <div>
         <button
           className="button block"
-          onClick={() => supabase.auth.signOut()}
+          onClick={() => {
+            supabase.auth.signOut();
+            removeUser();
+          }}
         >
           Sign Out
         </button>

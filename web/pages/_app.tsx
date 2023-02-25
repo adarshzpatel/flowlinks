@@ -11,6 +11,7 @@ import { SessionContextProvider, useUser } from "@supabase/auth-helpers-react";
 import "../styles/globals.css";
 
 import { useEffect, useState } from "react";
+import Container from "../layouts/Container";
 
 function MyApp({
   Component,
@@ -50,7 +51,9 @@ function MyApp({
           }}
         >
           <Toaster position="bottom-left" />
-          <Component {...pageProps} />
+          <Container>
+            <Component {...pageProps} />
+          </Container>
         </MantineProvider>
       </AuthProvider>
     </SessionContextProvider>
