@@ -49,7 +49,7 @@ transaction(domainName:String,displayName:String,title:String,bio:String,avatar:
   }
   
   execute {
-    FlowLink.mintFlowLink(domainName:"rash",displayName:"x",title:"x",bio:"x",avatar:"x",cover:"x",socialLinks:{},otherLinks:[],styles:{},recipient:self.nftReceiver,feeTokens:<- self.vault) 
+    FlowLink.mintFlowLink(domainName:domainName,displayName:displayName,title:title,bio:bio,avatar:avatar,cover:cover,socialLinks:socialLink,otherLinks:otherLinks,styles:styles,recipient:self.nftReceiver,feeTokens:<- self.vault) 
   }
 }
  `
