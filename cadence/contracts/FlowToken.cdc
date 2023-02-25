@@ -1,6 +1,5 @@
 import FungibleToken from "./FungibleToken.cdc"
 
-
 pub contract FlowToken: FungibleToken {
 
     // Total supply of Flow tokens in existence
