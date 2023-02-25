@@ -67,12 +67,23 @@ export const useControls = create<Store & Actions>((set): any => ({
 	gmail: "",
 	model: false,
 	otherlinks: [],
-	userTheme:null,
 	//For Themes
 	avatarStyle:"",
 	userBgColor:"",
+	userTheme:{
+		c1:'#e5e5e5',
+		c2:'#a3a3a3',
+		c3:'#404040',
+		c4:'#262626',
+	},
 	
 	colorTheme_DATA:[
+		{
+			c1:'#e5e5e5',
+			c2:'#a3a3a3',
+			c3:'#404040',
+			c4:'#262626',
+		},
 		{
 			c1:'#E2D6FF',
 			c2:'#CCBBFF',
@@ -102,12 +113,6 @@ export const useControls = create<Store & Actions>((set): any => ({
 			c2:'#CB1C8D',
 			c3:'#7F167F',
 			c4:'#460C68',
-		},
-		{
-			c1:'#FAF7F0',
-			c2:'#CDFCF6',
-			c3:'#BCCEF8',
-			c4:'#98A8F8',
 		},
 		
 	],
