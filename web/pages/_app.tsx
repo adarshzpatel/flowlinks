@@ -7,10 +7,10 @@ import {
   createBrowserSupabaseClient,
   Session,
 } from "@supabase/auth-helpers-nextjs";
-import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { SessionContextProvider, useUser } from "@supabase/auth-helpers-react";
 import "../styles/globals.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function MyApp({
   Component,

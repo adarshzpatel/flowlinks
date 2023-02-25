@@ -6,6 +6,7 @@ import {
 } from "@supabase/auth-helpers-react";
 import { Database } from "../../utils/databse.types";
 import Avatar from "../avatarUploadWidget";
+import useBaseUser from "../../store/useBaseUser";
 type Profiles = Database["public"]["Tables"]["profiles"]["Row"];
 
 export default function Account({ session }: { session: Session | null }) {
@@ -15,6 +16,8 @@ export default function Account({ session }: { session: Session | null }) {
   const [username, setUsername] = useState<Profiles["username"]>(null);
   const [website, setWebsite] = useState<Profiles["website"]>(null);
   const [avatar_url, setAvatarUrl] = useState<Profiles["avatar_url"]>(null);
+
+  const { setUser } = useBaseUser();
 
   useEffect(() => {
     getProfile();
