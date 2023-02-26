@@ -56,9 +56,9 @@ const Builder = () => {
       youtube: nftConfig.youtube,
       instagram: nftConfig.instagram,
       otherlinks: nftConfig.otherLinks
-        .map((val) => `${val.title}-${val.href}`)
+        .map((val) => `${val?.title}-${val?.href}`)
         .join(","),
-      styles: `${nftConfig.avatarStyle || "square"}-${nftConfig.userBgColor || ""}-${nftConfig.userTheme.c1} ${nftConfig.userTheme.c2} ${nftConfig.userTheme.c3} ${nftConfig.userTheme.c4}`,
+      styles: `${nftConfig?.avatarStyle || "square"}-${nftConfig?.userBgColor || ""}-${nftConfig?.userTheme.c1} ${nftConfig?.userTheme.c2} ${nftConfig?.userTheme.c3} ${nftConfig?.userTheme.c4}`,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
