@@ -16,3 +16,7 @@ export type FlowLinkType = {
   styles:FlowLinkStyleType
 }
 
+export type FlowLinkResponse = FlowLinkType & {
+  id:number 
+  owner:string
+}

@@ -21,7 +21,7 @@ type Action = {
 const useBaseUser = create<State & Action>((set) => ({
   user: {},
   setUser: (payload: Partial<User>) =>
-  set((state) => ({ user: { ...state.user, ...payload } })),
+set((state) => ({ user: { ...state.user, ...payload } })),
   removeUser: () => set(() => ({ user: {} })),
 }));
 

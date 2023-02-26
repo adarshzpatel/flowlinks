@@ -11,7 +11,7 @@ import { useAuth } from "../context/AuthContext";
 import { TbCopy } from "react-icons/tb";
 import { FiCheck } from "react-icons/fi";
 import { getOwnedLinks } from "../flow/scripts";
-import { FlowLinkType } from "../flow/types";
+import { FlowLinkResponse } from "../flow/types";
 import Spinner from "../components/ui/Spinner";
 import Link from "next/link";
 import Button from "../components/ui/Button";
@@ -21,7 +21,7 @@ type Props = {};
 const DashboardPage = (props: Props) => {
   const { currentUser } = useAuth();
 
-  const [ownedNFTs, setOwnedNFTs] = useState<FlowLinkType[]>([]);
+  const [ownedNFTs, setOwnedNFTs] = useState<FlowLinkResponse[]>([]);
   const [loading, setLoading] = useState<boolean>();
   useEffect(() => {
     const getData = async () => {
@@ -85,32 +85,41 @@ const DashboardPage = (props: Props) => {
                 <div className="font-bold text-2xl flex-1">
                   @ {item?.domainName}
                 </div>
-                <Link href={"https://flowlinks.vercel.app/@" + item?.domainName} target="_blank" rel="noreferrer">
-                <Button variant="success">View Flowlink</Button>
+                <Link
+                  href={"https://flowlinks.vercel.app/@" + item?.domainName}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Button variant="success">View Flowlink</Button>
                 </Link>
-                <Button variant="warning">Edit </Button>
+                <Link
+                  href={"https://flowlinks.vercel.app/edit/" + item?.domainName}
+                >
+                  <Button variant="warning">Edit </Button>
+                </Link>
 
                 <CopyButton
+
                   value={"https://flowlinks.vercel.app/@" + item?.domainName}
                   timeout={2000}
                 >
                   {({ copied, copy }) => (
-                      <Button className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center border border-gray-600 py-2 px-4 rounded-lg">
                       {copied ? "Copied" : "Copy Share link"}
-                        <ActionIcon
-                          size={28}
-                          color={copied ? "flow" : "gray"}
-                          onClick={copy}
-                        >
-                          <div className="p-2 ">
-                            {copied ? (
-                              <FiCheck size={24} />
-                            ) : (
-                              <TbCopy size={24} />
-                            )}
-                          </div>
-                        </ActionIcon>
-                      </Button>
+                      <ActionIcon
+                        size={28}
+                        color={copied ? "flow" : "gray"}
+                        onClick={copy}
+                      >
+                        <div className="p-2 ">
+                          {copied ? (
+                            <FiCheck size={24} />
+                          ) : (
+                            <TbCopy size={24} />
+                          )}
+                        </div>
+                      </ActionIcon>
+                    </div>
                   )}
                 </CopyButton>
               </div>
