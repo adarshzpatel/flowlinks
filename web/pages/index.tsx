@@ -23,7 +23,7 @@ const Home: NextPage = () => {
               </div>
               <div className="flex flex-col gap-3 mt-10 sm:flex-row">
                 <a
-                  className="inline-flex gap-4 items-center justify-center w-full px-6 py-3 text-center text-black duration-200 bg-flow-500 active:scale-95 duration-100 hover:scale-105 font-medium rounded-xl focus:outline-none lg:w-auto "
+                  className="inline-flex gap-4 items-center justify-center w-full px-6 py-3 text-center text-black  bg-flow-500 active:scale-95 duration-100 hover:scale-105 font-medium rounded-xl focus:outline-none lg:w-auto "
                   href="builder"
                   >
                   Claim your FlowLink
@@ -33,11 +33,11 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex flex-1  items-center justify-center">
         <Tilt>
           <Card />
         </Tilt>
+      </div>
       </div>
       </>
   );
