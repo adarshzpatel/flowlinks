@@ -17,4 +17,3 @@ transaction(domainName:String,displayName:String,title:String,bio:String,avatar:
     FlowLink.mintFlowLink(domainName:"rash",displayName:"x",title:"x",bio:"x",avatar:"x",cover:"x",socialLinks:{},otherLinks:[],styles:{},recipient:self.nftReceiver,feeTokens:<- self.vault) 
   }
 }
- 

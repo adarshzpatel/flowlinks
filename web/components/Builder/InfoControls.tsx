@@ -1,19 +1,11 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import AddLinkModal from "./AddLinkModal";
 import { Accordion } from "@mantine/core";
 
 //React Icons
-import {
-  MdOutlineAdd,
-  MdCheck,
-  MdAdd,
-  MdOutlineClose,
-  MdDelete,
-} from "react-icons/md";
 import { TextInput } from "@mantine/core";
 import { Textarea } from "@mantine/core";
-import { Disclosure, Transition } from "@headlessui/react";
-import { FiChevronDown, FiLink } from "react-icons/fi";
+import { FiLink } from "react-icons/fi";
 import {
   TbBrandGithub,
   TbBrandLinkedin,
@@ -22,22 +14,14 @@ import {
   TbMail,
 } from "react-icons/tb";
 import {
-  SiGithub,
-  SiGmail,
   SiInstagram,
-  SiLinkedin,
-  SiTwitter,
-  SiYoutube,
 } from "react-icons/si";
 
-import { LinkType } from "../../pages/builder";
-import { link } from "fs";
 import Button from "../ui/Button";
 import { useControls } from "../../store/useControls";
-import OtherLink from "./OtherLink";
-import { mintNFT } from "../../flow/transactions";
-import { useAmp } from "next/amp";
 import { useAuth } from "../../context/AuthContext";
+import { useDebouncedState } from "@mantine/hooks";
+import { checkIsAvailable } from "../../flow/scripts";
 
 //TODO
 
@@ -77,7 +61,21 @@ const InfoControls = () => {
   } = useControls();
 
   const [openNewLinkModal, setOpenNewLinkModal] = useState<boolean>(false);
-  const { currentUser } = useAuth();
+  const [domainError,setDomainError] = useState<string>("")
+  const [domainName,setDomainName] = useDebouncedState("",200)
+
+  useEffect(()=>{
+    const check = async () => {
+      const res = await  checkIsAvailable(domainName)
+      if(!res) setDomainError("Already Claimed")
+      else setDomainError("")
+    }
+    if(domainName == '') setDomainError("This field cannot be empty")
+    if(domainName){
+      check()
+    }
+  },[domainName])
+  
   return (
     <>
       <div className='pt-8 overflow-y-scroll  pr-8 flex flex-col select-none ease-linear duration-150'>
@@ -86,35 +84,46 @@ const InfoControls = () => {
           <Accordion.Item value='general'>
             <Accordion.Control>General Info</Accordion.Control>
             <Accordion.Panel>
+              <div className="space-y-4">
+
               <TextInput
                 label='Display Name'
                 placeholder='Enter display name'
+                defaultValue={domainName}
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 withAsterisk
-              />
+                />
 
               <TextInput
-                label='User Name'
-                placeholder='Enter User name'
-                value={username}
-                onChange={(e) => setUserName(e.target.value)}
+                label='Enter domain name'
+                placeholder='Enter domain name'
+                defaultValue={domainName}
+                
+                description="Should not include !@#$%^&*()<>? ./"
+                onChange={(e) => {
+                  setDomainName(e.target.value)
+                  setUserName(e.target.value)
+                }
+              }
                 withAsterisk
-              />
+                error={domainError}
+                />
               <TextInput
                 label='Title'
                 placeholder='Eg. Full Stack Developer'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 withAsterisk
-              />
+                />
               <Textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder='Enter bio'
                 label='Bio'
                 withAsterisk
-              />
+                />
+                </div>
             </Accordion.Panel>
           </Accordion.Item>
           {/*Social Links*/}

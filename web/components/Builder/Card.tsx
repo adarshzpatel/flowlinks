@@ -3,6 +3,7 @@ import { useControls } from "../../store/useControls";
 import OtherLink from "./OtherLink";
 import SocialLink from "./SocialLink";
 
+
 const Card = () => {
   const {
     displayName,
@@ -19,6 +20,7 @@ const Card = () => {
     avatarStyle,
     userTheme
   } = useControls();
+  
 
   return (
     <div style={userTheme&&{backgroundColor:userTheme.c4}} className={`max-w-sm w-full shadow-2xl shadow-black/60 p-4 rounded-lg ease-linear duration-150 bg-gray-800/50 `}>
@@ -59,10 +61,10 @@ const Card = () => {
         </div>
       </div>
       {/*Social Links*/}
-      <div className='flex flex-row flex-wrap justify-between mt-2'>
+      <div className='flex flex-row  justify-between mt-2 gap-2'>
         <SocialLink title='Twitter' link={twitter?twitter:'#'} />
         <SocialLink title='Github' link={github?github:'#'} />
-        <SocialLink title='Linkedin' link={linkedin?linkedin:'#'} />
+      <SocialLink title='Linkedin' link={linkedin?linkedin:'#'} />
         <SocialLink title='Instagram' link={instagram?instagram:'#'} />
         <SocialLink title='Youtube' link={youtube?youtube:'#'} />
         <SocialLink title='Gmail' link={gmail?gmail:'#'} />
@@ -74,6 +76,10 @@ const Card = () => {
             <OtherLink key={i} title={e.title} link={e.link}/>
           )
         })}
+        {otherLinks?.length === 0 && <>
+          <OtherLink title={"Example Link"} link={"#"}/>
+          <OtherLink title={"Example Link"} link={"#"}/>
+        </>}
       </div>
     </div>
   );

@@ -11,8 +11,6 @@ import Router from "next/router";
 import { useUser } from "@supabase/auth-helpers-react";
 
 import { Tabs } from "@mantine/core";
-import { IconPhoto, IconMessageCircle, IconSettings } from "@tabler/icons";
-import { MdNote } from "react-icons/md";
 
 export type LinkType = {
   title: string;

@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="flex section__height ">
-        <div className="flex flex-col justify-center flex-1 px-8 py-8 md:px-12 lg:flex-none lg:px-24">
+        <div className="flex flex-col justify-center items-center px-8 py-8 md:px-12 lg:flex-row lg:px-24">
           <div className="w-full mx-auto lg:max-w-6xl">
             <div className="max-w-xl text-center lg:p-10 lg:text-left">
               <div>
@@ -34,9 +34,10 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-1  items-center justify-center">
+        <div className="flex items-center justify-center flex-1">
           <Tilt>
-            <Card />
+
+            <Card/>
           </Tilt>
         </div>
       </div>
