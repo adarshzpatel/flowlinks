@@ -1,12 +1,7 @@
 import { create } from "zustand";
 import { LinkType } from "../flow/types";
 
-type themeType = {
-	c1: string;
-	c2: string;
-	c3: string;
-	c4: string;
-  };
+
 type Store = {
 	//For Details 
 	displayName: string;
@@ -26,8 +21,8 @@ type Store = {
 	//For Themes
 	avatarStyle:string
 	userBgColor:string
-	userTheme:themeType
-	colorTheme_DATA:themeType[]
+	userTheme:string
+	colorTheme_DATA:string[]
 	backgroundColors_DATA:Array<string>
 };
 type Actions = {
@@ -72,51 +67,14 @@ export const useControls = create<Store & Actions>((set): any => ({
 	//For Themes
 	avatarStyle:"",
 	userBgColor:"",
-	userTheme:{
-		c1:'#e5e5e5',
-		c2:'#a3a3a3',
-		c3:'#404040',
-		c4:'#262626',
-	},
-	
+	userTheme:'#e5e5e5 #a3a3a3 #404040 #262626',
 	colorTheme_DATA:[
-		{
-			c1:'#e5e5e5',
-			c2:'#a3a3a3',
-			c3:'#404040',
-			c4:'#262626',
-		},
-		{
-			c1:'#E2D6FF',
-			c2:'#CCBBFF',
-			c3:'#24273F',
-			c4:'#1B1C30',
-		},
-		{
-			c1:'#e5e7eb',
-			c2:'#9ca3af',
-			c3:'#374151',
-			c4:'#1f2937',
-		},
-		{
-			c1:'#c7d2fe',
-			c2:'#6366f1',
-			c3:'#3730a3',
-			c4:'#312e81',
-		},
-		{
-			c1:'#635985',
-			c2:'#443C68',
-			c3:'#393053',
-			c4:'#18122B',
-		},
-		{
-			c1:'#F56EB3',
-			c2:'#CB1C8D',
-			c3:'#7F167F',
-			c4:'#460C68',
-		},
-		
+		'#e5e5e5 #a3a3a3 #404040 #262626',
+		'#E2D6FF #CCBBFF #24273F #1B1C30',
+		'#e5e7eb #9ca3af #374151 #1f2937',
+		'#c7d2fe #6366f1 #3730a3 #312e81',
+		'#635985 #443C68 #393053 #18122B',
+		'#F56EB3 #CB1C8D #7F167F #460C68',
 	],
 	backgroundColors_DATA:[
 		'linear-gradient(20deg, rgb(79 70 229) 10%, rgb(168 85 247) 30%, rgb(162 28 175) 60%)',
@@ -153,6 +111,6 @@ export const useControls = create<Store & Actions>((set): any => ({
 	//For Themes
 	setAvatarStyle: (avatarStyle: string) => set(() => ({ avatarStyle: avatarStyle })),
 	setUserBgColor: (userBgColor: string) => set(() => ({ userBgColor: userBgColor })),
-	setUserTheme: (userTheme: themeType) => set(() => ({ userTheme: userTheme })),
+	setUserTheme: (userTheme: string) => set(() => ({ userTheme: userTheme })),
 
 }));
