@@ -15,3 +15,4 @@ export type FlowLinkType = {
   otherLinks:LinkType[]
   styles:FlowLinkStyleType
 }
+
