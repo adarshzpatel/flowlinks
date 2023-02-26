@@ -42,11 +42,12 @@ const Builder = () => {
   });
 
   const saveForLater = async () => {
-    console.log("inside save for later")
     let finalData = {
       id: uuid,
       owner: user?.id,
       domainname: nftConfig.username,
+      avatar: nftConfig.avatar,
+      cover: nftConfig.cover,
       title: nftConfig.title,
       bio: nftConfig.bio,
       displayname: nftConfig.displayName,
@@ -58,7 +59,9 @@ const Builder = () => {
       otherlinks: nftConfig.otherLinks
         .map((val) => `${val?.title}-${val?.href}`)
         .join(","),
-      styles: `${nftConfig?.avatarStyle || "square"}-${nftConfig?.userBgColor || ""}-${nftConfig?.userTheme.c1} ${nftConfig?.userTheme.c2} ${nftConfig?.userTheme.c3} ${nftConfig?.userTheme.c4}`,
+      styles: `${nftConfig?.avatarStyle || "square"}/${
+        nftConfig?.userBgColor || ""
+      }/${nftConfig?.userTheme}`,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
@@ -74,18 +77,18 @@ const Builder = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <>
-      <div className=' text-white grid grid-cols-2 section__height'>
+      <div className=" text-white grid grid-cols-2 section__height">
         <div>
-          <div className='p-2 mt-4 mr-8 select-none'>
-            <Tabs color='teal' variant='outline' defaultValue='gallery'>
+          <div className="p-2 mt-4 mr-8 select-none">
+            <Tabs color="teal" variant="outline" defaultValue="gallery">
               <Tabs.List>
-                <Tabs.Tab value='Details' onClick={() => setTab("Details")}>
+                <Tabs.Tab value="Details" onClick={() => setTab("Details")}>
                   Details
                 </Tabs.Tab>
-                <Tabs.Tab value='Themes' onClick={() => setTab("Themes")}>
+                <Tabs.Tab value="Themes" onClick={() => setTab("Themes")}>
                   Themes
                 </Tabs.Tab>
               </Tabs.List>
@@ -98,7 +101,7 @@ const Builder = () => {
             </>
           )}
           {tab === "Themes" && <StyleControls />}
-          <div className='w-full flex justify-center items-center pt-10 pr-8 mb-10'>
+          <div className="w-full flex justify-center items-center pt-10 pr-8 mb-10">
             <button
               onClick={() => {
                 setMintModal(true);
@@ -122,26 +125,34 @@ const Builder = () => {
         <div className="flex flex-col w-full h-full justify-center items-center gap-3 p-10">
           <Button
             loading={loading}
-            onClick={() => {
-              if (currentUser.addr){
-                setLoading(true)
-                 mintNFT(currentUser.addr,{avatar:nftConfig.avatar,bio:nftConfig.bio,displayName:nftConfig.displayName,domainName:nftConfig.username,title:nftConfig.title,cover:nftConfig.cover,otherLinks:nftConfig.otherLinks,socialLinks:{
-                  linkedIn:nftConfig.linkedin,
-                  instagram:nftConfig.instagram,
-                  twitter:nftConfig.twitter,
-                  github:nftConfig.github,
-                  youtube:nftConfig.youtube,
-                  mail:nftConfig.gmail
-                 },
-                 styles:{
-                    background:nftConfig.userBgColor,
-                    theme:`${nftConfig.userTheme.c1} ${nftConfig.userTheme.c2} ${nftConfig.userTheme.c3} ${nftConfig.userTheme.c4}`,
-                    avatar:nftConfig.avatarStyle,
-                    card:"rounded"
-                 }})
-                 setLoading(false)
-                 ;}
-              else {
+            onClick={async () => {
+              if (currentUser.addr) {
+                setLoading(true);
+                await mintNFT(currentUser.addr, {
+                  avatar: nftConfig.avatar,
+                  bio: nftConfig.bio,
+                  displayName: nftConfig.displayName,
+                  domainName: nftConfig.username,
+                  title: nftConfig.title,
+                  cover: nftConfig.cover,
+                  otherLinks: nftConfig.otherLinks,
+                  socialLinks: {
+                    linkedIn: nftConfig.linkedin,
+                    instagram: nftConfig.instagram,
+                    twitter: nftConfig.twitter,
+                    github: nftConfig.github,
+                    youtube: nftConfig.youtube,
+                    mail: nftConfig.gmail,
+                  },
+                  styles: {
+                    background: nftConfig.userBgColor,
+                    theme: `${nftConfig.userTheme}`,
+                    avatar: nftConfig.avatarStyle,
+                    card: "rounded",
+                  },
+                });
+                setLoading(false);
+              } else {
                 logIn();
               }
             }}
@@ -152,7 +163,6 @@ const Builder = () => {
           <Button
             loading={loading}
             onClick={() => {
-              console.log("clikced")
               if (user) saveForLater();
               else {
                 Router.push("/auth");

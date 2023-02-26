@@ -1,4 +1,4 @@
-import * as fcl from "@onflow/fcl"
+import * as fcl from "@onflow/fcl";
 
 export const IS_INITIALIZED = `
 import FlowLink from 0xFlowLink
@@ -8,16 +8,14 @@ pub fun main(account:Address):Bool {
   let capability = getAccount(account).getCapability<&FlowLink.Collection{NonFungibleToken.CollectionPublic,FlowLink.CollectionPublic}>(FlowLink.CollectionPublicPath)
   return capability.check()
 }
-`
+`;
 
-export async function checkIsInitialized(addr:string) {
+export async function checkIsInitialized(addr: string) {
   const res = await fcl.query({
-    cadence:IS_INITIALIZED,
-    args:(arg:any,t:any) => [arg(addr,t.Address)]
-  })
-
-  console.log("isInitiazed",res)
-  return res
+    cadence: IS_INITIALIZED,
+    args: (arg: any, t: any) => [arg(addr, t.Address)],
+  });
+  return res;
 }
 
 const GET_ALL_FLOWLINKS = `
@@ -40,10 +38,9 @@ pub fun main(): [FlowLink.LinkInfo]{
   
   return infos
 }
-`
+`;
 
-
-const GET_OWNED_NFTS=`
+const GET_OWNED_NFTS = `
 import FlowLink from 0xFlowLink
 import NonFungibleToken from 0xNonFungibleToken
 
@@ -56,18 +53,18 @@ pub fun main(account:Address):[FlowLink.LinkInfo] {
     }
     return infos
   }
-`
+`;
 
-export async function getOwnedLinks(address:string) {
+export async function getOwnedLinks(address: string) {
   return await fcl.query({
-    cadence:GET_OWNED_NFTS,
-    args:(arg:any,t:any) => [arg(address,t.Address)]
+    cadence: GET_OWNED_NFTS,
+    args: (arg: any, t: any) => [arg(address, t.Address)],
   });
 }
 
 export async function getAllFlowLinks() {
   return await fcl.query({
-    cadence:GET_ALL_FLOWLINKS,
+    cadence: GET_ALL_FLOWLINKS,
   });
 }
 
@@ -79,15 +76,14 @@ pub fun main(name: String): Bool {
 }
 `;
 
-export async function checkIsAvailable(name:string) {
+export async function checkIsAvailable(name: string) {
   return await fcl.query({
     cadence: CHECK_IS_AVAILABLE,
-    args: (arg:any, t:any) => [arg(name, t.String)],
+    args: (arg: any, t: any) => [arg(name, t.String)],
   });
 }
 
-
-const GET_FLOWLINK_BY_DOMAIN =`
+const GET_FLOWLINK_BY_DOMAIN = `
 import FlowLink from 0xFlowLink
 import NonFungibleToken from 0xNonFungibleToken
 
@@ -102,11 +98,11 @@ pub fun main(domainName:String): FlowLink.LinkInfo? {
     }
     return nil
 }
-`
+`;
 
-export const getFlowLinkByDomainName = async (domainName:string) => {
+export const getFlowLinkByDomainName = async (domainName: string) => {
   return await fcl.query({
     cadence: GET_FLOWLINK_BY_DOMAIN,
-    args: (arg:any, t:any) => [arg(domainName, t.String)],
+    args: (arg: any, t: any) => [arg(domainName, t.String)],
   });
-}
+};

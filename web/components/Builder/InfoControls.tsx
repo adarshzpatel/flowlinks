@@ -35,7 +35,6 @@ import Button from "../ui/Button";
 const InfoControls = () => {
   const {
     displayName,
-    username,
     title,
     bio,
     twitter,
@@ -65,7 +64,6 @@ const InfoControls = () => {
   const [domainName, setDomainName] = useDebouncedState("", 200);
   const [openAvatarUpload, setOpenAvatarUpload] = useState<boolean>(false);
   const [openCoverUpload, setOpenCoverUpload] = useState<boolean>(false);
-  const [loading,setLoading] = useState(false)
   useEffect(() => {
     const check = async () => {
       const res = await checkIsAvailable(domainName);
