@@ -43,14 +43,28 @@ pub fun main(): [FlowLink.LinkInfo]{
 `
 
 
-const GET_ALL_OWNERS= `
+const GET_OWNED_NFTS=`
 import FlowLink from 0xFlowLink
-import NonFungibleToken from 0xNonFungibleToken 
+import NonFungibleToken from 0xNonFungibleToken
 
-pub fun main(): {String:Address} {
-  return FlowLink.getAllOwner()
-}
+pub fun main(account:Address):[FlowLink.LinkInfo] {
+    let collectionRef = getAccount(account).getCapability(FlowLink.CollectionPublicPath).borrow<&FlowLink.Collection{FlowLink.CollectionPublic,NonFungibleToken.CollectionPublic}>() ?? panic("Could not borrow capability from the public collection")
+    let infos: [FlowLink.LinkInfo] = []
+    for id in collectionRef.getIDs() {
+      let nft = collectionRef.borrowFlowLinkNFT(id: id)
+      infos.append(nft.getLinkInfo())
+    }
+    return infos
+  }
 `
+
+export async function getOwnedLinks(address:string) {
+  return await fcl.query({
+    cadence:GET_OWNED_NFTS,
+    args:(arg:any,t:any) => [arg(address,t.Address)]
+  });
+}
+
 export async function getAllFlowLinks() {
   return await fcl.query({
     cadence:GET_ALL_FLOWLINKS,

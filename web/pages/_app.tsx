@@ -29,6 +29,7 @@ function MyApp({
       <AuthProvider>
         <MantineProvider
           withGlobalStyles
+          withNormalizeCSS
           theme={{
             /** Put your mantine theme override here */
             colorScheme: "dark",
@@ -50,8 +51,8 @@ function MyApp({
             primaryShade: 6,
           }}
         >
-          <Toaster position="bottom-left" />
           <Container>
+          <Toaster position="bottom-left" />
             <Component {...pageProps} />
           </Container>
         </MantineProvider>

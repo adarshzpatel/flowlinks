@@ -30,7 +30,8 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                     !outline && variant === 'success',
                     'border shadow-lg hover:shadow-xl hover:text-rose-200 border-rose-400 hover:bg-rose-900/40   bg-rose-900/20 text-rose-400':
                     !outline && variant === 'danger',
-                    
+                    'border shadow-lg hover:shadow-xl hover:text-yellow-200 border-yellow-400 hover:bg-yelloe-900/40   bg-yellow-900/20 text-yellow-400':
+                    !outline && variant === 'warning',
                     'border-flow-500 bg-flow-800/10 hover:bg-flow-800/20 active:bg-flow-600/10 focus:bg-flow-600/10 focus:outline-none focus:ring-0 text-flow-400 ': outline && variant === 'primary',
                     'border-gray-500 bg-gray-600/10 hover:bg-gray-500/10  active:bg-zinc-500/20 focus:bg-gray-500/20 text-gray-400 hover:text-gray-200 hover:border-gray-300  focus:outline-none focus:ring-0 ': outline && variant === 'secondary',
                     'border ':outline,
@@ -40,7 +41,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
                     'sm:px-12 px-6 py-2 sm:py-3 sm:text-lg':size === 'lg',
                     '': size === 'none'
                 },
-                'rounded-md font-medium whitespace-nowrap cursor-pointer  font-display duration-200 ease-out hover:scale-[1.02] disabled:shadow-none disabled:brightness-75  hover:disabled:scale-[1]  active:scale-95  outline-none',
+                'rounded-md font-medium whitespace-nowrap cursor-pointer  font-display duration-200 ease-out hover:scale-[1.02] disabled:shadow-none disabled:brightness-75  hover:disabled:scale-[1]  active:scale-95  outline-none ',
                 className
             )}
             disabled={loading}

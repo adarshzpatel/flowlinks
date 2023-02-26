@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Transition } from "@headlessui/react";
-
-import Container from "../layouts/Container";
-import Controls from "../components/Builder/InfoControls";
 import Preview from "../components/Builder/Preview";
-import Card_Controls from "../components/Builder/StyleControls";
 import { useAuth } from "../context/AuthContext";
 import { checkIsInitialized } from "../flow/scripts";
 import Button from "../components/ui/Button";
