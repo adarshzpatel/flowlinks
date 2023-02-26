@@ -36,7 +36,26 @@ const Home: NextPage = () => {
         </div>
         <div className="flex items-center justify-center flex-1">
           <Tilt>
-            {/* <Card/> */}
+            <Card
+              displayName="Your Name"
+              username="username"
+              title="Eg. Full Stack Developer"
+              bio="Your description goes here"
+              twitter="https:www.twitter.com/"
+              github="https:www.github.com/"
+              linkedin="https:www.linkedin.com"
+              instagram="https:www.instagram.com"
+              youtube="https:www.youtube.com"
+              gmail="mail"
+              otherLinks={[
+                {title:'Link 1',href:'https://www.example.com'},
+                {title:'Link 2',href:'https://www.example.com'}
+              ]}
+              avatarStyle='rounded-md'
+              avatar=""
+              cover=""
+              theme="#e4e4e7 #a1a1aa #3f3f46 #27272a"
+            />
           </Tilt>
         </div>
       </div>
