@@ -72,70 +72,71 @@ const DashboardPage = (props: Props) => {
 
         <Tabs.Panel value="owned" pt="lg">
           <div className="flex flex-col gap-4">
-          {loading && (
-            <div className="flex gap-2 items-center">
-              <Spinner /> Loading NFTs...
-            </div>
-          )}
-          {!loading &&
-            ownedNFTs?.map((item) => (
-              <div
-              className="p-4 hover:border-l-2  hover:border-l-flow-500 duration-100 flex items-center gap-4 rounded-lg  bg-gray-800/50  border border-gray-700"
-              key={`flowlink-${item.domainName}`}
-              >
-                <div className="font-bold text-2xl flex-1">
-                  @ {item?.domainName}
-                </div>
-                <Link
-                  href={"https://flowlinks.vercel.app/@" + item?.domainName}
-                  target="_blank"
-                  rel="noreferrer"
+            {loading && (
+              <div className="flex gap-2 items-center">
+                <Spinner /> Loading NFTs...
+              </div>
+            )}
+            {!loading &&
+              ownedNFTs?.map((item) => (
+                <div
+                  className="p-4 hover:border-l-2  hover:border-l-flow-500 duration-100 flex items-center gap-4 rounded-lg  bg-gray-800/50  border border-gray-700"
+                  key={`flowlink-${item.domainName}`}
+                >
+                  <div className="font-bold text-2xl flex-1">
+                    @ {item?.domainName}
+                  </div>
+                  <Link
+                    href={"https://flowlinks.vercel.app/@" + item?.domainName}
+                    target="_blank"
+                    rel="noreferrer"
                   >
-                  <Button variant="success">View Flowlink</Button>
-                </Link>
-                <Link
-                  href={"https://flowlinks.vercel.app/edit/" + item?.domainName}
+                    <Button variant="success">View Flowlink</Button>
+                  </Link>
+                  <Link
+                    href={
+                      "https://flowlinks.vercel.app/edit/" + item?.domainName
+                    }
                   >
-                  <Button variant="warning">Edit </Button>
-                </Link>
+                    <Button variant="warning">Edit </Button>
+                  </Link>
 
-                <CopyButton
-
-value={"https://flowlinks.vercel.app/@" + item?.domainName}
-timeout={2000}
->
-                  {({ copied, copy }) => (
-                    <div className="flex ga items-center border border-gray-600 py-2 px-4 rounded-lg">
-                      {copied ? "Copied" : "Copy Share link"}
-                      <ActionIcon
-                        size={28}
-                        color={copied ? "flow" : "gray"}
-                        onClick={copy}
+                  <CopyButton
+                    value={"https://flowlinks.vercel.app/@" + item?.domainName}
+                    timeout={2000}
+                  >
+                    {({ copied, copy }) => (
+                      <div className="flex ga items-center border border-gray-600 py-2 px-4 rounded-lg">
+                        {copied ? "Copied" : "Copy Share link"}
+                        <ActionIcon
+                          size={28}
+                          color={copied ? "flow" : "gray"}
+                          onClick={copy}
                         >
-                        <div className="p-2 ">
-                          {copied ? (
-                            <FiCheck size={24} />
+                          <div className="p-2 ">
+                            {copied ? (
+                              <FiCheck size={24} />
                             ) : (
                               <TbCopy size={24} />
-                              )}
-                        </div>
-                      </ActionIcon>
-                    </div>
-                  )}
-                </CopyButton>
-              </div>
-            ))}
-          {!loading && ownedNFTs.length === 0 && (
-            <div className="text-xl text-gray-400">
-              You don't own any flowlinks{" "}
-              <Link
-                href={"/builder"}
-                className="text-medium underline text-gray-100 hover:text-flow-500 underline-offset-4"
+                            )}
+                          </div>
+                        </ActionIcon>
+                      </div>
+                    )}
+                  </CopyButton>
+                </div>
+              ))}
+            {!loading && ownedNFTs.length === 0 && (
+              <div className="text-xl text-gray-400">
+                You don't own any flowlinks{" "}
+                <Link
+                  href={"/builder"}
+                  className="text-medium underline text-gray-100 hover:text-flow-500 underline-offset-4"
                 >
-                Click Here to mint one
-              </Link>
-            </div>
-          )}
+                  Click Here to mint one
+                </Link>
+              </div>
+            )}
           </div>
         </Tabs.Panel>
         <Tabs.Panel value="mintLater" pt="lg">

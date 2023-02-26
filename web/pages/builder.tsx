@@ -121,8 +121,10 @@ const Builder = () => {
       >
         <div className="flex flex-col w-full h-full justify-center items-center gap-3 p-10">
           <Button
+            loading={loading}
             onClick={() => {
               if (currentUser.addr){
+                setLoading(true)
                  mintNFT(currentUser.addr,{avatar:nftConfig.avatar,bio:nftConfig.bio,displayName:nftConfig.displayName,domainName:nftConfig.username,title:nftConfig.title,cover:nftConfig.cover,otherLinks:nftConfig.otherLinks,socialLinks:{
                   linkedIn:nftConfig.linkedin,
                   instagram:nftConfig.instagram,
@@ -137,6 +139,7 @@ const Builder = () => {
                     avatar:nftConfig.avatarStyle,
                     card:"rounded"
                  }})
+                 setLoading(false)
                  ;}
               else {
                 logIn();

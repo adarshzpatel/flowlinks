@@ -61,18 +61,18 @@ const InfoControls = () => {
   } = useControls();
 
   const [openNewLinkModal, setOpenNewLinkModal] = useState<boolean>(false);
-  const [domainError, setDomainError] = useState<string>("");
+  const [domainError, setDomainError] = useState<string | null>(null);
   const [domainName, setDomainName] = useDebouncedState("", 200);
   const [openAvatarUpload, setOpenAvatarUpload] = useState<boolean>(false);
   const [openCoverUpload, setOpenCoverUpload] = useState<boolean>(false);
-
+  const [loading,setLoading] = useState(false)
   useEffect(() => {
     const check = async () => {
       const res = await checkIsAvailable(domainName);
       if (!res) setDomainError("Already Claimed");
       else setDomainError("");
     };
-    if (domainName == "") setDomainError("This field cannot be empty");
+
     if (domainName) {
       check();
     }
@@ -122,37 +122,39 @@ const InfoControls = () => {
                   withAsterisk
                 />
                 <div className="flex gap-4">
-
-                <Button onClick={() => setOpenAvatarUpload(true)}>
-                  Upload Avatar
-                </Button>
-                <Button onClick={() => setOpenCoverUpload(true)}>
-                  Upload Cover
-                </Button>
+                  <Button
+                    disabled={openCoverUpload}
+                    onClick={() => setOpenAvatarUpload((state) => !state)}
+                  >
+                    {openAvatarUpload ? "Cancel" : "Upload Avatar"}
+                  </Button>
+                  <Button
+                    disabled={openAvatarUpload}
+                    onClick={() => setOpenCoverUpload((state) => !state)}
+                  >
+                    {openCoverUpload ? "Cancel" : "Upload Cover"}
+                  </Button>
                 </div>
 
-                {openAvatarUpload && (
+                {(openAvatarUpload || openCoverUpload) && (
                   <PickerInline
                     apikey={"AZHWiPxaTTyi03E1f5CIiz"}
                     onUploadDone={(res: any) => {
                       const file = res.filesUploaded[0];
                       const url = file.url;
-                      setAvatar(url);
-                      setOpenAvatarUpload(false)
+                      if (openAvatarUpload) {
+                        setAvatar(url);
+                        setOpenAvatarUpload(false);
+                      }
+                      if (openCoverUpload) {
+                        setCover(url);
+                        setOpenCoverUpload(false);
+                      }
                     }}
-                    onError={()=>setOpenAvatarUpload(false)}
-                  />
-                )}
-                {openCoverUpload && (
-                  <PickerInline
-                    apikey={"AZHWiPxaTTyi03E1f5CIiz"}
-                    onUploadDone={(res: any) => {
-                      const file = res.filesUploaded[0];
-                      const url = file.url;
-                      setCover(url);
-                      setOpenCoverUpload(false)
+                    onError={() => {
+                      setOpenAvatarUpload(false);
+                      setOpenCoverUpload(false);
                     }}
-                    onError={()=>setOpenCoverUpload(false)}
                   />
                 )}
               </div>
