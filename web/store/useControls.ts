@@ -13,6 +13,7 @@ type Store = {
 	username: string;
 	title: string;
 	avatar: string;
+	cover:string;
 	bio: string;
 	twitter: string;
 	github: string;
@@ -43,6 +44,7 @@ type Actions = {
 	setYoutube: (youtube: Store["youtube"]) => void;
 	setGmail: (gmail: Store["gmail"]) => void;
 	setModel: (model: Store["model"]) => void;
+	setCover: (model: Store["cover"]) => void;
 	//For Themes
 	setAvatarStyle: (displayName: Store["avatarStyle"]) => void;
 	setUserBgColor: (userBgColor: Store["userBgColor"]) => void;
@@ -58,6 +60,7 @@ export const useControls = create<Store & Actions>((set): any => ({
 	username: "",
 	title: "",
 	avatar: "",
+	cover: "",
 	bio: "",
 	github: "",
 	linkedin: "",
@@ -123,8 +126,6 @@ export const useControls = create<Store & Actions>((set): any => ({
 		'',
 	],
 
-
-
 	//For Details 
 	setDisplayName: (displayName: string) => set(() => ({ displayName: displayName })),
 	setUserName: (username: string) => set(() => ({ username: username })),
@@ -143,12 +144,12 @@ export const useControls = create<Store & Actions>((set): any => ({
 			otherLinks: [...state.otherLinks,data],
 		}));
 	},
+	setCover:(cover:string) => set(()=> ({cover:cover})),
 	deleteOtherLink: (data:LinkType) => {
 		set((state) => ({
 			otherLinks: [...state.otherLinks.filter((e)=>e.title != data.title )],
 		}));
 	},
-
 	//For Themes
 	setAvatarStyle: (avatarStyle: string) => set(() => ({ avatarStyle: avatarStyle })),
 	setUserBgColor: (userBgColor: string) => set(() => ({ userBgColor: userBgColor })),

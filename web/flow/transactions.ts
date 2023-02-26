@@ -49,7 +49,7 @@ transaction(domainName:String,displayName:String,title:String,bio:String,avatar:
   }
   
   execute {
-    FlowLink.mintFlowLink(domainName:domainName,displayName:displayName,title:title,bio:bio,avatar:avatar,cover:cover,socialLinks:socialLink,otherLinks:otherLinks,styles:styles,recipient:self.nftReceiver,feeTokens:<- self.vault) 
+    FlowLink.mintFlowLink(domainName:domainName,displayName:displayName,title:title,bio:bio,avatar:avatar,cover:cover,socialLinks:socialLinks,otherLinks:otherLinks,styles:styles,recipient:self.nftReceiver,feeTokens:<- self.vault) 
   }
 }
  `;
@@ -67,7 +67,7 @@ export type MintProps = {
     youtube?: string,
     instagram?: string,
     github?: string,
-    facebook?: string,
+    mail?: string,
   },
   otherLinks: {title:string,href:string}[],
   styles: {
@@ -159,7 +159,6 @@ transaction(id:UInt64,displayName:String,title:String,bio:String,avatar:String,c
 export const editNFT = async () => {
   // replace data 
   const data:Omit<FlowLinkType,'domainName'> = {
-
     displayName:"Raspberry",
     title:"Cool fruit",
     bio:"Hello i am raspberry",

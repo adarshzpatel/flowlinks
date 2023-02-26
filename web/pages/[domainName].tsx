@@ -52,7 +52,7 @@ const FlowLinkShowcasePage = (props: Props) => {
 
   
   return (
-    <div >{exists ? <Card/> : "This domain has not been claimed yet , you can be the first one to claim it"}</div>
+    <div >{exists ? <Card /> : "This domain has not been claimed yet , you can be the first one to claim it"}</div>
   )
 
 }

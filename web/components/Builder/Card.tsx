@@ -18,7 +18,8 @@ const Card = () => {
     gmail,
     otherLinks,
     avatarStyle,
-    userTheme
+    userTheme,
+    avatar,cover
   } = useControls();
   
 
@@ -29,7 +30,7 @@ const Card = () => {
         <div className=' h-40 rounded-md w-full  bg-fixed shadow-2xl'>
           <img
             src={
-              "https://blog.pixlr.com/wp-content/uploads/2021/09/Pixlr-NFT-Art-Glitched-Vaporwave-3-1536x888.png"
+              cover ?? "https://blog.pixlr.com/wp-content/uploads/2021/09/Pixlr-NFT-Art-Glitched-Vaporwave-3-1536x888.png"
             }
             className='h-full w-full rounded-md -z-10'
             alt='Cover'
@@ -38,7 +39,7 @@ const Card = () => {
         </div>
         <div className={`h-24 w-24 absolute ${avatarStyle} -bottom-6 bg-gray-700 shadow-xl`}>
           <img
-            src={"https://avatarfiles.alphacoders.com/169/thumb-169513.png"}
+            src={avatar ?? "https://avatarfiles.alphacoders.com/169/thumb-169513.png"}
             className={`h-full w-full  ${avatarStyle}`}
             alt='Cover'
           />
@@ -73,13 +74,13 @@ const Card = () => {
       <div className='flex flex-col'>
         {otherLinks.map((e,i)=>{
           return(
-            <OtherLink key={i} title={e.title} link={e.link}/>
+            <OtherLink key={i} title={e.title} link={e.href}/>
           )
         })}
-        {otherLinks?.length === 0 && <>
+        {/* {otherLinks?.length === 0 && <>
           <OtherLink title={"Example Link"} link={"#"}/>
           <OtherLink title={"Example Link"} link={"#"}/>
-        </>}
+        </>} */}
       </div>
     </div>
   );

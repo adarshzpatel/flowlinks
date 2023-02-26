@@ -42,6 +42,7 @@ const Builder = () => {
   });
 
   const saveForLater = async () => {
+    console.log("inside save for later")
     let finalData = {
       id: uuid,
       owner: user?.id,
@@ -57,11 +58,10 @@ const Builder = () => {
       otherlinks: nftConfig.otherLinks
         .map((val) => `${val.title}-${val.href}`)
         .join(","),
-      styles: `${nftConfig.avatarStyle}-${nftConfig.userBgColor}-${nftConfig.userTheme}`,
+      styles: `${nftConfig.avatarStyle || "square"}-${nftConfig.userBgColor || ""}-${nftConfig.userTheme.c1} ${nftConfig.userTheme.c2} ${nftConfig.userTheme.c3} ${nftConfig.userTheme.c4}`,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
-
     try {
       setLoading(true);
       let { error } = await supabase.from("nfts").insert(finalData);
@@ -98,15 +98,15 @@ const Builder = () => {
             </>
           )}
           {tab === "Themes" && <StyleControls />}
-          <div className='w-full flex justify-center items-center pt-10 mb-10'>
-            <Button
+          <div className='w-full flex justify-center items-center pt-10 pr-8 mb-10'>
+            <button
               onClick={() => {
                 setMintModal(true);
               }}
-              variant="primary"
+              className="p-4 bg-flow-500 hover:bg-flow-600 active:scale-95 text-black text-xl font-bold uppercase hover: w-full"
             >
               Mint this NFT
-            </Button>
+            </button>
           </div>
         </div>
         <Preview />
@@ -122,7 +122,22 @@ const Builder = () => {
         <div className="flex flex-col w-full h-full justify-center items-center gap-3 p-10">
           <Button
             onClick={() => {
-              if (currentUser.addr) mintNFT();
+              if (currentUser.addr){
+                 mintNFT(currentUser.addr,{avatar:nftConfig.avatar,bio:nftConfig.bio,displayName:nftConfig.displayName,domainName:nftConfig.username,title:nftConfig.title,cover:nftConfig.cover,otherLinks:nftConfig.otherLinks,socialLinks:{
+                  linkedIn:nftConfig.linkedin,
+                  instagram:nftConfig.instagram,
+                  twitter:nftConfig.twitter,
+                  github:nftConfig.github,
+                  youtube:nftConfig.youtube,
+                  mail:nftConfig.gmail
+                 },
+                 styles:{
+                    background:nftConfig.userBgColor,
+                    theme:`${nftConfig.userTheme.c1} ${nftConfig.userTheme.c2} ${nftConfig.userTheme.c3} ${nftConfig.userTheme.c4}`,
+                    avatar:nftConfig.avatarStyle,
+                    card:"rounded"
+                 }})
+                 ;}
               else {
                 logIn();
               }
@@ -132,7 +147,9 @@ const Builder = () => {
             {currentUser.addr ? "Mint Now" : "Connect wallet and Mint now"}
           </Button>
           <Button
+            loading={loading}
             onClick={() => {
+              console.log("clikced")
               if (user) saveForLater();
               else {
                 Router.push("/auth");

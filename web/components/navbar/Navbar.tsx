@@ -35,7 +35,7 @@ const Navbar = () => {
           )}
 
           {user.id && (
-            <Link href={"/account"}>
+            <Link href={"/dashboard"}>
               <div className="w-10 h-10 border hover:scale-105 transform duration-150 cursor-pointer">
                 <img
                   src={
