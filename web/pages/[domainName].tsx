@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Card from "../components/Builder/Card";
+import Button from "../components/ui/Button";
 import { checkIsAvailable, getFlowLinkByDomainName } from "../flow/scripts";
 import { useControls } from "../store/useControls";
 
@@ -48,17 +49,17 @@ const FlowLinkShowcasePage = (props: Props) => {
   }, [domainName]);
 
   return (
-    <div className='flex justify-center items-center'>
-      <div
-        style={
-          data &&
-          data.styles["background"] && {
-            backgroundImage: data.styles["background"],
+    <div className=' flex justify-center items-center'>
+      {exists ? (
+        <div
+          style={
+            data &&
+            data.styles["background"] && {
+              backgroundImage: data.styles["background"],
+            }
           }
-        }
-        className='p-16 bg-zinc-800 mt-10 rounded-lg'
-      >
-        {exists ? (
+          className='p-16 bg-zinc-800 mt-10 rounded-lg'
+        >
           <Card
             displayName={data && data.displayName}
             theme={data ? data.styles["theme"] : ""}
@@ -76,10 +77,18 @@ const FlowLinkShowcasePage = (props: Props) => {
             avatar={data ? data.avatar : ""}
             cover={data ? data.cover : ""}
           />
-        ) : (
-          "This domain has not been claimed yet , you can be the first one to claim it"
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className='flex mt-44 flex-col justify-between space-y-8 items-center p-8 bg-zinc-800 rounded-lg'>
+          <div className='max-w-xs text-center text-zinc-300 text-xl'>
+            This domain has not been claimed yet , you can be the first one to
+            claim it
+          </div>
+          <Button variant='success' onClick={() => router.push("builder")}>
+            Claim Your Flowlink
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
