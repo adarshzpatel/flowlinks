@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AddLinkModal from "./AddLinkModal";
 import { Accordion } from "@mantine/core";
-import { PickerOverlay } from "filestack-react-18";
+import { PickerInline } from "filestack-react-18";
 
 //React Icons
 import { TextInput } from "@mantine/core";
@@ -132,25 +132,27 @@ const InfoControls = () => {
                 </div>
 
                 {openAvatarUpload && (
-                  <PickerOverlay
+                  <PickerInline
                     apikey={"AZHWiPxaTTyi03E1f5CIiz"}
-                    onSuccess={(res: any) => {
+                    onUploadDone={(res: any) => {
                       const file = res.filesUploaded[0];
                       const url = file.url;
                       setAvatar(url);
                       setOpenAvatarUpload(false)
                     }}
+                    onError={()=>setOpenAvatarUpload(false)}
                   />
                 )}
                 {openCoverUpload && (
-                  <PickerOverlay
+                  <PickerInline
                     apikey={"AZHWiPxaTTyi03E1f5CIiz"}
-                    onSuccess={(res: any) => {
+                    onUploadDone={(res: any) => {
                       const file = res.filesUploaded[0];
                       const url = file.url;
                       setCover(url);
                       setOpenCoverUpload(false)
                     }}
+                    onError={()=>setOpenCoverUpload(false)}
                   />
                 )}
               </div>
