@@ -4,8 +4,21 @@ import OtherLink from "./OtherLink";
 import SocialLink from "./SocialLink";
 
 const Card = () => {
-  const avatarStyle = useControls((e)=>e.avatarStyle)
-  const userTheme = useControls((e)=>e.userTheme)
+  const {
+    displayName,
+    username,
+    title,
+    bio,
+    twitter,
+    github,
+    linkedin,
+    instagram,
+    youtube,
+    gmail,
+    otherLinks,
+    avatarStyle,
+    userTheme
+  } = useControls();
 
   return (
     <div style={userTheme&&{backgroundColor:userTheme.c4}} className={`max-w-sm w-full shadow-2xl shadow-black/60 p-4 rounded-lg ease-linear duration-150 bg-gray-800/50 `}>
@@ -33,30 +46,34 @@ const Card = () => {
       <div style={userTheme && {backgroundColor:userTheme.c3}} className={`flex flex-col rounded-md w-full bg-gray-800/50 p-4 ease-linear duration-150`}>
         {/*Display Name */}
         <div className='text-gray-50 text-2xl font-semibold text-center leading-5'>
-          Pavitra Behara
+          {displayName===''?'Your Name':displayName}
         </div>
         {/*User Name */}
-        <div style={userTheme && {color:userTheme.c2}} className='text-gray-400 text-base text-center'>@pavitra554</div>
+        <div  className='text-gray-400 text-base text-center flex flex-row space-x-2 justify-center'>
+          <div style={userTheme && {color:userTheme.c2}} className='text-gray-400'>{username===''?'@username':'@'+username}</div>
+          <div style={userTheme && {color:userTheme.c2}} className='text-gray-400'>| {title===''?'title_here':title}</div>
+        </div>
         {/*Description */}
         <div style={userTheme && {color:userTheme.c1}} className='text-gray-300 text-base text-center pt-2'>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam
-          aliquam enim itaque.
+        {bio===''?'Your Desciption Goes here':bio}
         </div>
       </div>
       {/*Social Links*/}
       <div className='flex flex-row flex-wrap justify-between mt-2'>
-        <SocialLink title='Twitter' link='#' />
-        <SocialLink title='Github' link='#' />
-        <SocialLink title='Linkedin' link='#' />
-        <SocialLink title='Instagram' link='#' />
-        <SocialLink title='Youtube' link='#' />
-        <SocialLink title='Gmail' link='#' />
+        <SocialLink title='Twitter' link={twitter?twitter:'#'} />
+        <SocialLink title='Github' link={github?github:'#'} />
+        <SocialLink title='Linkedin' link={linkedin?linkedin:'#'} />
+        <SocialLink title='Instagram' link={instagram?instagram:'#'} />
+        <SocialLink title='Youtube' link={youtube?youtube:'#'} />
+        <SocialLink title='Gmail' link={gmail?gmail:'#'} />
       </div>
       {/*Other Links */}
       <div className='flex flex-col'>
-        <OtherLink title="Link 1" link="#"/>
-        <OtherLink title="Link 2" link="#"/>
-        <OtherLink title="Link 3" link="#"/>
+        {otherLinks.map((e,i)=>{
+          return(
+            <OtherLink key={i} title={e.title} link={e.link}/>
+          )
+        })}
       </div>
     </div>
   );

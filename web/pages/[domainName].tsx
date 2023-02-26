@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import Card from '../components/Builder/Card'
 import { checkIsAvailable, getFlowLinkByDomainName } from '../flow/scripts'
+import { useControls } from '../store/useControls'
 
 type Props = {}
 
@@ -10,6 +12,9 @@ const FlowLinkShowcasePage = (props: Props) => {
   const domainName = slug?.substring(1)
   const [data,setData] = useState<any>();
   const [exists,setExists] = useState<boolean>(false)
+
+  //State for card inputs
+  const {setDisplayName,setUserName,setTitle} = useControls();
 
   // If domainName is not prefixed with @ , then add it
   useEffect(()=>{
@@ -32,6 +37,9 @@ const FlowLinkShowcasePage = (props: Props) => {
          const res =await getFlowLinkByDomainName(domainName)
           console.log(res)
           setData(res)
+          setDisplayName(res.displayName)
+          setUserName(res.domainName)
+          setTitle(res.title)
         }
         } catch(err){
         console.log(err)
@@ -44,7 +52,7 @@ const FlowLinkShowcasePage = (props: Props) => {
 
   
   return (
-    <div>{exists ? domainName : "This domain has not been claimed yet , you can be the first one to claim it"}</div>
+    <div >{exists ? <Card/> : "This domain has not been claimed yet , you can be the first one to claim it"}</div>
   )
 
 }
