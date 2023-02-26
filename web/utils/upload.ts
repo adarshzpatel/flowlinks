@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 export const upload = async (
   event: any,
   supabase: any,
@@ -24,7 +26,7 @@ export const upload = async (
 
     return filePath;
   } catch (error) {
-    alert("Error uploading avatar!");
+    toast("Error uploading avatar!");
     console.log(error);
   }
 };

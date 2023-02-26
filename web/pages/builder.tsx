@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Transition } from "@headlessui/react";
-
-import Container from "../layouts/Container";
-import Controls from "../components/Builder/InfoControls";
 import Preview from "../components/Builder/Preview";
-import Card_Controls from "../components/Builder/StyleControls";
 import { useAuth } from "../context/AuthContext";
 import { checkIsInitialized } from "../flow/scripts";
 import Button from "../components/ui/Button";
@@ -13,7 +8,9 @@ import InfoControls from "../components/Builder/InfoControls";
 import StyleControls from "../components/Builder/StyleControls";
 import { Modal } from "@mantine/core";
 import Router from "next/router";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useControls } from "../store/useControls";
+import toast from "react-hot-toast";
 
 export type LinkType = {
   title: string;
@@ -23,13 +20,58 @@ export type LinkType = {
 const Builder = () => {
   const [tab, setTab] = useState("Details");
   const { currentUser } = useAuth();
-  const [mintModal,setMintModal] = useState<boolean>(false)
+  const [mintModal, setMintModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (currentUser?.addr) checkIsInitialized(currentUser?.addr);
   }, [currentUser]);
-  const {logIn,logOut} = useAuth()
-  const user = useUser()
-  const saveForLater = async () => {}
+
+  const { logIn } = useAuth();
+  const user = useUser();
+
+  const nftConfig = useControls();
+  const supabase = useSupabaseClient();
+
+  const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+
+  const saveForLater = async () => {
+    let finalData = {
+      id: uuid,
+      owner: user?.id,
+      domainname: nftConfig.username,
+      title: nftConfig.title,
+      bio: nftConfig.bio,
+      displayname: nftConfig.displayName,
+      github: nftConfig.github,
+      linkedin: nftConfig.linkedin,
+      twitter: nftConfig.twitter,
+      youtube: nftConfig.youtube,
+      instagram: nftConfig.instagram,
+      otherlinks: nftConfig.otherLinks
+        .map((val) => `${val.title}-${val.href}`)
+        .join(","),
+      styles: `${nftConfig.avatarStyle}-${nftConfig.userBgColor}-${nftConfig.userTheme}`,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    try {
+      setLoading(true);
+      let { error } = await supabase.from("nfts").insert(finalData);
+      if (error) throw error;
+      toast("NFT saved successfully!");
+    } catch (error) {
+      toast("Error updating the data!");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <div className=" text-white grid grid-cols-2 section__height">
@@ -52,9 +94,8 @@ const Builder = () => {
           </div>
           {tab === "Details" && (
             <>
-            <InfoControls/>
-            
-              </>
+              <InfoControls />
+            </>
           )}
           {tab === "Themes" && <StyleControls />}
           <div className="w-full flex justify-center items-center pt-10">
@@ -63,15 +104,21 @@ const Builder = () => {
                 setMintModal(true);
               }}
               variant="primary"
-              >
+            >
               Mint this NFT
             </Button>
           </div>
         </div>
         <Preview />
       </div>
-      <Modal opened={mintModal}  onClose={()=>setMintModal(false)} title="Mint" centered overlayOpacity={0.55} overlayBlur={3}>
-
+      <Modal
+        opened={mintModal}
+        onClose={() => setMintModal(false)}
+        title="Mint"
+        centered
+        overlayOpacity={0.55}
+        overlayBlur={3}
+      >
         <div className="flex flex-col w-full h-full justify-center items-center gap-3 p-10">
           <Button
             onClick={() => {
@@ -81,7 +128,7 @@ const Builder = () => {
               }
             }}
             variant="success"
-            >
+          >
             {currentUser.addr ? "Mint Now" : "Connect wallet and Mint now"}
           </Button>
           <Button
@@ -92,8 +139,12 @@ const Builder = () => {
               }
             }}
             variant="secondary"
-            >
-            {user ? "Save for later" : "Sign-in and Save for later"}
+          >
+            {user
+              ? loading
+                ? "Saving..."
+                : "Save for later"
+              : "Sign-in and Save for later"}
           </Button>
         </div>
       </Modal>

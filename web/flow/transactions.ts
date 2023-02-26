@@ -1,4 +1,4 @@
-import * as fcl from "@onflow/fcl"
+import * as fcl from "@onflow/fcl";
 import { FlowLinkType } from "./types";
 import { checkIsInitialized } from "./scripts";
 
@@ -19,18 +19,18 @@ transaction() {
 
     execute {}
 }
-`
+`;
 export async function initializeAccount() {
   const txId = await fcl.mutate({
     cadence: INITIALIZE_ACCOUNT,
-    payer:fcl.authz, 
-    proposer:fcl.authz,
+    payer: fcl.authz,
+    proposer: fcl.authz,
     authorizations: [fcl.authz],
-    limit:50 
+    limit: 50,
   });
-  const tx = await fcl.tx(txId).onceSealed()
-  console.log(tx)
-  return tx
+  const tx = await fcl.tx(txId).onceSealed();
+  console.log(tx);
+  return tx;
 }
 
 const MINT_NFT = `
@@ -52,70 +52,82 @@ transaction(domainName:String,displayName:String,title:String,bio:String,avatar:
     FlowLink.mintFlowLink(domainName:domainName,displayName:displayName,title:title,bio:bio,avatar:avatar,cover:cover,socialLinks:socialLink,otherLinks:otherLinks,styles:styles,recipient:self.nftReceiver,feeTokens:<- self.vault) 
   }
 }
- `
+ `;
 
+export const initialNftData: FlowLinkType = {
+  domainName: "",
+  displayName: "",
+  title: "",
+  bio: "",
+  avatar: "",
+  cover: "",
+  socialLinks: {
+    linkedin: "",
+    twitter: "",
+    youtube: "",
+    instagram: "",
+    github: "",
+    facebook: "",
+  },
+  otherLinks: [{ title: "", href: "" }],
+  styles: {
+    avatar: "",
+    background: "",
+    card: "",
+    theme: "",
+  },
+};
 
- type MintNFTProps ={
- }
-
-export const mintNFT = async  (receiver:string) => {
-  if(!receiver) throw new Error("address not found")
-  const isInit = await checkIsInitialized(receiver)
-  if(!isInit) {
-    const initTx = await initializeAccount()
-    console.log(initTx)
+export const mintNFT = async (receiver: string, data: FlowLinkType) => {
+  if (!receiver) throw new Error("address not found");
+  const isInit = await checkIsInitialized(receiver);
+  if (!isInit) {
+    const initTx = await initializeAccount();
+    console.log(initTx);
   }
-  // replace data 
-  const data:FlowLinkType = {
-    domainName:"flowlink",
-    displayName:"Flowlinks",
-    title:"Company",
-    bio:"Showcase all your links at one place",
-    avatar:"//",
-    cover:"//",
-    socialLinks:{
-      github:"https://github.com/adarshzpatel/flowlinks",
-    },
-    otherLinks:[{title:"Website",href:"https://flowlinks.vercel.app"}],
-    styles:{
-      avatar:"rounded",
-      background:"#000",
-      card:"rounded",
-      theme:"default"
-    }
-  }
-  const _socialLinks = Object.keys(data.socialLinks).map((item:string)=>({key:item,value:data.socialLinks[item]}))
-  const _styles = Object.keys(data.styles).map((item:string)=>({key:item,value:data.styles[item]}))
-  const _otherLinks = data.otherLinks.map((link)=> Object.keys(link).map((item:string)=>({key:item,value:link[item]})))
-  console.log({_socialLinks,_styles,_otherLinks})
-  try{
+  const _socialLinks = Object.keys(data.socialLinks).map((item: string) => ({
+    key: item,
+    value: data.socialLinks[item],
+  }));
+  const _styles = Object.keys(data.styles).map((item: string) => ({
+    key: item,
+    value: data.styles[item],
+  }));
+  const _otherLinks = data.otherLinks.map((link) =>
+    Object.keys(link).map((item: string) => ({ key: item, value: link[item] }))
+  );
+  console.log({ _socialLinks, _styles, _otherLinks });
+  try {
     const txId = await fcl.mutate({
       cadence: MINT_NFT,
-      args: (arg:any,t:any) => {
+      args: (arg: any, t: any) => {
         const args = [
-        arg(data.domainName,t.String),
-        arg(data.displayName,t.String),
-        arg(data.title,t.String),
-        arg(data.bio,t.String),
-        arg(data.avatar,t.String),  
-        arg(data.cover,t.String),
-        arg(_socialLinks,t.Dictionary({key:t.String,value:t.String})),
-        arg(_otherLinks,t.Array(t.Dictionary({key:t.String,value:t.String}))),
-        arg(_styles,t.Dictionary({key:t.String,value:t.String}))
-      ]
-      console.log("args",args)
-      return args
-    },
-      payer:fcl.authz, 
-      proposer:fcl.authz,
+          arg(data.domainName, t.String),
+          arg(data.displayName, t.String),
+          arg(data.title, t.String),
+          arg(data.bio, t.String),
+          arg(data.avatar, t.String),
+          arg(data.cover, t.String),
+          arg(_socialLinks, t.Dictionary({ key: t.String, value: t.String })),
+          arg(
+            _otherLinks,
+            t.Array(t.Dictionary({ key: t.String, value: t.String }))
+          ),
+          arg(_styles, t.Dictionary({ key: t.String, value: t.String })),
+        ];
+        console.log("args", args);
+        return args;
+      },
+      payer: fcl.authz,
+      proposer: fcl.authz,
       authorizations: [fcl.authz],
-      limit:1000
+      limit: 1000,
     });
-    console.log(txId)
-    const tx = await fcl.tx(txId).onceSealed()
-    console.log(tx)
-    return tx
-  } catch (err){
-    console.error(err)
+    console.log(txId);
+    const tx = await fcl.tx(txId).onceSealed();
+    console.log(tx);
+    return tx;
+  } catch (err) {
+    console.error(err);
   }
-}
+};

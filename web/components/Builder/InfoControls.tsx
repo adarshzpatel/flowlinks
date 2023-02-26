@@ -1,13 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import AddLinkModal from "./AddLinkModal";
 import { Accordion } from "@mantine/core";
 
 //React Icons
-import { MdOutlineAdd, MdCheck, MdAdd } from "react-icons/md";
 import { TextInput } from "@mantine/core";
 import { Textarea } from "@mantine/core";
-import { Disclosure, Transition } from "@headlessui/react";
-import { FiChevronDown } from "react-icons/fi";
 import {
   TbBrandGithub,
   TbBrandLinkedin,
@@ -15,23 +12,9 @@ import {
   TbBrandYoutube,
   TbMail,
 } from "react-icons/tb";
-import {
-  SiGithub,
-  SiGmail,
-  SiInstagram,
-  SiLinkedin,
-  SiTwitter,
-  SiYoutube,
-} from "react-icons/si";
-
-import { LinkType } from "../../pages/builder";
-import { link } from "fs";
 import Button from "../ui/Button";
 import { useControls } from "../../store/useControls";
 import OtherLink from "./OtherLink";
-import { mintNFT } from "../../flow/transactions";
-import { useAmp } from "next/amp";
-import { useAuth } from "../../context/AuthContext";
 
 //TODO
 
@@ -45,9 +28,16 @@ import { useAuth } from "../../context/AuthContext";
 // spread operator , destructuring , promise ,async await
 
 const InfoControls = () => {
-  const { displayName, setDisplayName,username,setUserName,title,setTitle,otherLinks} = useControls();
+  const {
+    displayName,
+    setDisplayName,
+    username,
+    setUserName,
+    title,
+    setTitle,
+    otherLinks,
+  } = useControls();
   const [openNewLinkModal, setOpenNewLinkModal] = useState<boolean>(false);
-  const {currentUser} = useAuth()
   return (
     <>
       <div className="pt-8 overflow-y-scroll  pr-8 flex flex-col select-none ease-linear duration-150">
@@ -125,13 +115,16 @@ const InfoControls = () => {
             <Accordion.Control>Other Links</Accordion.Control>
             <Accordion.Panel>
               <div className="flex flex-col gap-4">
-
-              {otherLinks?.map((item=>(
-                <OtherLink title={item?.title ?? ""} link={item?.href ?? ""}  />
-                )))}
-            <Button onClick={()=>setOpenNewLinkModal(true)}>Add New Link</Button>
-                </div>
-
+                {otherLinks?.map((item) => (
+                  <OtherLink
+                    title={item?.title ?? ""}
+                    link={item?.href ?? ""}
+                  />
+                ))}
+                <Button onClick={() => setOpenNewLinkModal(true)}>
+                  Add New Link
+                </Button>
+              </div>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
