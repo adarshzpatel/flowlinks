@@ -8,7 +8,9 @@ import InfoControls from "../components/Builder/InfoControls";
 import StyleControls from "../components/Builder/StyleControls";
 import { Modal } from "@mantine/core";
 import Router from "next/router";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
+import { useControls } from "../store/useControls";
+import toast from "react-hot-toast";
 
 import { Tabs } from "@mantine/core";
 
@@ -21,12 +23,58 @@ const Builder = () => {
   const [tab, setTab] = useState("Details");
   const { currentUser } = useAuth();
   const [mintModal, setMintModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (currentUser?.addr) checkIsInitialized(currentUser?.addr);
   }, [currentUser]);
-  const { logIn, logOut } = useAuth();
+
+  const { logIn } = useAuth();
   const user = useUser();
-  const saveForLater = async () => {};
+
+  const nftConfig = useControls();
+  const supabase = useSupabaseClient();
+
+  const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+
+  const saveForLater = async () => {
+    let finalData = {
+      id: uuid,
+      owner: user?.id,
+      domainname: nftConfig.username,
+      title: nftConfig.title,
+      bio: nftConfig.bio,
+      displayname: nftConfig.displayName,
+      github: nftConfig.github,
+      linkedin: nftConfig.linkedin,
+      twitter: nftConfig.twitter,
+      youtube: nftConfig.youtube,
+      instagram: nftConfig.instagram,
+      otherlinks: nftConfig.otherLinks
+        .map((val) => `${val.title}-${val.href}`)
+        .join(","),
+      styles: `${nftConfig.avatarStyle}-${nftConfig.userBgColor}-${nftConfig.userTheme}`,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    try {
+      setLoading(true);
+      let { error } = await supabase.from("nfts").insert(finalData);
+      if (error) throw error;
+      toast("NFT saved successfully!");
+    } catch (error) {
+      toast("Error updating the data!");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   return (
     <>
       <div className=' text-white grid grid-cols-2 section__height'>
@@ -55,7 +103,7 @@ const Builder = () => {
               onClick={() => {
                 setMintModal(true);
               }}
-              variant='primary'
+              variant="primary"
             >
               Mint this NFT
             </Button>
@@ -66,20 +114,20 @@ const Builder = () => {
       <Modal
         opened={mintModal}
         onClose={() => setMintModal(false)}
-        title='Mint'
+        title="Mint"
         centered
         overlayOpacity={0.55}
         overlayBlur={3}
       >
-        <div className='flex flex-col w-full h-full justify-center items-center gap-3 p-10'>
+        <div className="flex flex-col w-full h-full justify-center items-center gap-3 p-10">
           <Button
             onClick={() => {
-              if (currentUser.addr) mintNFT(currentUser?.addr);
+              if (currentUser.addr) mintNFT();
               else {
                 logIn();
               }
             }}
-            variant='success'
+            variant="success"
           >
             {currentUser.addr ? "Mint Now" : "Connect wallet and Mint now"}
           </Button>
@@ -90,9 +138,13 @@ const Builder = () => {
                 Router.push("/auth");
               }
             }}
-            variant='secondary'
+            variant="secondary"
           >
-            {user ? "Save for later" : "Sign-in and Save for later"}
+            {user
+              ? loading
+                ? "Saving..."
+                : "Save for later"
+              : "Sign-in and Save for later"}
           </Button>
         </div>
       </Modal>

@@ -7,6 +7,7 @@ import {
 import { Database } from "../../utils/databse.types";
 import Avatar from "../avatarUploadWidget";
 import useBaseUser from "../../store/useBaseUser";
+import toast from "react-hot-toast";
 type Profiles = Database["public"]["Tables"]["profiles"]["Row"];
 
 export default function Account({ session }: { session: Session | null }) {
@@ -44,7 +45,7 @@ export default function Account({ session }: { session: Session | null }) {
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      alert("Error loading user data!");
+      toast("Error loading user data!");
       console.log(error);
     } finally {
       setLoading(false);
@@ -74,9 +75,9 @@ export default function Account({ session }: { session: Session | null }) {
 
       let { error } = await supabase.from("profiles").upsert(updates);
       if (error) throw error;
-      alert("Profile updated!");
+      toast("Profile updated!");
     } catch (error) {
-      alert("Error updating the data!");
+      toast("Error updating the data!");
       console.log(error);
     } finally {
       setLoading(false);

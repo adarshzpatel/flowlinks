@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddLinkModal from "./AddLinkModal";
 import { Accordion } from "@mantine/core";
 
 //React Icons
 import { TextInput } from "@mantine/core";
 import { Textarea } from "@mantine/core";
-import { FiLink } from "react-icons/fi";
+import { FiLink, FiX } from "react-icons/fi";
 import {
   TbBrandGithub,
   TbBrandLinkedin,
@@ -17,11 +17,10 @@ import {
   SiInstagram,
 } from "react-icons/si";
 
-import Button from "../ui/Button";
 import { useControls } from "../../store/useControls";
-import { useAuth } from "../../context/AuthContext";
 import { useDebouncedState } from "@mantine/hooks";
 import { checkIsAvailable } from "../../flow/scripts";
+import Button from "../ui/Button";
 
 //TODO
 
@@ -75,7 +74,7 @@ const InfoControls = () => {
       check()
     }
   },[domainName])
-  
+
   return (
     <>
       <div className='pt-8 overflow-y-scroll  pr-8 flex flex-col select-none ease-linear duration-150'>
@@ -181,7 +180,7 @@ const InfoControls = () => {
             <Accordion.Panel>
               <div className='flex flex-col gap-4'>
                 {otherLinks?.map((item) => (
-                  <div className='flex flex-row space-x-2'>
+                  <div key={`${item?.href}`} className='flex flex-row space-x-2'>
                     <div className='w-full flex justify-between items-center text-gray-50/70 hover:brightness-125 ease-linear duration-150 active:scale-95 flex-row bg-gray-800/90 p-2 px-3 rounded-md'>
                       <div>{item?.title ?? title}</div>
                       <div>
@@ -192,14 +191,10 @@ const InfoControls = () => {
                       variant='danger'
                       onClick={() => deleteOtherLink(item)}
                     >
-                      Del
+                      <FiX/>
                     </Button>
+                  </div>))}
                   </div>
-                ))}
-                <Button onClick={() => setOpenNewLinkModal(true)}>
-                  Add New Link
-                </Button>
-              </div>
             </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
