@@ -83,11 +83,18 @@ const StyleControls = () => {
       </div>
       <div className='text-gray-400'>Color Theme's</div>
       <div className='flex flex-row flex-wrap gap-2'>
-        {colorTheme_DATA.map((e, i) => {
+        {colorTheme_DATA.map((item, i) => {
+          const arr = item.split(" ");
+          const e = {
+            c1: arr[0],
+            c2: arr[1],
+            c3: arr[2],
+            c4: arr[3],
+          };
           return (
             <button
-              onClick={() => setUserTheme(e)}
-              className={`border rounded-md flex flex-row space-x-4 p-4 items-center justify-center hover:border-flow-500 duration-150 ease-linear ${userTheme === e?'border-flow-500':'border-gray-700'}`}
+              onClick={() => setUserTheme(item)}
+              className={`border rounded-md flex flex-row space-x-4 p-4 items-center justify-center hover:border-flow-500 duration-150 ease-linear ${userTheme === item?'border-flow-500':'border-gray-700'}`}
             >
               {e.c1 === "" ? (
                 <div>None</div>

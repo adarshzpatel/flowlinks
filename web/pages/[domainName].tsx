@@ -1,60 +1,97 @@
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import Card from '../components/Builder/Card'
-import { checkIsAvailable, getFlowLinkByDomainName } from '../flow/scripts'
-import { useControls } from '../store/useControls'
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import Card from "../components/Builder/Card";
+import Button from "../components/ui/Button";
+import { checkIsAvailable, getFlowLinkByDomainName } from "../flow/scripts";
+import { useControls } from "../store/useControls";
 
-type Props = {}
+type Props = {};
 
 const FlowLinkShowcasePage = (props: Props) => {
-  const router = useRouter()
-  const slug = router?.query?.domainName as string  
-  const domainName = slug?.substring(1)
-  const [data,setData] = useState<any>();
-  const [exists,setExists] = useState<boolean>(false)
+  const router = useRouter();
+  const slug = router?.query?.domainName as string;
+  const domainName = slug?.substring(1);
+  const [data, setData] = useState<any>();
+  const [exists, setExists] = useState<boolean>(false);
 
   //State for card inputs
-  const {setDisplayName,setUserName,setTitle} = useControls();
+  const { setDisplayName, setUserName, setTitle } = useControls();
 
   // If domainName is not prefixed with @ , then add it
-  useEffect(()=>{
-    if(slug){
-      if(!slug?.startsWith("@")){
-        router.push("@"+slug)
+  useEffect(() => {
+    if (slug) {
+      if (!slug?.startsWith("@")) {
+        router.push("@" + slug);
       }
     }
-  },[slug])
+  }, [slug]);
 
   // Fetch FlowLinkData
-  useEffect(()=>{
+  useEffect(() => {
     const getData = async () => {
-      try{
+      try {
         //Check if domain Name is available to take or not
-        const isAvailable = await checkIsAvailable(domainName)
-        setExists(!isAvailable)
+        const isAvailable = await checkIsAvailable(domainName);
+        setExists(!isAvailable);
         // if taken , it means nft exists and we can get the data
-        if(!isAvailable){
-         const res =await getFlowLinkByDomainName(domainName)
-          console.log(res)
-          setData(res)
-          setDisplayName(res.displayName)
-          setUserName(res.domainName)
-          setTitle(res.title)
+        if (!isAvailable) {
+          const res = await getFlowLinkByDomainName(domainName);
+          console.log(res);
+          setData(res);
         }
-        } catch(err){
-        console.log(err)
+      } catch (err) {
+        console.log(err);
       }
+    };
+    if (domainName) {
+      getData();
     }
-    if(domainName){
-      getData()
-    }
-  },[domainName])
+  }, [domainName]);
 
-  
   return (
-    <div >{exists ? <Card /> : "This domain has not been claimed yet , you can be the first one to claim it"}</div>
-  )
+    <div className=' flex justify-center items-center'>
+      {exists ? (
+        <div
+          style={
+            data &&
+            data.styles["background"] && {
+              backgroundImage: data.styles["background"],
+            }
+          }
+          className='p-16 bg-zinc-800 mt-10 rounded-lg'
+        >
+          <Card
+            displayName={data && data.displayName}
+            theme={data ? data.styles["theme"] : ""}
+            username={data ? data.domainName : ""}
+            bio={data ? data.bio : ""}
+            title={data ? data.title : ""}
+            twitter={data ? data.socialLinks["twitter"] : ""}
+            github={data ? data.socialLinks["github"] : ""}
+            linkedin={data ? data.socialLinks["linkedIn"] : ""}
+            instagram={data ? data.socialLinks["instagram"] : ""}
+            youtube={data ? data.socialLinks["youtube"] : ""}
+            gmail={data ? data.socialLinks["mail"] : ""}
+            otherLinks={data ? data.otherLinks : [{}]}
+            avatarStyle={data ? data.styles["avatar"] : ""}
+            avatar={data ? data.avatar : ""}
+            cover={data ? data.cover : ""}
+          />
+        </div>
+      ) : (
+        <div className='flex mt-44 flex-col justify-between space-y-8 items-center p-8 bg-zinc-800 rounded-lg'>
+          <div className='max-w-xs text-center text-zinc-300 text-xl'>
+            This domain has not been claimed yet , you can be the first one to
+            claim it
+          </div>
+          <Button variant='success' onClick={() => router.push("builder")}>
+            Claim Your Flowlink
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
 
-}
-
-export default FlowLinkShowcasePage
+export default FlowLinkShowcasePage;
+// socialLinks
