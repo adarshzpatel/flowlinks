@@ -1,20 +1,19 @@
 import Link from 'next/link';
 import React from 'react';
-import { useControls } from '../../store/useControls';
 import { SiGithub, SiGmail, SiInstagram, SiLinkedin, SiTwitter, SiYoutube } from 'react-icons/si';
 import { Tooltip } from '@mantine/core';
 
 type Props = {
     title?:"Twitter"|"Linkedin"|"Instagram"|"Gmail"|"Youtube"|"Github",
     link:string,
+    userTheme:any
 }
 
-const SocialLink:React.FC<Props> = ({title,link}) => {
-  const userTheme = useControls((e)=>e.userTheme)
+const SocialLink:React.FC<Props> = ({title,link,userTheme}) => {
 
   return (
-    <Tooltip label={title} position='bottom' withArrow color='#404040' offset={10}>
-
+    <Tooltip label={title} position='bottom' withArrow color={userTheme&&userTheme.c3} offset={10}>
+    
     <Link href={title==='Gmail'?'mailto:'+link:link} target="_blank">
         <div style={userTheme && {backgroundColor:userTheme.c3,color:userTheme.c1}} className={`w-full bg-gray-800/50 p-3 text-gray-50/70  rounded-md hover:brightness-125 ease-linear duration-150 active:scale-90`}>
             {title==='Twitter'&&<SiTwitter size={24}/>}
