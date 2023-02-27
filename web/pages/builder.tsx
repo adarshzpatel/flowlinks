@@ -42,11 +42,12 @@ const Builder = () => {
   });
 
   const saveForLater = async () => {
-    console.log("inside save for later")
     let finalData = {
       id: uuid,
       owner: user?.id,
       domainname: nftConfig.username,
+      avatar: nftConfig.avatar,
+      cover: nftConfig.cover,
       title: nftConfig.title,
       bio: nftConfig.bio,
       displayname: nftConfig.displayName,
@@ -58,7 +59,9 @@ const Builder = () => {
       otherlinks: nftConfig.otherLinks
         .map((val) => `${val?.title}-${val?.href}`)
         .join(","),
-      styles: `${nftConfig?.avatarStyle || "square"}-${nftConfig?.userBgColor || ""}-${nftConfig.userTheme}`,
+      styles: `${nftConfig?.avatarStyle || "square"}/${
+        nftConfig?.userBgColor || ""
+      }/${nftConfig?.userTheme}`,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
@@ -74,18 +77,18 @@ const Builder = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <>
-      <div className=' text-white grid grid-cols-2 section__height'>
+      <div className=" text-white grid grid-cols-2 section__height">
         <div>
-          <div className='p-2 mt-4 mr-8 select-none'>
-            <Tabs color='teal' variant='outline' defaultValue='gallery'>
+          <div className="p-2 mt-4 mr-8 select-none">
+            <Tabs color="teal" variant="outline" defaultValue="gallery">
               <Tabs.List>
-                <Tabs.Tab value='Details' onClick={() => setTab("Details")}>
+                <Tabs.Tab value="Details" onClick={() => setTab("Details")}>
                   Details
                 </Tabs.Tab>
-                <Tabs.Tab value='Themes' onClick={() => setTab("Themes")}>
+                <Tabs.Tab value="Themes" onClick={() => setTab("Themes")}>
                   Themes
                 </Tabs.Tab>
               </Tabs.List>
@@ -98,7 +101,7 @@ const Builder = () => {
             </>
           )}
           {tab === "Themes" && <StyleControls />}
-          <div className='w-full flex justify-center items-center pt-10 pr-8 mb-10'>
+          <div className="w-full flex justify-center items-center pt-10 pr-8 mb-10">
             <button
               onClick={() => {
                 setMintModal(true);
@@ -152,7 +155,6 @@ const Builder = () => {
           <Button
             loading={loading}
             onClick={() => {
-              console.log("clikced")
               if (user) saveForLater();
               else {
                 Router.push("/auth");
