@@ -5,6 +5,7 @@ import { Container, Text, Timeline, Title } from "@mantine/core";
 import { TbBrandGithub } from "react-icons/tb";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
+import { FiArrowUpRight } from "react-icons/fi";
 
 const Home: NextPage = () => {
   return (
@@ -17,8 +18,8 @@ const Home: NextPage = () => {
                 <p className="text-4xl heading   lg:text-6xl font-semibold">
                 Empower  Your  Online  Presence  <span className="text-flow-500 heading"> with  FlowLinks </span>
                 </p>
-                <p className="max-w-xl mt-4 text-lg lg:text-3xl tracking-tight text-gray-400">
-                The Decentralized Solution on Flow Blockchain and NFTs."
+                <p className="max-w-xl mt-4 text-lg lg:text-2xl tracking-tight text-gray-400">
+                Own & Showcase all your links at one place , powered by NFTs on <a href="https://flow.com/" className="underline underline-offset-8 decoration-gray-700 hover:text-flow-500 font-medium relative">  Flow blockchain </a>
                 </p>{" "}
               </div>
               <div className="flex flex-col gap-3 mt-10 sm:flex-row">
