@@ -13,6 +13,7 @@ import { useControls } from "../store/useControls";
 import toast from "react-hot-toast";
 
 import { Tabs } from "@mantine/core";
+import { FaArrowRight } from "react-icons/fa";
 
 export type LinkType = {
   title: string;
@@ -80,8 +81,8 @@ const Builder = () => {
 
   return (
     <>
-      <div className=" text-white grid grid-cols-2 section__height">
-        <div>
+      <div className=" text-white mb-8 grid grid-cols-2 section__height">
+        <div className="relative flex flex-col ">
           <div className="p-2 mt-4 mr-8 select-none">
             <Tabs color="teal" variant="outline" defaultValue="gallery">
               <Tabs.List>
@@ -101,16 +102,19 @@ const Builder = () => {
             </>
           )}
           {tab === "Themes" && <StyleControls />}
-          <div className="w-full flex justify-center items-center pt-10 pr-8 mb-10">
-            <button
-              onClick={() => {
-                setMintModal(true);
-              }}
-              className="p-4 bg-flow-500 hover:bg-flow-600 active:scale-95 text-black text-xl font-bold uppercase hover: w-full"
+
+          <button
+            onClick={() => {
+              setMintModal(true);
+            }}
+            className="flex text-xl tracking-wider heading  mr-10 my-8   gap-2 items-center justify-center w-full px-6 py-3 text-center text-flow-500  bg-flow-900/10 border border-flow-500 group duration-100 hover:scale-105 font-semibold rounded-xl focus:outline-none lg:w-auto "
             >
-              Mint this NFT
-            </button>
-          </div>
+            Mint this NFT{" "}
+            <FaArrowRight
+              style={{ fill: "#00ef8b" }}
+              className="group-hover:translate-x-2 duration-200 ease-out"
+              />
+          </button>
         </div>
         <Preview />
       </div>
@@ -126,25 +130,33 @@ const Builder = () => {
           <Button
             loading={loading}
             onClick={() => {
-              if (currentUser.addr){
-                setLoading(true)
-                 mintNFT(currentUser.addr,{avatar:nftConfig.avatar,bio:nftConfig.bio,displayName:nftConfig.displayName,domainName:nftConfig.username,title:nftConfig.title,cover:nftConfig.cover,otherLinks:nftConfig.otherLinks,socialLinks:{
-                  linkedIn:nftConfig.linkedin,
-                  instagram:nftConfig.instagram,
-                  twitter:nftConfig.twitter,
-                  github:nftConfig.github,
-                  youtube:nftConfig.youtube,
-                  mail:nftConfig.gmail
-                 },
-                 styles:{
-                    background:nftConfig.userBgColor,
-                    theme:`${nftConfig.userTheme}`,
-                    avatar:nftConfig.avatarStyle,
-                    card:"rounded"
-                 }})
-                 setLoading(false)
-                 ;}
-              else {
+              if (currentUser.addr) {
+                setLoading(true);
+                mintNFT(currentUser.addr, {
+                  avatar: nftConfig.avatar,
+                  bio: nftConfig.bio,
+                  displayName: nftConfig.displayName,
+                  domainName: nftConfig.username,
+                  title: nftConfig.title,
+                  cover: nftConfig.cover,
+                  otherLinks: nftConfig.otherLinks,
+                  socialLinks: {
+                    linkedIn: nftConfig.linkedin,
+                    instagram: nftConfig.instagram,
+                    twitter: nftConfig.twitter,
+                    github: nftConfig.github,
+                    youtube: nftConfig.youtube,
+                    mail: nftConfig.gmail,
+                  },
+                  styles: {
+                    background: nftConfig.userBgColor,
+                    theme: `${nftConfig.userTheme}`,
+                    avatar: nftConfig.avatarStyle,
+                    card: "rounded",
+                  },
+                });
+                setLoading(false);
+              } else {
                 logIn();
               }
             }}

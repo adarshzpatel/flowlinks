@@ -49,18 +49,15 @@ const FlowLinkShowcasePage = (props: Props) => {
   }, [domainName]);
 
   return (
-    <div className=' flex justify-center items-center'>
+    <div  style={
+      data &&
+      data.styles["background"] && {
+        backgroundImage: data.styles["background"],
+      }} 
+    className=' flex justify-center w-screen h-screen items-center'>
       {exists ? (
-        <div
-          style={
-            data &&
-            data.styles["background"] && {
-              backgroundImage: data.styles["background"],
-            }
-          }
-          className='p-16 bg-zinc-800 mt-10 rounded-lg'
-        >
           <Card
+            minted={false}
             displayName={data && data.displayName}
             theme={data ? data.styles["theme"] : ""}
             username={data ? data.domainName : ""}
@@ -77,7 +74,6 @@ const FlowLinkShowcasePage = (props: Props) => {
             avatar={data ? data.avatar : ""}
             cover={data ? data.cover : ""}
           />
-        </div>
       ) : (
         <div className='flex mt-44 flex-col justify-between space-y-8 items-center p-8 bg-zinc-800 rounded-lg'>
           <div className='max-w-xs text-center text-zinc-300 text-xl'>

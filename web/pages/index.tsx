@@ -4,6 +4,7 @@ import Tilt from "react-parallax-tilt";
 import { Container, Text, Timeline, Title } from "@mantine/core";
 import { TbBrandGithub } from "react-icons/tb";
 import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 const Home: NextPage = () => {
   return (
@@ -13,22 +14,19 @@ const Home: NextPage = () => {
           <div className="w-full mx-auto lg:max-w-6xl">
             <div className="max-w-xl text-center lg:p-10 lg:text-left">
               <div>
-                <p className="text-5xl tracking-tighter text-flow-500 lg:text-6xl font-bold">
-                  Showcase all your links in one place .
+                <p className="text-4xl heading   lg:text-6xl font-semibold">
+                Empower  Your  Online  Presence  <span className="text-flow-500 heading"> with  FlowLinks </span>
                 </p>
                 <p className="max-w-xl mt-4 text-lg lg:text-3xl tracking-tight text-gray-400">
-                  Our SaaS programming product offers a powerful platform that
-                  makes coding easier, faster and more efficient.We understand
-                  the fast-paced nature of the tech industry, and our software
-                  is built to keep up.
+                The Decentralized Solution on Flow Blockchain and NFTs."
                 </p>{" "}
               </div>
               <div className="flex flex-col gap-3 mt-10 sm:flex-row">
                 <a
-                  className="inline-flex gap-4 items-center justify-center w-full px-6 py-3 text-center text-black  bg-flow-500 active:scale-95 duration-100 hover:scale-105 font-medium rounded-xl focus:outline-none lg:w-auto "
+                  className="inline-flex  text-xl tracking-wider heading  gap-2 items-center justify-center w-full px-6 py-3 text-center text-flow-500  bg-flow-900/10 border border-flow-500 group duration-100 hover:scale-105 font-semibold rounded-xl focus:outline-none lg:w-auto "
                   href="builder"
                 >
-                  Claim your FlowLink
+                  Claim your FlowLink <FaArrowRight style={{fill:"#00ef8b"}} className="group-hover:translate-x-2 duration-200 ease-out"/>
                 </a>
               </div>
             </div>
@@ -37,6 +35,7 @@ const Home: NextPage = () => {
         <div className="flex items-center justify-center flex-1">
           <Tilt>
             <Card
+              minted={false}
               displayName="Your Name"
               username="username"
               title="Eg. Full Stack Developer"

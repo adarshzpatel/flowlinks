@@ -3,6 +3,9 @@ import { LinkType } from "../../flow/types";
 import OtherLink from "./OtherLink";
 import SocialLink from "./SocialLink";
 
+const DEFAULT_AVATAR = "https://cdn.filestackcontent.com/j89UFFjR2hyM1Z30rRsQ"
+const DEFAULT_COVER = "https://pbs.twimg.com/profile_banners/1422255111422754816/1668190832/1500x500"
+
 type Props = {
   displayName: string;
   theme: string;
@@ -62,24 +65,24 @@ const Card: React.FC<Props> = ({
         </div>
       )}
       <div className="relative mb-10 flex items-center justify-center select-none">
-        <div className=" h-40 rounded-md w-full  bg-fixed shadow-2xl">
+        <div className="h-40 rounded-md w-full  bg-fixed shadow-2xl">
           <img
             src={
               cover ||
-              "https://blog.pixlr.com/wp-content/uploads/2021/09/Pixlr-NFT-Art-Glitched-Vaporwave-3-1536x888.png"
+              DEFAULT_COVER
             }
-            className="h-full w-full rounded-md -z-10"
+            className="h-full w-full object-cover object-center bg-flow-500 rounded-md -z-10"
             alt="Cover"
           />
           <div className=" absolute top-0 w-full h-full rounded-md bg-gradient-to-t from-gray-900/80 via-gray-900/0 to-gray-900/0"></div>
         </div>
         <div
-          className={`h-24 w-24 absolute ${avatarStyle} -bottom-6 bg-gray-700 shadow-xl`}
+          className={`h-24 w-24 absolute ${avatarStyle} -bottom-6 bg-white shadow-xl`}
         >
           <img
             src={
               avatar ||
-              "https://avatarfiles.alphacoders.com/169/thumb-169513.png"
+             DEFAULT_AVATAR
             }
             className={`h-full w-full  ${avatarStyle}`}
             alt="Cover"

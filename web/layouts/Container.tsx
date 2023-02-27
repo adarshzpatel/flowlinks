@@ -3,11 +3,12 @@ import Head from "next/head";
 import Navbar from "../components/navbar/Navbar";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import useBaseUser from "../store/useBaseUser";
+import {useRouter} from 'next/router'
 
 const Container = ({ children }: any) => {
   const supabase = useSupabaseClient();
   const user = useUser();
-
+  const router = useRouter()
   const { setUser } = useBaseUser();
 
   async function downloadImage(path: string) {
@@ -54,6 +55,10 @@ const Container = ({ children }: any) => {
       fetchAndSetAvatarUrl();
     }
   }, [user]);
+  if((router.query?.domainName as string)?.startsWith("@")){
+    return <>{children}</>
+  }
+
   return (
     <>
       <Head>

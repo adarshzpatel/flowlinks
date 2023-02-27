@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { LinkType } from "../flow/types";
 
+// text
 
 type Store = {
 	//For Details 
@@ -65,23 +66,32 @@ export const useControls = create<Store & Actions>((set): any => ({
 	model: false,
 	otherLinks: [],
 	//For Themes
-	avatarStyle:"",
-	userBgColor:"",
-	userTheme:'#e5e5e5 #a3a3a3 #404040 #262626',
+	avatarStyle:"rounded",
+	userBgColor:'linear-gradient(to top, #98FDB4 0%, #00CD8C 100%)',
+	userTheme:'#e5e7eb #9ca3af #374151 #1f2937',
 	colorTheme_DATA:[
-		'#e5e5e5 #a3a3a3 #404040 #262626',
+		'#e5e5e5 #a3a3a3 #1f2937 #111827',
 		'#E2D6FF #CCBBFF #24273F #1B1C30',
 		'#e5e7eb #9ca3af #374151 #1f2937',
 		'#c7d2fe #6366f1 #3730a3 #312e81',
 		'#635985 #443C68 #393053 #18122B',
 		'#F56EB3 #CB1C8D #7F167F #460C68',
+		'#FFA3FD #865DFF #2a283e #191825'
 	],
 	backgroundColors_DATA:[
-		'linear-gradient(20deg, rgb(79 70 229) 10%, rgb(168 85 247) 30%, rgb(162 28 175) 60%)',
-		'linear-gradient(270deg, rgb(79 70 229) 0%, rgb(168 85 247) 30%, rgb(162 28 175) 70%)',
-		'linear-gradient(90deg, rgb(79 70 229) 0%, rgb(168 85 247) 35%, rgb(162 28 175) 100%)',
-		'linear-gradient(180deg, rgb(79 70 229) 10%, rgb(168 85 247) 30%, rgb(162 28 175) 60%)',
-		'',
+		'linear-gradient(to top, #96fbc4 0%, #f9f586 100%)',
+		'linear-gradient(to top, #dfe9f3 0%, white 100%)',
+		'linear-gradient(to top, #98FDB4 0%, #00CD8C 100%)',
+		'linear-gradient(to top, #ffd6ff 0%, #c8b6ff 100%)',
+		'linear-gradient(-225deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%)',
+		'linear-gradient(-225deg, #AC32E4 0%, #7918F2 48%, #4801FF 100%)',
+		'linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)',
+		'linear-gradient(to right, #4facfe 0%, #00f2fe 100%)',
+		'linear-gradient(to right, #111827 0%, #111827 100%)',
+		'linear-gradient(to right, #171717 0%, #171717 100%)',
+		'linear-gradient(to right, #a78bfa 0%, #a78bfa 100%)',
+		'linear-gradient(to top, #09203f 0%, #537895 100%)',
+		
 	],
 
 	//For Details 

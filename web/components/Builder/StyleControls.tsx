@@ -93,6 +93,7 @@ const StyleControls = () => {
           };
           return (
             <button
+              key={`theme-${i}`}
               onClick={() => setUserTheme(item)}
               className={`border rounded-md flex flex-row space-x-4 p-4 items-center justify-center hover:border-flow-500 duration-150 ease-linear ${userTheme === item?'border-flow-500':'border-gray-700'}`}
             >
@@ -126,11 +127,11 @@ const StyleControls = () => {
         })}
       </div>
       <div className='text-gray-400'>Background Theme's</div>
-      <div className='flex flex-row gap-2'>
+      <div className='flex flex-wrap gap-2'>
         {backgroundColors_DATA.map((e, i) => {
           return (
             <button
-              key={i}
+            key={`bg-${i}`}
               onClick={() => setUserBgColor(e)}
               className={`h-24 w-24 p-2 rounded-md border hover:border-flow-500 ease-linear duration-150 ${
                 userBgColor === e ? "border-flow-500" : "border-gray-700"

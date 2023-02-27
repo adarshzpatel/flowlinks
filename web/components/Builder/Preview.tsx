@@ -28,6 +28,7 @@ function Preview() {
       className='flex items-center justify-center section__height fixed right-0 w-[50%]  ease-linear duration-150'
     >
       <Card
+      minted={false}
       displayName={displayName}
       theme={userTheme}
       username={username}
