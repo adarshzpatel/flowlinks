@@ -96,106 +96,12 @@ export const mintNFT = async (receiver: string, data: FlowLinkType) => {
     Object.keys(link).map((item: string) => ({ key: item, value: link[item] }))
   );
   console.log({ _socialLinks, _styles, _otherLinks });
-  // try {
-  //   const txId = await fcl.mutate({
-  //     cadence: MINT_NFT,
-  //     args: (arg: any, t: any) => {
-  //       const args = [
-  //         arg(data.domainName, t.String),
-  //         arg(data.displayName, t.String),
-  //         arg(data.title, t.String),
-  //         arg(data.bio, t.String),
-  //         arg(data.avatar, t.String),
-  //         arg(data.cover, t.String),
-  //         arg(_socialLinks, t.Dictionary({ key: t.String, value: t.String })),
-  //         arg(
-  //           _otherLinks,
-  //           t.Array(t.Dictionary({ key: t.String, value: t.String }))
-  //         ),
-  //         arg(_styles, t.Dictionary({ key: t.String, value: t.String })),
-  //       ];
-  //       console.log("args", args);
-  //       return args;
-  //     },
-  //     payer: fcl.authz,
-  //     proposer: fcl.authz,
-  //     authorizations: [fcl.authz],
-  //     limit: 1000,
-  //   });
-  //   console.log(txId);
-  //   const tx = await fcl.tx(txId).onceSealed();
-  //   console.log(tx);
-  //   return tx;
-  // } catch (err) {
-  //   console.error(err);
-  // }
-}
-
-export const EDIT_NFT = `
-import FlowLink from 0xFlowLink
-import NonFungibleToken from 0xNonFungibleToken
-
-transaction(id:UInt64,displayName:String,title:String,bio:String,avatar:String,cover:String,socialLinks:{String:String},otherLinks:[{String:String}],styles:{String:String}) {
-    var nft: &FlowLink.NFT
-
-    prepare(account: AuthAccount) {
-      let collection = account.getCapability(FlowLink.CollectionPublicPath).borrow<&FlowLink.Collection{FlowLink.CollectionPrivate}>() ?? panic("Could not get receiver refernce to the NFT collection")
-      self.nft = collection.borrowFlowLinkPrivate(id:id)
-    }
-
-    execute {
-      self.nft.setDisplayName(displayName:displayName)
-      self.nft.setTitle(title: title)
-      self.nft.setAvatar(avatar: avatar)
-      self.nft.setBio(bio: bio)
-      self.nft.setCover(cover: cover)
-      self.nft.setOtherLinks(otherLinks: otherLinks)
-      self.nft.setSocialLinks(socialLinks: socialLinks)
-      self.nft.setStyles(styles: styles)
-    }
-}
-`;
-export const editNFT = async () => {
-  // replace data
-  const data: Omit<FlowLinkType, "domainName"> = {
-    displayName: "Raspberry",
-    title: "Cool fruit",
-    bio: "Hello i am raspberry",
-    avatar:
-      "https://avatars.githubusercontent.com/u/26627776?s=400&u=cd1b01b3ff21747c214b0b4b0d2a6b9bfef39695&v=4",
-    cover:
-      "https://pbs.twimg.com/profile_banners/936173957262094336/1670725794/1500x500",
-    socialLinks: {
-      github: "https://github.com/adarshzpatel/rash",
-      linkedIn: "https://www.linkedin.com/in/rash/",
-      twitter: "https://www.linkedin.com/in/rash/",
-    },
-    otherLinks: [{ title: "Website", href: "https://flowlinks.vercel.app" }],
-    styles: {
-      avatar: "rounded",
-      background: "#000",
-      card: "rounded",
-      theme: "#e5e5e5 #a3a3a3 #404040 #262626",
-    },
-  };
-  const _socialLinks = Object.keys(data.socialLinks).map((item: string) => ({
-    key: item,
-    value: data.socialLinks[item],
-  }));
-  const _styles = Object.keys(data.styles).map((item: string) => ({
-    key: item,
-    value: data.styles[item],
-  }));
-  const _otherLinks = data.otherLinks.map((link) =>
-    Object.keys(link).map((item: string) => ({ key: item, value: link[item] }))
-  );
-
   try {
     const txId = await fcl.mutate({
-      cadence: EDIT_NFT,
+      cadence: MINT_NFT,
       args: (arg: any, t: any) => {
         const args = [
-          arg(0, t.UInt64),
+          arg(data.domainName, t.String),
           arg(data.displayName, t.String),
           arg(data.title, t.String),
           arg(data.bio, t.String),
@@ -208,6 +114,7 @@ export const editNFT = async () => {
           ),
           arg(_styles, t.Dictionary({ key: t.String, value: t.String })),
         ];
+        console.log("args", args);
         return args;
       },
       payer: fcl.authz,
@@ -215,9 +122,11 @@ export const editNFT = async () => {
       authorizations: [fcl.authz],
       limit: 1000,
     });
+    console.log(txId);
     const tx = await fcl.tx(txId).onceSealed();
+    console.log(tx);
     return tx;
   } catch (err) {
     console.error(err);
   }
-};
+}

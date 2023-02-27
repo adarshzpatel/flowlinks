@@ -32,7 +32,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center flex-1">
+        <div className="flex items-center justify-center bg-gradient-to-br  from-flow-500 to-flow-800 flex-1">
           <Tilt>
             <Card
               minted={false}

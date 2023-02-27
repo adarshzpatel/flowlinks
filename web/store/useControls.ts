@@ -25,6 +25,7 @@ type Store = {
 	userTheme:string
 	colorTheme_DATA:string[]
 	backgroundColors_DATA:Array<string>
+	authModal:boolean
 };
 type Actions = {
 	//For Details 
@@ -45,6 +46,7 @@ type Actions = {
 	setAvatarStyle: (displayName: Store["avatarStyle"]) => void;
 	setUserBgColor: (userBgColor: Store["userBgColor"]) => void;
 	setUserTheme: (userBgColor: Store["userTheme"]) => void;
+	setAuthModal: (state: Store["authModal"]) => void;
 	addOtherLink: (data:LinkType) => void;
 	deleteOtherLink: (data:LinkType) => void;
 
@@ -122,5 +124,6 @@ export const useControls = create<Store & Actions>((set): any => ({
 	setAvatarStyle: (avatarStyle: string) => set(() => ({ avatarStyle: avatarStyle })),
 	setUserBgColor: (userBgColor: string) => set(() => ({ userBgColor: userBgColor })),
 	setUserTheme: (userTheme: string) => set(() => ({ userTheme: userTheme })),
-
+	authModal:false ,
+	setAuthModal: (state:boolean) => set(()=>({authModal:state}))
 }));

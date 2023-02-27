@@ -1,4 +1,4 @@
-import { ActionIcon, CopyButton, Tabs, Title, Tooltip } from "@mantine/core";
+import { ActionIcon, CopyButton, Divider, Tabs, Title, Tooltip } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { TbCopy } from "react-icons/tb";
@@ -11,16 +11,16 @@ import Button from "../components/ui/Button";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
 import Card from "../components/Builder/Card";
+import { useControls } from "../store/useControls";
 
 const DashboardPage = () => {
   const supabase = useSupabaseClient();
-  const { currentUser } = useAuth();
+  const { currentUser,logIn } = useAuth();
   const user = useUser();
   const [ownedNFTs, setOwnedNFTs] = useState<FlowLinkResponse[]>([]);
   const [savedNfts, setSavedNfts] = useState<FlowLinkResponse[]>([]);
   const [loadingMintedNfts, setLoadingMintedNfts] = useState<boolean>();
   const [loadingSavedNfts, setLoadingSavedNfts] = useState<boolean>();
-
   const [ownedNFTDomains, setOwnedNFTDomains] = useState<Array<string>>([]);
 
   useEffect(() => {
@@ -109,8 +109,9 @@ const DashboardPage = () => {
   return (
     <div className="py-8 max-w-screen-lg mx-auto">
       <div className="flex justify-between my-4 items-center gap-2">
-        <Title>Dashboard</Title>
-        <div className="border-gray-600 flex items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">
+        <h2 className="heading text-3xl font-bold flex-1">Dashboard</h2>
+        {user?.email ? <div className="border-gray-600 heading font-medium text-gray-400 flex items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">{user?.email}</div> : <Link href={"/auth?redirectTo=/dashboard"} className="border-gray-600 heading font-medium text-gray-400 flex hover:border-gray-200 hover:text-gray-100 active:scale-95 duration-200 ease-out items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">Login with Email</Link>}
+        {currentUser?.addr ? <div className="border-gray-600 heading font-medium text-gray-400 flex items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">
           {currentUser?.addr}
           <CopyButton value={currentUser?.addr} timeout={2000}>
             {({ copied, copy }) => (
@@ -131,19 +132,19 @@ const DashboardPage = () => {
               </Tooltip>
             )}
           </CopyButton>
-        </div>
+        </div> : <button onClick={logIn} className="border-gray-600 heading font-medium text-gray-400 flex hover:border-gray-200 hover:text-gray-100 active:scale-95 duration-200 ease-out items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">Connect Wallet</button>}
       </div>
-      <Tabs defaultValue="owned" radius={"md"}>
+      <Tabs  defaultValue="owned" radius={"md"}>
         <Tabs.List>
-          <Tabs.Tab value="owned">Owned</Tabs.Tab>
-          <Tabs.Tab value="mintLater">Saved</Tabs.Tab>
+          <Tabs.Tab style={{fontSize:16}} value="owned">Owned</Tabs.Tab>
+          <Tabs.Tab style={{fontSize:16}} value="mintLater">Saved</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="owned" pt="lg">
-          <div className="flex flex-col gap-4">
+        {currentUser?.addr ?  <div className="flex flex-col gap-4">
             {loadingMintedNfts && (
               <div className="flex gap-2 items-center">
-                <Spinner /> LoadingMintedNfts NFTs...
+                <Spinner /> Loading MintedNfts NFTs...
               </div>
             )}
             {!loadingMintedNfts &&
@@ -175,7 +176,7 @@ const DashboardPage = () => {
                     timeout={2000}
                   >
                     {({ copied, copy }) => (
-                      <div className="flex ga items-center border border-gray-600 py-2 px-4 rounded-lg">
+                      <div className="flex gap-1 heading font-medium text-gray-400 hover:text-gray-100 cursor-pointer items-center border border-gray-600 py-2 px-4 rounded-lg">
                         {copied ? "Copied" : "Copy Share link"}
                         <ActionIcon
                           size={28}
@@ -206,8 +207,8 @@ const DashboardPage = () => {
                 </Link>
               </div>
             )}
-          </div>
-        </Tabs.Panel>
+          </div>: <div className="text-center mt-4">Connect wallet to see minted NFTs</div>}
+        </Tabs.Panel> 
         <Tabs.Panel value="mintLater" pt="lg">
           <div className="flex w-full gap-4 flex-wrap justify-around p-4 overflow-y-auto">
             {!loadingSavedNfts &&

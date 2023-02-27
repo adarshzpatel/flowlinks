@@ -84,7 +84,7 @@ const Builder = () => {
       <div className=" text-white mb-8 grid grid-cols-2 section__height">
         <div className="relative flex flex-col ">
           <div className="p-2 mt-4 mr-8 select-none">
-            <Tabs color="teal" variant="outline" defaultValue="gallery">
+            <Tabs  variant="default" defaultValue="Details">
               <Tabs.List>
                 <Tabs.Tab value="Details" onClick={() => setTab("Details")}>
                   Details
@@ -121,12 +121,12 @@ const Builder = () => {
       <Modal
         opened={mintModal}
         onClose={() => setMintModal(false)}
-        title="Mint"
         centered
         overlayOpacity={0.55}
         overlayBlur={3}
+        radius={"lg"}
       >
-        <div className="flex flex-col w-full h-full justify-center items-center gap-3 p-10">
+        <div className="flex flex-col w-full h-full   gap-3 ">
           <Button
             loading={loading}
             onClick={() => {
@@ -160,7 +160,8 @@ const Builder = () => {
                 logIn();
               }
             }}
-            variant="success"
+            variant="none"
+            className="bg-gray flex items-center justify-center bg-gray-800/50 !rounded-lg heading border hover:border-flow-600 hover:text-flow-500 hover:bg-flow-900/10 duration-200 ease-out border-gray-700 !text-2xl font-medium !p-8  text-gray-400"
           >
             {currentUser.addr ? "Mint Now" : "Connect wallet and Mint now"}
           </Button>
@@ -169,10 +170,11 @@ const Builder = () => {
             onClick={() => {
               if (user) saveForLater();
               else {
-                Router.push("/auth");
+                Router.push("/auth?redirectTo=builder");
               }
             }}
-            variant="secondary"
+            variant="none"
+            className="bg-gray flex items-center justify-center bg-gray-800/50 !rounded-lg heading border hover:border-flow-600 hover:text-flow-500 hover:bg-flow-900/10 duration-200 ease-out border-gray-700 !text-2xl font-medium !p-8  text-gray-400"
           >
             {user
               ? loading

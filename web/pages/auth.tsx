@@ -5,7 +5,7 @@ import {
 } from "@supabase/auth-helpers-react";
 import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { NextPage } from "next";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 interface AuthPageProps {}
@@ -13,10 +13,15 @@ interface AuthPageProps {}
 const AuthPage: NextPage<AuthPageProps> = () => {
   const supabase = useSupabaseClient();
   const session: Session | null = useSession();
-
+  const router = useRouter();
+  const redirectUrl = router.query.redirectTo as string
+  
   useEffect(() => {
-    if (session) Router.push("/");
-  }, [session]);
+    if(session){
+      router.push(redirectUrl ?? "/")
+    }
+  }, [session,redirectUrl]);
+
   return (
     <div className="section__height flex  col items-center justify-center">
       <div className="max-w-md mx-auto flex-1">

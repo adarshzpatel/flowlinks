@@ -78,7 +78,7 @@ const InfoControls = () => {
 
   return (
     <>
-      <div className="pt-8 overflow-y-scroll  pr-8 flex flex-col select-none ease-linear duration-150">
+      <div className="pt-4 overflow-y-scroll  pr-8 flex flex-col select-none ease-linear duration-150">
         {/*Names */}
         <Accordion variant="separated" defaultValue="general">
           <Accordion.Item value="general">
