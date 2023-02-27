@@ -58,7 +58,7 @@ const Builder = () => {
       otherlinks: nftConfig.otherLinks
         .map((val) => `${val?.title}-${val?.href}`)
         .join(","),
-      styles: `${nftConfig?.avatarStyle || "square"}-${nftConfig?.userBgColor || ""}-${nftConfig?.userTheme.c1} ${nftConfig?.userTheme.c2} ${nftConfig?.userTheme.c3} ${nftConfig?.userTheme.c4}`,
+      styles: `${nftConfig?.avatarStyle || "square"}-${nftConfig?.userBgColor || ""}-${nftConfig.userTheme}`,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
@@ -135,7 +135,7 @@ const Builder = () => {
                  },
                  styles:{
                     background:nftConfig.userBgColor,
-                    theme:`${nftConfig.userTheme.c1} ${nftConfig.userTheme.c2} ${nftConfig.userTheme.c3} ${nftConfig.userTheme.c4}`,
+                    theme:`${nftConfig.userTheme}`,
                     avatar:nftConfig.avatarStyle,
                     card:"rounded"
                  }})

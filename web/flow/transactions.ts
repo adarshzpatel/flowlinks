@@ -97,39 +97,39 @@ export const mintNFT = async (receiver: string, data: FlowLinkType) => {
     Object.keys(link).map((item: string) => ({ key: item, value: link[item] }))
   );
   console.log({ _socialLinks, _styles, _otherLinks });
-  try {
-    const txId = await fcl.mutate({
-      cadence: MINT_NFT,
-      args: (arg: any, t: any) => {
-        const args = [
-          arg(data.domainName, t.String),
-          arg(data.displayName, t.String),
-          arg(data.title, t.String),
-          arg(data.bio, t.String),
-          arg(data.avatar, t.String),
-          arg(data.cover, t.String),
-          arg(_socialLinks, t.Dictionary({ key: t.String, value: t.String })),
-          arg(
-            _otherLinks,
-            t.Array(t.Dictionary({ key: t.String, value: t.String }))
-          ),
-          arg(_styles, t.Dictionary({ key: t.String, value: t.String })),
-        ];
-        console.log("args", args);
-        return args;
-      },
-      payer: fcl.authz,
-      proposer: fcl.authz,
-      authorizations: [fcl.authz],
-      limit: 1000,
-    });
-    console.log(txId);
-    const tx = await fcl.tx(txId).onceSealed();
-    console.log(tx);
-    return tx;
-  } catch (err) {
-    console.error(err);
-  }
+  // try {
+  //   const txId = await fcl.mutate({
+  //     cadence: MINT_NFT,
+  //     args: (arg: any, t: any) => {
+  //       const args = [
+  //         arg(data.domainName, t.String),
+  //         arg(data.displayName, t.String),
+  //         arg(data.title, t.String),
+  //         arg(data.bio, t.String),
+  //         arg(data.avatar, t.String),
+  //         arg(data.cover, t.String),
+  //         arg(_socialLinks, t.Dictionary({ key: t.String, value: t.String })),
+  //         arg(
+  //           _otherLinks,
+  //           t.Array(t.Dictionary({ key: t.String, value: t.String }))
+  //         ),
+  //         arg(_styles, t.Dictionary({ key: t.String, value: t.String })),
+  //       ];
+  //       console.log("args", args);
+  //       return args;
+  //     },
+  //     payer: fcl.authz,
+  //     proposer: fcl.authz,
+  //     authorizations: [fcl.authz],
+  //     limit: 1000,
+  //   });
+  //   console.log(txId);
+  //   const tx = await fcl.tx(txId).onceSealed();
+  //   console.log(tx);
+  //   return tx;
+  // } catch (err) {
+  //   console.error(err);
+  // }
 }
 
 export const EDIT_NFT = `
