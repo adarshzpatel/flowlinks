@@ -95,7 +95,7 @@ const Card: React.FC<Props> = ({
         className={`flex flex-col rounded-md w-full bg-gray-800/50 p-4 ease-linear duration-150`}
       >
         {/*Display Name */}
-        <div className="text-gray-50 text-2xl font-semibold text-center leading-5">
+        <div  style={userTheme && { color: userTheme.c1 }} className="text-gray-50 text-2xl font-semibold text-center leading-5">
           {displayName === "" ? "Your Name" : displayName}
         </div>
         {/*User Name */}
