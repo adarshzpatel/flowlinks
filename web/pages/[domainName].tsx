@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Card from "../components/Builder/Card";
 import Button from "../components/ui/Button";
+import ShowcaseFooter from "../components/ui/ShowcaseFooter";
 import { checkIsAvailable, getFlowLinkByDomainName } from "../flow/scripts";
 import { useControls } from "../store/useControls";
 
@@ -54,7 +56,7 @@ const FlowLinkShowcasePage = (props: Props) => {
       data.styles["background"] && {
         backgroundImage: data.styles["background"],
       }} 
-    className=' flex justify-center w-screen h-screen items-center'>
+    className=' flex justify-center  w-screen h-screen items-center'>
       {exists ? (
           <Card
             minted={false}
@@ -75,7 +77,7 @@ const FlowLinkShowcasePage = (props: Props) => {
             cover={data ? data.cover : ""}
           />
       ) : (
-        <div className='flex mt-44 flex-col justify-between space-y-8 items-center p-8 bg-zinc-800 rounded-lg'>
+        <div className='flex flex-col justify-between space-y-8 items-center p-8 bg-zinc-800 rounded-lg'>
           <div className='max-w-xs text-center text-zinc-300 text-xl'>
             This domain has not been claimed yet , you can be the first one to
             claim it
@@ -85,9 +87,14 @@ const FlowLinkShowcasePage = (props: Props) => {
           </Button>
         </div>
       )}
+      {exists && 
+      <div className="absolute bottom-4 ">
+        <Link href={'/'}>
+          <ShowcaseFooter/>
+        </Link>
+      </div>}
     </div>
   );
 };
 
 export default FlowLinkShowcasePage;
-// socialLinks
