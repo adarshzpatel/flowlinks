@@ -22,6 +22,8 @@ const Navbar = () => {
       <nav className="flex max-w-screen-2xl items-center mx-auto justify-between">
         <Logo />
         <div className="flex gap-2 items-center justify-center">
+          <Link href={"/explore"} className="heading  text-lg mr-2 tracking-wider text-gray-400 hover:text-white duration-200 ease-out font-medium uppercase">Explore</Link>
+          <div className="w-[2px] rounded-full h-8 bg-gray-600"/>
           <Link href={"/builder"}>
             <Button variant="primary">Create FlowLink</Button></Link>
           {!currentUser?.addr && !user?.email && (

@@ -17,7 +17,6 @@ const FlowLinkShowcasePage = (props: Props) => {
   const [exists, setExists] = useState<boolean>(false);
 
   //State for card inputs
-  const { setDisplayName, setUserName, setTitle } = useControls();
 
   // If domainName is not prefixed with @ , then add it
   useEffect(() => {

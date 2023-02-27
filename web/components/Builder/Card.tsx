@@ -3,8 +3,8 @@ import { LinkType } from "../../flow/types";
 import OtherLink from "./OtherLink";
 import SocialLink from "./SocialLink";
 
-const DEFAULT_AVATAR = "https://cdn.filestackcontent.com/j89UFFjR2hyM1Z30rRsQ"
-const DEFAULT_COVER = "https://pbs.twimg.com/profile_banners/1422255111422754816/1668190832/1500x500"
+export const DEFAULT_AVATAR = "https://cdn.filestackcontent.com/j89UFFjR2hyM1Z30rRsQ"
+export const DEFAULT_COVER = "https://pbs.twimg.com/profile_banners/1422255111422754816/1668190832/1500x500"
 
 type Props = {
   displayName: string;
