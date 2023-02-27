@@ -7,7 +7,6 @@ import { useAuth } from "../../context/AuthContext";
 import Preview from "../../components/Builder/Preview";
 import InfoControls from "../../components/Builder/InfoControls";
 import { Button } from "../../components/ui/Button";
-import { editNFT } from "../../flow/transactions";
 
 type Props = {};
 
