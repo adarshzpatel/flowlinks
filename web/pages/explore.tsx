@@ -36,7 +36,7 @@ const Explore = (props: Props) => {
   return (
     <AppContainer>
       
-    <div className="py-4  grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
+    <div className="p-4  grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
       {flowLinks?.map((item) => (
         <Link
         href={`/@${item?.domainName}`}
