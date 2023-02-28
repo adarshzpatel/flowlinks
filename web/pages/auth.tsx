@@ -1,3 +1,4 @@
+import { Container } from "@mantine/core";
 import {
   Session,
   useSession,
@@ -23,6 +24,8 @@ const AuthPage: NextPage<AuthPageProps> = () => {
   }, [session,redirectUrl]);
 
   return (
+    <Container>
+
     <div className="section__height flex  col items-center justify-center">
       <div className="max-w-md mx-auto flex-1">
         <Auth
@@ -30,9 +33,10 @@ const AuthPage: NextPage<AuthPageProps> = () => {
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
           theme="dark"
-        />
+          />
       </div>
     </div>
+          </Container>
   );
 };
 

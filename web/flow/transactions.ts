@@ -95,8 +95,9 @@ export const mintNFT = async (receiver: string, data: FlowLinkType) => {
   const _otherLinks = data.otherLinks.map((link) =>
     Object.keys(link).map((item: string) => ({ key: item, value: link[item] }))
   );
-  console.log({ _socialLinks, _styles, _otherLinks });
+
   try {
+    
     const txId = await fcl.mutate({
       cadence: MINT_NFT,
       args: (arg: any, t: any) => {
@@ -124,7 +125,7 @@ export const mintNFT = async (receiver: string, data: FlowLinkType) => {
     });
     console.log(txId);
     const tx = await fcl.tx(txId).onceSealed();
-    console.log(tx);
+
     return tx;
   } catch (err) {
     console.error(err);

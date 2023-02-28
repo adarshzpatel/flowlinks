@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import AddLinkModal from "./AddLinkModal";
 import { Accordion } from "@mantine/core";
 import { PickerInline } from "filestack-react-18";
@@ -32,7 +32,7 @@ import Button from "../ui/Button";
 
 // spread operator , destructuring , promise ,async await
 
-const InfoControls = () => {
+const InfoControls = ({setErr}:{setErr:Dispatch<SetStateAction<string[]>>}) => {
   const {
     displayName,
     title,
@@ -64,14 +64,31 @@ const InfoControls = () => {
   const [domainName, setDomainName] = useDebouncedState("", 200);
   const [openAvatarUpload, setOpenAvatarUpload] = useState<boolean>(false);
   const [openCoverUpload, setOpenCoverUpload] = useState<boolean>(false);
+
+  const isValid = (s:string) => {
+    const forbiddenChars = '!@#$%^&*()<>? ./'.split('')
+    let valid = true
+    forbiddenChars.forEach((c)=>{
+      if(s.includes(c)) valid = false
+    })
+
+    return valid
+  }
+
   useEffect(() => {
+
     const check = async () => {
-      const res = await checkIsAvailable(domainName);
-      if (!res) setDomainError("Already Claimed");
-      else setDomainError("");
+      if(isValid(domainName) == false){
+        setDomainError("Invalid !! Should not contain !@#$%^&*()<>? ./ ")
+      } else {
+        setDomainError("")
+        const res = await checkIsAvailable(domainName);
+        if (!res) setDomainError("Already Claimed");
+        else setDomainError("");
+      }
     };
 
-    if (domainName) {
+    if (domainName) {   
       check();
     }
   }, [domainName]);
@@ -99,8 +116,11 @@ const InfoControls = () => {
                   defaultValue={domainName}
                   description="Should not include !@#$%^&*()<>? ./"
                   onChange={(e) => {
-                    setDomainName(e.target.value);
-                    setUserName(e.target.value);
+
+                      setDomainError("")
+                      setDomainName(e.target.value);
+                      setUserName(e.target.value);
+
                   }}
                   withAsterisk
                   error={domainError}
@@ -110,14 +130,12 @@ const InfoControls = () => {
                   placeholder="Eg. Full Stack Developer"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  withAsterisk
                 />
                 <Textarea
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Enter bio"
                   label="Bio"
-                  withAsterisk
                 />
                 <div className="flex gap-4">
                   <Button

@@ -12,6 +12,7 @@ import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
 import Card from "../components/Builder/Card";
 import { useControls } from "../store/useControls";
+import AppContainer from "../layouts/AppContainer";
 
 const DashboardPage = () => {
   const supabase = useSupabaseClient();
@@ -107,6 +108,8 @@ const DashboardPage = () => {
   }, [user]);
 
   return (
+<AppContainer>
+
     <div className="py-8 max-w-screen-lg mx-auto">
       <div className="flex justify-between my-4 items-center gap-2">
         <h2 className="heading text-3xl font-bold flex-1">Dashboard</h2>
@@ -116,15 +119,15 @@ const DashboardPage = () => {
           <CopyButton value={currentUser?.addr} timeout={2000}>
             {({ copied, copy }) => (
               <Tooltip
-                label={copied ? "Copied" : "Copy"}
-                withArrow
-                position="right"
+              label={copied ? "Copied" : "Copy"}
+              withArrow
+              position="right"
               >
                 <ActionIcon
                   size={28}
                   color={copied ? "flow" : "gray"}
                   onClick={copy}
-                >
+                  >
                   <div className="p-2">
                     {copied ? <FiCheck size={24} /> : <TbCopy size={24} />}
                   </div>
@@ -150,8 +153,8 @@ const DashboardPage = () => {
             {!loadingMintedNfts &&
               ownedNFTs?.map((item) => (
                 <div
-                  className="p-4 hover:border-l-2  hover:border-l-flow-500 duration-100 flex items-center gap-4 rounded-lg  bg-gray-800/50  border border-gray-700"
-                  key={`flowlink-${item.domainName}`}
+                className="p-4 hover:border-l-2  hover:border-l-flow-500 duration-100 flex items-center gap-4 rounded-lg  bg-gray-800/50  border border-gray-700"
+                key={`flowlink-${item.domainName}`}
                 >
                   <div className="font-bold text-2xl flex-1">
                     @ {item?.domainName}
@@ -160,21 +163,21 @@ const DashboardPage = () => {
                     href={"https://flowlinks.vercel.app/@" + item?.domainName}
                     target="_blank"
                     rel="noreferrer"
-                  >
+                    >
                     <Button variant="success">View Flowlink</Button>
                   </Link>
                   <Link
                     href={
                       "https://flowlinks.vercel.app/edit/" + item?.domainName
                     }
-                  >
+                    >
                     <Button variant="warning">Edit </Button>
                   </Link>
 
                   <CopyButton
                     value={"https://flowlinks.vercel.app/@" + item?.domainName}
                     timeout={2000}
-                  >
+                    >
                     {({ copied, copy }) => (
                       <div className="flex gap-1 heading font-medium text-gray-400 hover:text-gray-100 cursor-pointer items-center border border-gray-600 py-2 px-4 rounded-lg">
                         {copied ? "Copied" : "Copy Share link"}
@@ -182,13 +185,13 @@ const DashboardPage = () => {
                           size={28}
                           color={copied ? "flow" : "gray"}
                           onClick={copy}
-                        >
+                          >
                           <div className="p-2 ">
                             {copied ? (
                               <FiCheck size={24} />
-                            ) : (
-                              <TbCopy size={24} />
-                            )}
+                              ) : (
+                                <TbCopy size={24} />
+                                )}
                           </div>
                         </ActionIcon>
                       </div>
@@ -202,7 +205,7 @@ const DashboardPage = () => {
                 <Link
                   href={"/builder"}
                   className="text-medium underline text-gray-100 hover:text-flow-500 underline-offset-4"
-                >
+                  >
                   Click Here to mint one
                 </Link>
               </div>
@@ -215,27 +218,28 @@ const DashboardPage = () => {
               savedNfts.map((nft: FlowLinkResponse, idx) => {
                 return (
                   <Card
-                    theme={nft.styles.theme || ""}
-                    username={nft.domainName}
-                    twitter={nft.socialLinks.twitter || ""}
-                    github={nft.socialLinks.github || ""}
-                    linkedin={nft.socialLinks.linkedin || ""}
-                    instagram={nft.socialLinks.instagram || ""}
-                    youtube={nft.socialLinks.youtube || ""}
-                    gmail={nft.socialLinks.mail || ""}
-                    avatarStyle={nft.styles.avatar || ""}
-                    key={idx}
-                    minted={ownedNFTDomains.includes(nft.domainName)}
-                    {...nft}
+                  theme={nft.styles.theme || ""}
+                  username={nft.domainName}
+                  twitter={nft.socialLinks.twitter || ""}
+                  github={nft.socialLinks.github || ""}
+                  linkedin={nft.socialLinks.linkedin || ""}
+                  instagram={nft.socialLinks.instagram || ""}
+                  youtube={nft.socialLinks.youtube || ""}
+                  gmail={nft.socialLinks.mail || ""}
+                  avatarStyle={nft.styles.avatar || ""}
+                  key={idx}
+                  minted={ownedNFTDomains.includes(nft.domainName)}
+                  {...nft}
                   />
-                );
-              })}
+                  );
+                })}
             {!user && "Please sign-in to view your saved NFTs."}
             {savedNfts.length === 0 && "You haven't saved any NFT designs yet."}
           </div>
         </Tabs.Panel>
       </Tabs>
     </div>
+                </AppContainer>
   );
 };
 

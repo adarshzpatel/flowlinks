@@ -1,15 +1,15 @@
 import type { NextPage } from "next";
 import Card from "../components/Builder/Card";
 import Tilt from "react-parallax-tilt";
-import { Container, Text, Timeline, Title } from "@mantine/core";
+import { Text, Timeline, Title } from "@mantine/core";
 import { TbBrandGithub } from "react-icons/tb";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
-import { FiArrowUpRight } from "react-icons/fi";
+import AppContainer from "../layouts/AppContainer";
 
 const Home: NextPage = () => {
   return (
-    <>
+    <AppContainer>
       <div className="flex section__height ">
         <div className="flex flex-col justify-center items-center px-8 py-8 md:px-12 lg:flex-row lg:px-24">
           <div className="w-full mx-auto lg:max-w-6xl">
@@ -116,7 +116,7 @@ const Home: NextPage = () => {
           Github</Link>
       </footer>
       </div>
-    </>
+    </AppContainer>
   );
 };
 

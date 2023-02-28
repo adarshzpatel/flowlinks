@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { LinkType } from "../flow/types";
+import { DEFAULT_AVATAR, DEFAULT_COVER } from "../components/Builder/Card";
 
 // text
 
@@ -57,8 +58,8 @@ export const useControls = create<Store & Actions>((set): any => ({
 	displayName: "",
 	username: "",
 	title: "",
-	avatar: "",
-	cover: "",
+	avatar: DEFAULT_AVATAR,
+	cover: DEFAULT_COVER,
 	bio: "",
 	github: "",
 	linkedin: "",
@@ -68,7 +69,7 @@ export const useControls = create<Store & Actions>((set): any => ({
 	model: false,
 	otherLinks: [],
 	//For Themes
-	avatarStyle:"rounded",
+	avatarStyle:"rounded-lg",
 	userBgColor:'linear-gradient(to top, #98FDB4 0%, #00CD8C 100%)',
 	userTheme:'#e5e7eb #9ca3af #374151 #1f2937',
 	colorTheme_DATA:[

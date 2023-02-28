@@ -11,7 +11,7 @@ import { SessionContextProvider, useUser } from "@supabase/auth-helpers-react";
 import "../styles/globals.css";
 
 import { useEffect, useState } from "react";
-import Container from "../layouts/Container";
+import Container from "../layouts/AppContainer";
 import AuthModal from "../components/navbar/AuthModal";
 
 function MyApp({
@@ -33,7 +33,6 @@ function MyApp({
           withNormalizeCSS
           theme={{
             /** Put your mantine theme override here */
-
             colorScheme: "dark",
             colors: {
               // dark:[gray[100],gray[200],gray[300],gray[400],gray[500],gray[600],gray[700],gray[800],gray[900]],
@@ -54,10 +53,8 @@ function MyApp({
           }}
         >
           <AuthModal/>
-          <Container>
           <Toaster position="bottom-left" />
             <Component {...pageProps} />
-          </Container>
         </MantineProvider>
       </AuthProvider>
     </SessionContextProvider>

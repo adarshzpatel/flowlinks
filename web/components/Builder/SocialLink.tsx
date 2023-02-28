@@ -12,7 +12,7 @@ type Props = {
 const SocialLink:React.FC<Props> = ({title,link,userTheme}) => {
 
   return (
-    <Tooltip label={title} position='bottom' withArrow color={userTheme&&userTheme.c3} offset={10}>
+    <Tooltip style={{border:"0.5px solid #00ef8b"}} label={title} position='bottom'  color={userTheme&&userTheme.c3} offset={10}>
     
     <Link href={title==='Gmail'?'mailto:'+link:link} target="_blank">
         <div style={userTheme && {backgroundColor:userTheme.c3,color:userTheme.c1}} className={`w-full bg-gray-800/50 p-3 text-gray-50/70  rounded-md hover:brightness-125 ease-linear duration-150 active:scale-90`}>
