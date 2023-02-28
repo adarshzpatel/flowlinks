@@ -79,6 +79,9 @@ export const useControls = create<Store & Actions>((set): any => ({
 		'#ffffff #a3a3a3 #1C1C1C #000000',
 		'#E5B8F4 #B854C4 #2D033B #810CA8',
 		'#01E68B #008578 #002024 #013841',
+		'#FFFFFF #CCBBFF #7B55EA #1F0078',
+		'#000200 #AE7B5F #F2D6BE #F6F0EB',
+		'#000200 #D3B3B6 #FFFFFF #F6F6F6',
 	],
 	backgroundColors_DATA:[
 		'linear-gradient(to top, #96fbc4 0%, #f9f586 100%)',
