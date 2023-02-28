@@ -57,14 +57,14 @@ const InfoControls = ({setErr}:{setErr:Dispatch<SetStateAction<string[]>>}) => {
     deleteOtherLink,
     setAvatar,
     setCover,
+    username
   } = useControls();
 
   const [openNewLinkModal, setOpenNewLinkModal] = useState<boolean>(false);
   const [domainError, setDomainError] = useState<string | null>(null);
-  const [domainName, setDomainName] = useDebouncedState("", 200);
+  const [domainName, setDomainName] = useDebouncedState(username, 200);
   const [openAvatarUpload, setOpenAvatarUpload] = useState<boolean>(false);
   const [openCoverUpload, setOpenCoverUpload] = useState<boolean>(false);
-
   const isValid = (s:string) => {
     const forbiddenChars = '!@#$%^&*()<>? ./'.split('')
     let valid = true
@@ -112,11 +112,10 @@ const InfoControls = ({setErr}:{setErr:Dispatch<SetStateAction<string[]>>}) => {
 
                 <TextInput
                   label="Enter domain name"
-                  placeholder="Enter domain name"
+                  placeholder="Enter domain name" 
                   defaultValue={domainName}
                   description="Should not include !@#$%^&*()<>? ./"
                   onChange={(e) => {
-
                       setDomainError("")
                       setDomainName(e.target.value);
                       setUserName(e.target.value);
