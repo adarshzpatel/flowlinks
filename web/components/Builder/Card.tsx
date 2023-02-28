@@ -45,7 +45,7 @@ const Card: React.FC<Props> = ({
   cover,
   minted = false,
 }) => {
-  const themeData = theme.split(" ");
+  const themeData = theme?.split(" ");
   const userTheme = {
     c1: themeData[0],
     c2: themeData[1],
