@@ -1,5 +1,5 @@
-import Router from "next/router";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React from "react";
 import { LinkType } from "../../flow/types";
 import { useControls } from "../../store/useControls";
 import Button from "../ui/Button";
@@ -29,6 +29,7 @@ type Props = {
   cover: string;
   minted: boolean;
   handleDelete?: (username: string) => void;
+  loading?: boolean;
 };
 
 const Card: React.FC<Props> = ({
@@ -49,6 +50,7 @@ const Card: React.FC<Props> = ({
   cover,
   minted = false,
   handleDelete = null,
+  loading = false,
 }) => {
   const themeData = theme?.split(" ");
   const userTheme = {
@@ -57,8 +59,6 @@ const Card: React.FC<Props> = ({
     c3: themeData[2],
     c4: themeData[3],
   };
-
-  const [loading, setLoading] = useState(false);
 
   const {
     setAvatar,
@@ -77,6 +77,8 @@ const Card: React.FC<Props> = ({
     setYoutube,
   } = useControls();
 
+  const router = useRouter();
+
   const handleEdit = () => {
     setDisplayName(displayName);
     setAvatar(avatar);
@@ -92,7 +94,7 @@ const Card: React.FC<Props> = ({
     setUserName(username);
     setUserTheme(theme);
     setYoutube(youtube);
-    Router.push("/builder");
+    router.push("/builder");
   };
 
   return (
@@ -211,7 +213,7 @@ const Card: React.FC<Props> = ({
           );
         })}
       </div>
-      {!minted && Router.pathname.includes("dashboard") && (
+      {!minted && router.pathname.includes("/dashboard") && (
         <div className="w-full flex items-center mt-3 gap-3 justify-between">
           <Button className="w-1/2" onClick={handleEdit} variant="warning">
             Edit

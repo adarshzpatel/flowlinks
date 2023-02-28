@@ -291,6 +291,7 @@ const DashboardPage = () => {
                       avatarStyle={nft.styles.avatar || ""}
                       key={idx}
                       handleDelete={handleDelete}
+                      loading={loading}
                       minted={ownedNFTDomains.includes(nft.domainName)}
                       {...nft}
                     />
