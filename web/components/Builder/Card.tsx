@@ -211,7 +211,7 @@ const Card: React.FC<Props> = ({
           );
         })}
       </div>
-      {!minted && window.location.pathname.includes("/dashboard") && (
+      {!minted && Router.pathname.includes("dashboard") && (
         <div className="w-full flex items-center mt-3 gap-3 justify-between">
           <Button className="w-1/2" onClick={handleEdit} variant="warning">
             Edit
