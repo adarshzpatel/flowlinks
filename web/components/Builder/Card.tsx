@@ -1,5 +1,8 @@
+import Router from "next/router";
 import React from "react";
 import { LinkType } from "../../flow/types";
+import { useControls } from "../../store/useControls";
+import Button from "../ui/Button";
 import OtherLink from "./OtherLink";
 import SocialLink from "./SocialLink";
 
@@ -53,6 +56,41 @@ const Card: React.FC<Props> = ({
     c4: themeData[3],
   };
 
+  const {
+    setAvatar,
+    setAvatarStyle,
+    setBio,
+    setCover,
+    setDisplayName,
+    setGithub,
+    setGmail,
+    setInstagram,
+    setLinkedin,
+    setTitle,
+    setTwitter,
+    setUserName,
+    setUserTheme,
+    setYoutube,
+  } = useControls();
+
+  const handleEdit = () => {
+    setDisplayName(displayName);
+    setAvatar(avatar);
+    setBio(bio);
+    setCover(cover);
+    setAvatarStyle(avatarStyle);
+    setGithub(github);
+    setGmail(gmail);
+    setInstagram(instagram);
+    setLinkedin(linkedin);
+    setTitle(title);
+    setTwitter(twitter);
+    setUserName(username);
+    setUserTheme(theme);
+    setYoutube(youtube);
+    Router.push("/builder");
+  };
+
   return (
     <div
       style={userTheme && { backgroundColor: userTheme.c4 }}
@@ -62,9 +100,10 @@ const Card: React.FC<Props> = ({
     >
       {/*Cover and Avatar */}
       {minted && (
-        <div className="absolute top-0 text-black font-bold text-center py-2 left-0 z-10 bg-green-400 w-full shadow-lg border-b-4">
-          MINTED
-        </div>
+        <img
+          className="absolute top-0 right-0 w-28 z-10"
+          src="/minted_flag.png"
+        ></img>
       )}
       <div className="relative mb-10 flex items-center justify-center select-none">
         <div className="h-40 rounded-md w-full  bg-fixed shadow-2xl">
@@ -168,6 +207,13 @@ const Card: React.FC<Props> = ({
           );
         })}
       </div>
+      {!minted && window.location.pathname.includes("/dashboard") && (
+        <div className="w-full flex justify-center items-center mt-3">
+          <Button onClick={handleEdit} variant="warning">
+            Edit
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

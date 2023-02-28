@@ -1,4 +1,11 @@
-import { ActionIcon, CopyButton, Divider, Tabs, Title, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  CopyButton,
+  Divider,
+  Tabs,
+  Title,
+  Tooltip,
+} from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { TbCopy } from "react-icons/tb";
@@ -16,7 +23,7 @@ import AppContainer from "../layouts/AppContainer";
 
 const DashboardPage = () => {
   const supabase = useSupabaseClient();
-  const { currentUser,logIn } = useAuth();
+  const { currentUser, logIn } = useAuth();
   const user = useUser();
   const [ownedNFTs, setOwnedNFTs] = useState<FlowLinkResponse[]>([]);
   const [savedNfts, setSavedNfts] = useState<FlowLinkResponse[]>([]);
@@ -108,138 +115,175 @@ const DashboardPage = () => {
   }, [user]);
 
   return (
-<AppContainer>
-
-    <div className="py-8 max-w-screen-lg mx-auto">
-      <div className="flex justify-between my-4 items-center gap-2">
-        <h2 className="heading text-3xl font-bold flex-1">Dashboard</h2>
-        {user?.email ? <div className="border-gray-600 heading font-medium text-gray-400 flex items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">{user?.email}</div> : <Link href={"/auth?redirectTo=/dashboard"} className="border-gray-600 heading font-medium text-gray-400 flex hover:border-gray-200 hover:text-gray-100 active:scale-95 duration-200 ease-out items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">Login with Email</Link>}
-        {currentUser?.addr ? <div className="border-gray-600 heading font-medium text-gray-400 flex items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">
-          {currentUser?.addr}
-          <CopyButton value={currentUser?.addr} timeout={2000}>
-            {({ copied, copy }) => (
-              <Tooltip
-              label={copied ? "Copied" : "Copy"}
-              withArrow
-              position="right"
-              >
-                <ActionIcon
-                  size={28}
-                  color={copied ? "flow" : "gray"}
-                  onClick={copy}
+    <AppContainer>
+      <div className="py-8 max-w-screen-lg mx-auto">
+        <div className="flex justify-between my-4 items-center gap-2">
+          <h2 className="heading text-3xl font-bold flex-1">Dashboard</h2>
+          {user?.email ? (
+            <div className="border-gray-600 heading font-medium text-gray-400 flex items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">
+              {user?.email}
+            </div>
+          ) : (
+            <Link
+              href={"/auth?redirectTo=/dashboard"}
+              className="border-gray-600 heading font-medium text-gray-400 flex hover:border-gray-200 hover:text-gray-100 active:scale-95 duration-200 ease-out items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md"
+            >
+              Login with Email
+            </Link>
+          )}
+          {currentUser?.addr ? (
+            <div className="border-gray-600 heading font-medium text-gray-400 flex items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">
+              {currentUser?.addr}
+              <CopyButton value={currentUser?.addr} timeout={2000}>
+                {({ copied, copy }) => (
+                  <Tooltip
+                    label={copied ? "Copied" : "Copy"}
+                    withArrow
+                    position="right"
                   >
-                  <div className="p-2">
-                    {copied ? <FiCheck size={24} /> : <TbCopy size={24} />}
-                  </div>
-                </ActionIcon>
-              </Tooltip>
-            )}
-          </CopyButton>
-        </div> : <button onClick={logIn} className="border-gray-600 heading font-medium text-gray-400 flex hover:border-gray-200 hover:text-gray-100 active:scale-95 duration-200 ease-out items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md">Connect Wallet</button>}
-      </div>
-      <Tabs  defaultValue="owned" radius={"md"}>
-        <Tabs.List>
-          <Tabs.Tab style={{fontSize:16}} value="owned">Owned</Tabs.Tab>
-          <Tabs.Tab style={{fontSize:16}} value="mintLater">Saved</Tabs.Tab>
-        </Tabs.List>
-
-        <Tabs.Panel value="owned" pt="lg">
-        {currentUser?.addr ?  <div className="flex flex-col gap-4">
-            {loadingMintedNfts && (
-              <div className="flex gap-2 items-center">
-                <Spinner /> Loading MintedNfts NFTs...
-              </div>
-            )}
-            {!loadingMintedNfts &&
-              ownedNFTs?.map((item) => (
-                <div
-                className="p-4 hover:border-l-2  hover:border-l-flow-500 duration-100 flex items-center gap-4 rounded-lg  bg-gray-800/50  border border-gray-700"
-                key={`flowlink-${item.domainName}`}
-                >
-                  <div className="font-bold text-2xl flex-1">
-                    @ {item?.domainName}
-                  </div>
-                  <Link
-                    href={"https://flowlinks.vercel.app/@" + item?.domainName}
-                    target="_blank"
-                    rel="noreferrer"
+                    <ActionIcon
+                      size={28}
+                      color={copied ? "flow" : "gray"}
+                      onClick={copy}
                     >
-                    <Button variant="success">View Flowlink</Button>
-                  </Link>
-                  <Link
-                    href={
-                      "https://flowlinks.vercel.app/edit/" + item?.domainName
-                    }
-                    >
-                    <Button variant="warning">Edit </Button>
-                  </Link>
-
-                  <CopyButton
-                    value={"https://flowlinks.vercel.app/@" + item?.domainName}
-                    timeout={2000}
-                    >
-                    {({ copied, copy }) => (
-                      <div className="flex gap-1 heading font-medium text-gray-400 hover:text-gray-100 cursor-pointer items-center border border-gray-600 py-2 px-4 rounded-lg">
-                        {copied ? "Copied" : "Copy Share link"}
-                        <ActionIcon
-                          size={28}
-                          color={copied ? "flow" : "gray"}
-                          onClick={copy}
-                          >
-                          <div className="p-2 ">
-                            {copied ? (
-                              <FiCheck size={24} />
-                              ) : (
-                                <TbCopy size={24} />
-                                )}
-                          </div>
-                        </ActionIcon>
+                      <div className="p-2">
+                        {copied ? <FiCheck size={24} /> : <TbCopy size={24} />}
                       </div>
-                    )}
-                  </CopyButton>
-                </div>
-              ))}
-            {!loadingMintedNfts && ownedNFTs.length === 0 && (
-              <div className="text-xl text-gray-400">
-                You don't own any flowlinks{" "}
-                <Link
-                  href={"/builder"}
-                  className="text-medium underline text-gray-100 hover:text-flow-500 underline-offset-4"
-                  >
-                  Click Here to mint one
-                </Link>
+                    </ActionIcon>
+                  </Tooltip>
+                )}
+              </CopyButton>
+            </div>
+          ) : (
+            <button
+              onClick={logIn}
+              className="border-gray-600 heading font-medium text-gray-400 flex hover:border-gray-200 hover:text-gray-100 active:scale-95 duration-200 ease-out items-center border bg-gray-800 text-xl  pl-4 py-2 gap-2 pr-4 rounded-md"
+            >
+              Connect Wallet
+            </button>
+          )}
+        </div>
+        <Tabs defaultValue="owned" radius={"md"}>
+          <Tabs.List>
+            <Tabs.Tab style={{ fontSize: 16 }} value="owned">
+              Owned
+            </Tabs.Tab>
+            <Tabs.Tab style={{ fontSize: 16 }} value="mintLater">
+              Saved
+            </Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="owned" pt="lg">
+            {currentUser?.addr ? (
+              <div className="flex flex-col gap-4">
+                {loadingMintedNfts && (
+                  <div className="flex gap-2 items-center">
+                    <Spinner /> Loading MintedNfts NFTs...
+                  </div>
+                )}
+                {!loadingMintedNfts &&
+                  ownedNFTs?.map((item) => (
+                    <div
+                      className="p-4 hover:border-l-2  hover:border-l-flow-500 duration-100 flex items-center gap-4 rounded-lg  bg-gray-800/50  border border-gray-700"
+                      key={`flowlink-${item.domainName}`}
+                    >
+                      <div className="font-bold text-2xl flex-1">
+                        @ {item?.domainName}
+                      </div>
+                      <Link
+                        href={
+                          "https://flowlinks.vercel.app/@" + item?.domainName
+                        }
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Button variant="success">View Flowlink</Button>
+                      </Link>
+                      <Link
+                        href={
+                          "https://flowlinks.vercel.app/edit/" +
+                          item?.domainName
+                        }
+                      >
+                        <Button variant="warning">Edit </Button>
+                      </Link>
+
+                      <CopyButton
+                        value={
+                          "https://flowlinks.vercel.app/@" + item?.domainName
+                        }
+                        timeout={2000}
+                      >
+                        {({ copied, copy }) => (
+                          <div className="flex gap-1 heading font-medium text-gray-400 hover:text-gray-100 cursor-pointer items-center border border-gray-600 py-2 px-4 rounded-lg">
+                            {copied ? "Copied" : "Copy Share link"}
+                            <ActionIcon
+                              size={28}
+                              color={copied ? "flow" : "gray"}
+                              onClick={copy}
+                            >
+                              <div className="p-2 ">
+                                {copied ? (
+                                  <FiCheck size={24} />
+                                ) : (
+                                  <TbCopy size={24} />
+                                )}
+                              </div>
+                            </ActionIcon>
+                          </div>
+                        )}
+                      </CopyButton>
+                    </div>
+                  ))}
+                {!loadingMintedNfts && ownedNFTs.length === 0 && (
+                  <div className="text-xl text-gray-400">
+                    You don't own any flowlinks{" "}
+                    <Link
+                      href={"/builder"}
+                      className="text-medium underline text-gray-100 hover:text-flow-500 underline-offset-4"
+                    >
+                      Click Here to mint one
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center mt-4">
+                Connect wallet to see minted NFTs
               </div>
             )}
-          </div>: <div className="text-center mt-4">Connect wallet to see minted NFTs</div>}
-        </Tabs.Panel> 
-        <Tabs.Panel value="mintLater" pt="lg">
-          <div className="flex w-full gap-4 flex-wrap justify-around p-4 overflow-y-auto">
-            {!loadingSavedNfts &&
-              savedNfts.map((nft: FlowLinkResponse, idx) => {
-                return (
-                  <Card
-                  theme={nft.styles.theme || ""}
-                  username={nft.domainName}
-                  twitter={nft.socialLinks.twitter || ""}
-                  github={nft.socialLinks.github || ""}
-                  linkedin={nft.socialLinks.linkedin || ""}
-                  instagram={nft.socialLinks.instagram || ""}
-                  youtube={nft.socialLinks.youtube || ""}
-                  gmail={nft.socialLinks.mail || ""}
-                  avatarStyle={nft.styles.avatar || ""}
-                  key={idx}
-                  minted={ownedNFTDomains.includes(nft.domainName)}
-                  {...nft}
-                  />
+          </Tabs.Panel>
+          <Tabs.Panel value="mintLater" pt="lg">
+            <div className="flex w-full gap-10 flex-wrap justify-around p-4 overflow-y-auto">
+              {user &&
+                !loadingSavedNfts &&
+                savedNfts.map((nft: FlowLinkResponse, idx) => {
+                  return (
+                    <Card
+                      theme={nft.styles.theme || ""}
+                      username={nft.domainName}
+                      twitter={nft.socialLinks.twitter || ""}
+                      github={nft.socialLinks.github || ""}
+                      linkedin={nft.socialLinks.linkedin || ""}
+                      instagram={nft.socialLinks.instagram || ""}
+                      youtube={nft.socialLinks.youtube || ""}
+                      gmail={nft.socialLinks.mail || ""}
+                      avatarStyle={nft.styles.avatar || ""}
+                      key={idx}
+                      minted={ownedNFTDomains.includes(nft.domainName)}
+                      {...nft}
+                    />
                   );
                 })}
-            {!user && "Please sign-in to view your saved NFTs."}
-            {savedNfts.length === 0 && "You haven't saved any NFT designs yet."}
-          </div>
-        </Tabs.Panel>
-      </Tabs>
-    </div>
-                </AppContainer>
+              {!user && "Please sign-in to view your saved NFTs."}
+              {user &&
+                savedNfts.length === 0 &&
+                "You haven't saved any NFT designs yet."}
+            </div>
+          </Tabs.Panel>
+        </Tabs>
+      </div>
+    </AppContainer>
   );
 };
 
