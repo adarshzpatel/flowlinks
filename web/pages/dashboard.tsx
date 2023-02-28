@@ -273,6 +273,7 @@ const DashboardPage = () => {
             )}
           </Tabs.Panel>
           <Tabs.Panel value="mintLater" pt="lg">
+            
             <div className="flex w-full gap-10 flex-wrap justify-between px-20 py-10 overflow-y-auto">
               {user &&
                 !loadingSavedNfts &&
