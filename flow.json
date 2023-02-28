@@ -29,11 +29,11 @@
 	"accounts": {
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
-			"key": "60b2e9dd07d8dbb584ff977c69699945ef833d477dc1e934cbb7a2cee935955b"
+			"key": "9dd31c47b9787db33b2bb3d4f6fc6c9f6dd4e3c1c2838ce9bda0c0fad3e98344"
 		},
 		"testnet": {
-			"address": "75bc7a4bb8dd34d2",
-			"key": "c0a73accfbf2cbb330e1a5ecfcf02ff14651a8841fad0a262f5bdee1a6ab296c"
+			"address": "a2d9147131cd0f21",
+			"key": "a0a24cf494439d88d1dc49df8e063f8f2b1bf36328f3724a2ca492bd01bc8436"
 		}
 	},
 	"deployments": {

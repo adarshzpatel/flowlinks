@@ -233,7 +233,7 @@ pub contract FlowLink:NonFungibleToken {
         // reference to the vault used for depositing Flow tokens we receive
         access(self) var rentVault: @FungibleToken.Vault 
 
-        // A capability for the FlowLinks.Collection resource owned by the account 
+        // A capability for the FlowLinksNFT.Collection resource owned by the account 
         // only the account has access to it 
         init(vault: @FungibleToken.Vault,collection:Capability<&FlowLink.Collection>) {
             // This represents 1 year in seconds 
@@ -351,12 +351,12 @@ pub contract FlowLink:NonFungibleToken {
         self.forbiddenChars = "!@#$%^&*()<>? ./"
         self.totalSupply = 0
 
-        self.CollectionPrivatePath = /private/FlowLinksCollection    
-        self.CollectionPublicPath = /public/FlowLinksCollection
-        self.CollectionStoragePath = /storage/FlowLinksCollection
-        self.AdminStoragePath = /storage/FlowLinksAdmin
-        self.AdminPrivatePath = /private/FlowLinksAdmin
-        self.AdminPublicPath = /public/FlowLinkAdmin
+        self.CollectionPrivatePath = /private/FlowLinksNFTCollection    
+        self.CollectionPublicPath = /public/FlowLinksNFTCollection
+        self.CollectionStoragePath = /storage/FlowLinksNFTCollection
+        self.AdminStoragePath = /storage/FlowLinksNFTAdmin
+        self.AdminPrivatePath = /private/FlowLinksNFTAdmin
+        self.AdminPublicPath = /public/FlowLinksNFTAdmin
 
         self.account.save<@NonFungibleToken.Collection>(<- FlowLink.createEmptyCollection(),to:FlowLink.CollectionStoragePath)
         self.account.link<&FlowLink.Collection>(FlowLink.CollectionPublicPath,target:FlowLink.CollectionStoragePath)
