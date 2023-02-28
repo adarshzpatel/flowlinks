@@ -1,11 +1,4 @@
-import {
-  ActionIcon,
-  CopyButton,
-  Divider,
-  Tabs,
-  Title,
-  Tooltip,
-} from "@mantine/core";
+import { ActionIcon, CopyButton, Tabs, Tooltip } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { TbCopy } from "react-icons/tb";
@@ -18,8 +11,8 @@ import Button from "../components/ui/Button";
 import { useSupabaseClient, useUser } from "@supabase/auth-helpers-react";
 import toast from "react-hot-toast";
 import Card from "../components/Builder/Card";
-import { useControls } from "../store/useControls";
 import AppContainer from "../layouts/AppContainer";
+import Router from "next/router";
 
 const DashboardPage = () => {
   const supabase = useSupabaseClient();
@@ -30,6 +23,7 @@ const DashboardPage = () => {
   const [loadingMintedNfts, setLoadingMintedNfts] = useState<boolean>();
   const [loadingSavedNfts, setLoadingSavedNfts] = useState<boolean>();
   const [ownedNFTDomains, setOwnedNFTDomains] = useState<Array<string>>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -107,6 +101,31 @@ const DashboardPage = () => {
       console.log(error);
     } finally {
       setLoadingSavedNfts(false);
+    }
+  };
+
+  const handleDelete = async (username: string) => {
+    try {
+      setLoading(true);
+      if (!user) throw new Error("No user");
+
+      let { error, status } = await supabase
+        .from("nfts")
+        .delete()
+        .eq("domainname", username)
+        .single();
+
+      if (error && status !== 406) {
+        throw error;
+      }
+
+      setSavedNfts((sn) => sn.filter((val) => val.domainName !== username));
+      toast.success("NFT deleted sucessfully");
+    } catch (error) {
+      toast("Error deleting nft data!");
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -254,7 +273,7 @@ const DashboardPage = () => {
             )}
           </Tabs.Panel>
           <Tabs.Panel value="mintLater" pt="lg">
-            <div className="flex w-full gap-10 flex-wrap justify-around p-4 overflow-y-auto">
+            <div className="flex w-full gap-10 flex-wrap justify-between px-20 py-10 overflow-y-auto">
               {user &&
                 !loadingSavedNfts &&
                 savedNfts.map((nft: FlowLinkResponse, idx) => {
@@ -270,6 +289,7 @@ const DashboardPage = () => {
                       gmail={nft.socialLinks.mail || ""}
                       avatarStyle={nft.styles.avatar || ""}
                       key={idx}
+                      handleDelete={handleDelete}
                       minted={ownedNFTDomains.includes(nft.domainName)}
                       {...nft}
                     />

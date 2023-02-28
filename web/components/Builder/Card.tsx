@@ -1,5 +1,5 @@
 import Router from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { LinkType } from "../../flow/types";
 import { useControls } from "../../store/useControls";
 import Button from "../ui/Button";
@@ -28,6 +28,7 @@ type Props = {
   avatar: string;
   cover: string;
   minted: boolean;
+  handleDelete?: (username: string) => void;
 };
 
 const Card: React.FC<Props> = ({
@@ -47,6 +48,7 @@ const Card: React.FC<Props> = ({
   avatar,
   cover,
   minted = false,
+  handleDelete = null,
 }) => {
   const themeData = theme?.split(" ");
   const userTheme = {
@@ -55,6 +57,8 @@ const Card: React.FC<Props> = ({
     c3: themeData[2],
     c4: themeData[3],
   };
+
+  const [loading, setLoading] = useState(false);
 
   const {
     setAvatar,
@@ -208,9 +212,17 @@ const Card: React.FC<Props> = ({
         })}
       </div>
       {!minted && window.location.pathname.includes("/dashboard") && (
-        <div className="w-full flex justify-center items-center mt-3">
-          <Button onClick={handleEdit} variant="warning">
+        <div className="w-full flex items-center mt-3 gap-3 justify-between">
+          <Button className="w-1/2" onClick={handleEdit} variant="warning">
             Edit
+          </Button>
+          <Button
+            className="w-1/2"
+            loading={loading}
+            onClick={() => (handleDelete ? handleDelete(username) : () => {})}
+            variant="danger"
+          >
+            Delete
           </Button>
         </div>
       )}
