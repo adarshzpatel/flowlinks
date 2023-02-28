@@ -3,8 +3,10 @@ import { LinkType } from "../../flow/types";
 import OtherLink from "./OtherLink";
 import SocialLink from "./SocialLink";
 
-export const DEFAULT_AVATAR = "https://cdn.filestackcontent.com/j89UFFjR2hyM1Z30rRsQ"
-export const DEFAULT_COVER = "https://pbs.twimg.com/profile_banners/1422255111422754816/1668190832/1500x500"
+export const DEFAULT_AVATAR =
+  "https://cdn.filestackcontent.com/j89UFFjR2hyM1Z30rRsQ";
+export const DEFAULT_COVER =
+  "https://pbs.twimg.com/profile_banners/1422255111422754816/1668190832/1500x500";
 
 type Props = {
   displayName: string;
@@ -56,7 +58,7 @@ const Card: React.FC<Props> = ({
       style={userTheme && { backgroundColor: userTheme.c4 }}
       className={`max-w-sm ${
         minted ? "relative" : ""
-      } w-full shadow-2xl shadow-black/60 p-4 rounded-lg ease-linear duration-150 bg-gray-800/50 `}
+      } w-full shadow-2xl shadow-black/60 p-4 rounded-lg ease-linear duration-150 bg-gray-800/50`}
     >
       {/*Cover and Avatar */}
       {minted && (
@@ -67,10 +69,7 @@ const Card: React.FC<Props> = ({
       <div className="relative mb-10 flex items-center justify-center select-none">
         <div className="h-40 rounded-md w-full  bg-fixed shadow-2xl">
           <img
-            src={
-              cover ||
-              DEFAULT_COVER
-            }
+            src={cover || DEFAULT_COVER}
             className="h-full w-full object-cover object-center bg-flow-500 rounded-md -z-10"
             alt="Cover"
           />
@@ -80,10 +79,7 @@ const Card: React.FC<Props> = ({
           className={`h-24 w-24 absolute ${avatarStyle} -bottom-6 bg-white shadow-xl`}
         >
           <img
-            src={
-              avatar ||
-             DEFAULT_AVATAR
-            }
+            src={avatar || DEFAULT_AVATAR}
             className={`h-full w-full  ${avatarStyle}`}
             alt="Cover"
           />
@@ -95,7 +91,10 @@ const Card: React.FC<Props> = ({
         className={`flex flex-col rounded-md w-full bg-gray-800/50 p-4 ease-linear duration-150`}
       >
         {/*Display Name */}
-        <div  style={userTheme && { color: userTheme.c1 }} className="text-gray-50 text-2xl font-semibold text-center leading-5">
+        <div
+          style={userTheme && { color: userTheme.c1 }}
+          className="text-gray-50 text-2xl font-semibold text-center leading-5"
+        >
           {displayName === "" ? "Your Name" : displayName}
         </div>
         {/*User Name */}

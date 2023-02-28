@@ -24,7 +24,7 @@ function AddLinkModal({opened,onClose}:Props) {
 
   return (
     <>
-      <Modal opened={opened}  onClose={onClose} title="Add new link" centered overlayOpacity={0.55} overlayBlur={3}>
+      <Modal opened={opened}  onClose={onClose} title="Add new link" centered radius={"lg"} overlayOpacity={0.55} overlayBlur={3}>
        <div className="flex flex-col gap-4">
          <TextInput
           label="Title"

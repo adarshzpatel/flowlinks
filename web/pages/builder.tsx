@@ -88,9 +88,9 @@ const Builder = () => {
     <>
   <AppContainer>
 
-      <div className=" text-white mb-8 grid grid-cols-2 section__height">
-        <div className="relative flex flex-col ">
-          <div className="p-2 mt-4 mr-8 select-none">
+      <div className=" text-white mb-8 grid grid-cols-2 px-8 section__height">
+        <div className="relative flex flex-col pr-8 ">
+          <div className="p-2 mt-4  select-none">
             <Tabs variant="default" defaultValue="Details">
               <Tabs.List>
                 <Tabs.Tab value="Details" onClick={() => setTab("Details")}>
@@ -109,7 +109,7 @@ const Builder = () => {
             </>
           )}
           {tab === "Themes" && <StyleControls />}
-         {err.length > 0 && <ul className="bg-red-800/20 p-4 mr-10 mt-4 rounded-lg border border-red-400">
+         {err.length > 0 && <ul className="bg-red-800/20 p-4 mt-4 rounded-lg border border-red-400">
             {err?.map((it) => (
               <li className="text-red-400 list-disc list-inside">{it}</li>
               ))}
@@ -127,7 +127,7 @@ const Builder = () => {
               setErr([]);
               setMintModal(true);
             }}
-            className="disabled:opacity-50 flex text-xl tracking-wider heading mt-4 mr-10 mb-8   gap-2 items-center justify-center w-full px-6 py-3 text-center text-flow-500  bg-flow-900/10 border border-flow-500 group duration-100 hover:scale-105 font-semibold rounded-xl focus:outline-none lg:w-auto "
+            className="disabled:opacity-50 flex text-xl tracking-wider heading mt-4  mb-8   gap-2 items-center justify-center w-full px-6 py-3 text-center text-flow-500  bg-flow-900/10 border border-flow-500 group duration-100 hover:scale-105 font-semibold rounded-xl focus:outline-none lg:w-auto "
             >
             Mint this NFT{" "}
             <FaArrowRight

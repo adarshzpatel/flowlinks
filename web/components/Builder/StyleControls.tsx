@@ -67,14 +67,14 @@ const StyleControls = () => {
         <button
           onClick={() => setAvatarStyle("")}
           className={`border p-2 rounded-md  ease-linear duration-150 group ${
-            avatarStyle === "square"
+            avatarStyle === ""
               ? "border-flow-500"
               : "hover:border-flow-500 border-gray-700"
           }`}
         >
           <div
             className={`h-20 w-20  ease-linear duration-150  ${
-              avatarStyle === "square"
+              avatarStyle === ""
                 ? "bg-flow-500"
                 : "group-hover:bg-flow-500 bg-gray-700 "
             }`}

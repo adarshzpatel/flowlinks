@@ -65,7 +65,7 @@ const AppContainer = ({ children }: any) => {
       </Head>
       <div className="">
         <Navbar />
-        <div className="max-w-screen-2xl  mx-auto px-8 ">{children}</div>
+        <div className="max-w-screen-2xl  mx-auto  ">{children}</div>
       </div>
     </>
   );

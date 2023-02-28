@@ -95,7 +95,7 @@ const InfoControls = ({setErr}:{setErr:Dispatch<SetStateAction<string[]>>}) => {
 
   return (
     <>
-      <div className="pt-4 overflow-y-scroll  pr-8 flex flex-col select-none ease-linear duration-150">
+      <div className="pt-4 overflow-y-scroll   flex flex-col select-none ease-linear duration-150">
         {/*Names */}
         <Accordion variant="separated" defaultValue="general">
           <Accordion.Item value="general">
